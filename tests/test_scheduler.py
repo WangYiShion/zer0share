@@ -2,9 +2,6 @@ from unittest.mock import MagicMock, patch
 
 
 VALID_CONFIG = """
-[tushare]
-token = "test"
-
 [paths]
 data_dir = "data"
 db_path = "db/meta.duckdb"
@@ -23,7 +20,8 @@ enabled = false
 """
 
 
-def test_start_scheduler_registers_two_jobs(tmp_path):
+def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "test")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(VALID_CONFIG, encoding="utf-8")
 
@@ -51,7 +49,8 @@ def test_start_scheduler_registers_two_jobs(tmp_path):
     assert len(registered_jobs) == 3
 
 
-def test_start_scheduler_registers_basic_job_as_daily(tmp_path):
+def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "test")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(VALID_CONFIG, encoding="utf-8")
 

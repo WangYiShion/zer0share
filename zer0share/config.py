@@ -1,6 +1,17 @@
 from dataclasses import dataclass
+import os
 from pathlib import Path
 import tomllib
+
+
+def _load_tushare_token() -> str:
+    token = os.environ.get("TUSHARE_TOKEN", "").strip()
+    if not token:
+        raise ValueError(
+            "未设置环境变量 TUSHARE_TOKEN。请在运行同步或调度前设置该变量，"
+            "勿再将 token 写入配置文件。"
+        )
+    return token
 
 
 @dataclass(frozen=True)
@@ -28,7 +39,7 @@ def load_config(path: Path = Path("config/settings.toml")) -> Config:
         raise ValueError(f"配置文件格式错误: {e}") from e
     try:
         return Config(
-            tushare_token=raw["tushare"]["token"],
+            tushare_token=_load_tushare_token(),
             data_dir=Path(raw["paths"]["data_dir"]),
             db_path=Path(raw["paths"]["db_path"]),
             log_path=Path(raw["paths"]["log_path"]),

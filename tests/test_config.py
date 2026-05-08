@@ -6,9 +6,6 @@ from zer0share.config import load_config
 
 
 VALID_TOML = """
-[tushare]
-token = "test_token"
-
 [paths]
 data_dir = "data"
 db_path = "db/meta.duckdb"
@@ -27,7 +24,8 @@ enabled = false
 """
 
 
-def test_load_config_returns_all_fields(tmp_path):
+def test_load_config_returns_all_fields(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "test_token")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(VALID_TOML, encoding="utf-8")
 
@@ -46,7 +44,8 @@ def test_load_config_returns_all_fields(tmp_path):
     assert cfg.notifier_enabled is False
 
 
-def test_load_config_notifier_enabled_true(tmp_path):
+def test_load_config_notifier_enabled_true(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "x")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(
         VALID_TOML.replace("enabled = false", "enabled = true"),
@@ -63,11 +62,10 @@ def test_load_config_file_not_found():
         load_config(Path("nonexistent/settings.toml"))
 
 
-def test_load_config_missing_key(tmp_path):
+def test_load_config_missing_key(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "x")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(
-        "[tushare]\n"
-        "# token missing\n"
         "[paths]\n"
         "data_dir='data'\n"
         "db_path='db/meta.duckdb'\n"
@@ -76,6 +74,7 @@ def test_load_config_missing_key(tmp_path):
         "daily_kline_hour=18\n"
         "daily_kline_minute=0\n"
         "basic_hour=8\n"
+        # adj_factor keys missing
         "[notifier]\n"
         "wecom_webhook_url='https://x.com'\n"
         "enabled=false\n",
@@ -86,7 +85,26 @@ def test_load_config_missing_key(tmp_path):
         load_config(cfg_file)
 
 
-def test_config_is_immutable(tmp_path):
+def test_load_config_requires_tushare_token_env(tmp_path, monkeypatch):
+    monkeypatch.delenv("TUSHARE_TOKEN", raising=False)
+    cfg_file = tmp_path / "settings.toml"
+    cfg_file.write_text(VALID_TOML, encoding="utf-8")
+
+    with pytest.raises(ValueError, match="TUSHARE_TOKEN"):
+        load_config(cfg_file)
+
+
+def test_load_config_rejects_empty_tushare_token_env(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "   ")
+    cfg_file = tmp_path / "settings.toml"
+    cfg_file.write_text(VALID_TOML, encoding="utf-8")
+
+    with pytest.raises(ValueError, match="TUSHARE_TOKEN"):
+        load_config(cfg_file)
+
+
+def test_config_is_immutable(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "t")
     cfg_file = tmp_path / "settings.toml"
     cfg_file.write_text(VALID_TOML, encoding="utf-8")
     cfg = load_config(cfg_file)

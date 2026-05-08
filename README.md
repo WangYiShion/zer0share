@@ -40,12 +40,21 @@ uv sync
 cp config/settings.example.toml config/settings.toml
 ```
 
-编辑 `config/settings.toml`，填入 Tushare Token：
+编辑 `config/settings.toml`（路径、调度时间等）。**Tushare Token 不要写入文件**，请设置环境变量 `TUSHARE_TOKEN`：
 
-```toml
-[tushare]
-token = "your_tushare_token_here"
+**PowerShell（当前会话）**
+
+```powershell
+$env:TUSHARE_TOKEN = "你的_token"
 ```
+
+**cmd（当前窗口）**
+
+```bat
+set TUSHARE_TOKEN=你的_token
+```
+
+持久化可在「系统环境变量」里添加 `TUSHARE_TOKEN`，或写入你自己的启动脚本 / 任务计划（**不要**把 token 提交到 Git）。
 
 ### 3. 首次同步
 
@@ -148,9 +157,6 @@ db/
 ## 配置说明
 
 ```toml
-[tushare]
-token = "your_tushare_token_here"
-
 [paths]
 data_dir = "data"          # Parquet 存储目录
 db_path = "db/meta.duckdb" # DuckDB 文件路径
