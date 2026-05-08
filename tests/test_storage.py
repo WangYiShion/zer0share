@@ -3,7 +3,16 @@ from datetime import date
 import pandas as pd
 import pytest
 
-from zer0share.storage import MetaStore, daily_kline_partition_exists, read_basic, read_daily_kline, write_basic, write_daily_kline, write_trade_cal, read_trade_cal
+from zer0share.storage import (
+    MetaStore,
+    daily_kline_partition_exists,
+    read_daily_kline,
+    read_stock_basic,
+    read_trade_cal,
+    write_daily_kline,
+    write_stock_basic,
+    write_trade_cal,
+)
 
 
 FULL_BASIC_COLUMNS = [
@@ -99,9 +108,9 @@ def test_update_overwrites_previous(store):
 
 def test_different_table_names_are_independent(store):
     store.update_last_date("daily_kline", date(2024, 1, 10))
-    store.update_last_date("basic", date(2024, 2, 20))
+    store.update_last_date("stock_basic", date(2024, 2, 20))
     assert store.get_last_date("daily_kline") == date(2024, 1, 10)
-    assert store.get_last_date("basic") == date(2024, 2, 20)
+    assert store.get_last_date("stock_basic") == date(2024, 2, 20)
 
 
 def test_context_manager(tmp_path):
@@ -175,20 +184,20 @@ def test_daily_kline_partition_exists(tmp_path):
     assert daily_kline_partition_exists(tmp_path, date(2024, 1, 2)) is True
 
 
-def test_write_and_read_basic(tmp_path):
+def test_write_and_read_stock_basic(tmp_path):
     df = _basic_df()
-    write_basic(tmp_path, df)
-    result = read_basic(tmp_path)
+    write_stock_basic(tmp_path, df)
+    result = read_stock_basic(tmp_path)
     assert len(result) == 1
     assert list(result.columns) == FULL_BASIC_COLUMNS
     assert result.iloc[0]["name"] == "平安银行"
     assert result.iloc[0]["fullname"] == "平安银行股份有限公司"
 
 
-def test_basic_overwrites_on_second_write(tmp_path):
-    write_basic(tmp_path, _basic_df())
-    write_basic(tmp_path, _basic_df_two_rows())
-    result = read_basic(tmp_path)
+def test_stock_basic_overwrites_on_second_write(tmp_path):
+    write_stock_basic(tmp_path, _basic_df())
+    write_stock_basic(tmp_path, _basic_df_two_rows())
+    result = read_stock_basic(tmp_path)
     assert len(result) == 2
     assert list(result.columns) == FULL_BASIC_COLUMNS
     assert set(result["ts_code"]) == {"000001.SZ", "000002.SZ"}
@@ -199,8 +208,8 @@ def test_read_daily_kline_returns_empty_if_not_exists(tmp_path):
     assert result.empty
 
 
-def test_read_basic_returns_empty_if_not_exists(tmp_path):
-    result = read_basic(tmp_path)
+def test_read_stock_basic_returns_empty_if_not_exists(tmp_path):
+    result = read_stock_basic(tmp_path)
     assert result.empty
 
 

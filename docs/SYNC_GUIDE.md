@@ -16,12 +16,9 @@ uv sync --dev
 cp config/settings.example.toml config/settings.toml
 ```
 
-编辑 `config/settings.toml`：
+编辑 `config/settings.toml`（路径、调度时间等）。**请勿将 Tushare Token 写入文件**，请设置环境变量 `TUSHARE_TOKEN`（见项目 [README.md](../README.md)）。
 
 ```toml
-[tushare]
-token = "你的 Tushare Pro Token"
-
 [paths]
 data_dir = "data"
 db_path = "db/meta.duckdb"
@@ -63,12 +60,12 @@ uv run python main.py sync --table trade_cal
 ### 步骤二：同步股票基础信息
 
 ```bash
-uv run python main.py sync --table basic
+uv run python main.py sync --table stock_basic
 ```
 
 此命令会：
-- 拉取全市场所有状态（上市 L、退市 D、暂停 P、精选层 G）的股票基础信息
-- 写入 `data/basic/data.parquet`
+- 拉取全市场所有状态（上市 L、退市 D、暂停 P、精选层 G）的股票基础信息（Tushare `stock_basic`）
+- 写入 `data/stock_basic/data.parquet`
 
 ### 步骤三：同步日线行情
 
@@ -100,7 +97,7 @@ uv run python main.py sync --table adj_factor
 
 ## 一键同步全部
 
-以上四步可合并为一条命令，顺序固定为 trade_cal → basic → daily_kline → adj_factor：
+以上四步可合并为一条命令，顺序固定为 trade_cal → stock_basic → daily_kline → adj_factor：
 
 ```bash
 uv run python main.py sync --all
@@ -117,10 +114,10 @@ uv run python main.py status
 输出示例：
 
 ```
-trade_cal    last sync: 2026-04-17
-basic        last sync: 2026-04-17
-daily_kline  last sync: 2026-04-17
-adj_factor   last sync: 2026-04-17
+trade_cal     last sync: 2026-04-17
+stock_basic   last sync: 2026-04-17
+daily_kline   last sync: 2026-04-17
+adj_factor    last sync: 2026-04-17
 ```
 
 ---
@@ -150,7 +147,7 @@ uv run python main.py scheduler start
 |------|----------|------|
 | daily_kline | 每天 18:00 | 仅交易日写入数据，非交易日自动跳过 |
 | adj_factor | 每天 18:05 | 仅交易日写入数据，非交易日自动跳过 |
-| basic | 每天 08:00 | 每日全量刷新 |
+| stock_basic | 每天 08:00 | 每日全量刷新（`basic_hour` 配置项） |
 
 > 调度器需保持进程运行。生产环境建议配合 `systemd` 或 `supervisor` 管理进程。
 
@@ -170,7 +167,7 @@ data/
 │   ├── exchange=CZCE/data.parquet
 │   ├── exchange=DCE/data.parquet
 │   └── exchange=INE/data.parquet
-├── basic/
+├── stock_basic/
 │   └── data.parquet
 ├── daily_kline/
 │   ├── date=20160104/data.parquet

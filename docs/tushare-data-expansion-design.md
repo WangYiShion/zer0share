@@ -5,7 +5,7 @@
 `zer0share` 当前已经接入了少量但关键的 Tushare 数据：
 
 - `trade_cal`：交易日历
-- `basic`：股票基础信息
+- `stock_basic`：股票基础信息本地镜像（Tushare `stock_basic`）
 - `daily_kline`：A 股日线行情
 - `adj_factor`：复权因子
 
@@ -24,7 +24,7 @@
 ## 非目标
 
 - 本文档不实现具体新接口。
-- 本文档不改变现有 `trade_cal`、`basic`、`daily_kline`、`adj_factor` 的行为。
+- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor` 的行为。
 - 本文档不保存任何 Token、Webhook Key 或本机私密路径。
 - 本文档不要求完整复刻 Tushare 的所有接口参数，只要求优先对齐常用查询方式。
 
@@ -176,7 +176,7 @@ data/<table_name>/ts_code=000001.SZ/year=2024/data.parquet
 
 推荐同步：
 
-- 股票列表来自本地 `basic`。
+- 股票列表来自本地 `stock_basic`。
 - 对每个 `ts_code` 拉取数据。
 - 对高频变化数据，按日期窗口增量；对低频资料，按固定周期刷新。
 - 需要限制并发和请求频率，避免触发 Tushare 限流。
@@ -287,7 +287,7 @@ data/<table_name>/date=YYYYMMDD/data.parquet
 - 快照型：拉全量，覆盖写入，更新 `sync_meta` 为今天。
 - 交易日增量型：复用 `get_trading_days("SSE", start, end)`，逐日拉取。
 - 报告期型：遍历报告期，近期窗口覆盖刷新。
-- 股票维度型：从 `basic` 获取股票池，按 `ts_code` 拉取。
+- 股票维度型：从 `stock_basic` 获取股票池，按 `ts_code` 拉取。
 - 低频专题型：按接口特点全量或低频增量。
 
 交易日增量型应延续当前语义：
@@ -361,6 +361,7 @@ def daily_basic(
 
 - 本地表名使用小写蛇形命名，例如 `daily_basic`。
 - 尽量与 Tushare 接口名一致。
+- 股票基础信息快照目录名为 `stock_basic`，与 Tushare `stock_basic` 一致。
 - 如果已有项目命名不同，例如 `daily` 存为 `daily_kline`，应在文档和 API 中明确映射。
 
 ### 分区

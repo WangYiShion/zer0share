@@ -11,7 +11,7 @@ from zer0share.storage import (
     adj_factor_partition_exists,
     daily_kline_partition_exists,
     write_adj_factor,
-    write_basic,
+    write_stock_basic,
     write_daily_kline,
     write_trade_cal,
 )
@@ -28,16 +28,16 @@ class Pipeline:
         self._notifier = notifier
         self._meta = MetaStore(cfg.db_path)
 
-    def sync_basic(self) -> None:
+    def sync_stock_basic(self) -> None:
         today = date.today()
         try:
-            df = self._fetcher.fetch_basic()
-            write_basic(self._cfg.data_dir, df)
-            self._meta.update_last_date("basic", today)
-            logger.info(f"basic 同步完成: {len(df)} 条")
+            df = self._fetcher.fetch_stock_basic()
+            write_stock_basic(self._cfg.data_dir, df)
+            self._meta.update_last_date("stock_basic", today)
+            logger.info(f"stock_basic 同步完成: {len(df)} 条")
         except Exception as e:
-            logger.error(f"basic 同步失败: {e}")
-            self._notifier.send(f"basic 同步失败: {e}")
+            logger.error(f"stock_basic 同步失败: {e}")
+            self._notifier.send(f"stock_basic 同步失败: {e}")
             raise
 
     def sync_trade_cal(self) -> None:

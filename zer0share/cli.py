@@ -38,7 +38,7 @@ def cli():
 @cli.command()
 @click.option(
     "--table",
-    type=click.Choice(["daily_kline", "basic", "trade_cal", "adj_factor"]),
+    type=click.Choice(["daily_kline", "stock_basic", "trade_cal", "adj_factor"]),
     default=None,
 )
 @click.option("--all", "sync_all", is_flag=True, default=False)
@@ -53,8 +53,13 @@ def sync(
     """同步数据。"""
     if end_date is not None and start_date is None:
         raise click.UsageError("--end-date requires --start-date")
-    if (start_date is not None or end_date is not None) and table not in ("daily_kline", "adj_factor"):
-        raise click.UsageError("date range options are only supported for daily_kline")
+    if (start_date is not None or end_date is not None) and table not in (
+        "daily_kline",
+        "adj_factor",
+    ):
+        raise click.UsageError(
+            "date range options are only supported for daily_kline and adj_factor"
+        )
 
     parsed_start_date = start_date.date() if start_date is not None else None
     parsed_end_date = end_date.date() if end_date is not None else None
@@ -68,8 +73,8 @@ def sync(
     with _make_pipeline() as pipeline:
         if sync_all or table == "trade_cal":
             pipeline.sync_trade_cal()
-        if sync_all or table == "basic":
-            pipeline.sync_basic()
+        if sync_all or table == "stock_basic":
+            pipeline.sync_stock_basic()
         if sync_all or table == "daily_kline":
             pipeline.sync_daily_kline(
                 start_date=parsed_start_date,
@@ -87,7 +92,7 @@ def status() -> None:
     """显示各表最后更新时间。"""
     cfg = load_config(Path("config/settings.toml"))
     with MetaStore(cfg.db_path) as store:
-        for table in ["trade_cal", "daily_kline", "adj_factor", "basic"]:
+        for table in ["trade_cal", "daily_kline", "adj_factor", "stock_basic"]:
             last = store.get_last_date(table)
             click.echo(f"{table}: {last or '从未同步'}")
 

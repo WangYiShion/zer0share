@@ -1,8 +1,8 @@
 # zer0share
 
-![Python](https://img.shields.io/badge/python-3.11+-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Stars](https://img.shields.io/github/stars/zer0coldai/zer0share)
+Python
+License
+Stars
 
 > **zer0share** — A local data pipeline for Chinese A-share market.  
 > Pulls data from Tushare Pro, stores as Parquet partitions,  
@@ -64,7 +64,7 @@ uv run python main.py sync --all
 
 # 或逐步执行（顺序不可颠倒）
 uv run python main.py sync --table trade_cal   # 交易日历（必须最先）
-uv run python main.py sync --table basic       # 股票基础信息
+uv run python main.py sync --table stock_basic   # 股票基础信息
 uv run python main.py sync --table daily_kline # 日线行情（依赖交易日历）
 uv run python main.py sync --table adj_factor  # 复权因子（依赖交易日历）
 ```
@@ -86,11 +86,11 @@ uv run python main.py scheduler start
 同步完成后，可以在研究代码中使用类似 Tushare Pro 的本地 Python API 查询数据。查询只读取本地 Parquet 文件，通过 DuckDB 执行，不会访问 Tushare，也不会消耗积分。
 
 ```python
-from src import pro_api
+from zer0share import pro_api
 
 pro = pro_api()
 
-basic = pro.stock_basic(list_status="L")
+stock_df = pro.stock_basic(list_status="L")
 cal = pro.trade_cal(exchange="SSE", start_date="20240101", end_date="20240131")
 daily = pro.daily(ts_code="000001.SZ", start_date="20240101", end_date="20240331")
 adj = pro.adj_factor(ts_code="000001.SZ", start_date="20240101", end_date="20240331")
@@ -105,14 +105,16 @@ qfq = pro.pro_bar(
 
 支持的本地查询方法：
 
-| 方法 | 说明 |
-|------|------|
-| `stock_basic` | 查询已同步的股票基础信息 |
-| `trade_cal` | 查询已同步的交易日历 |
-| `daily` | 查询已同步的 A 股日线行情 |
-| `adj_factor` | 查询已同步的复权因子 |
-| `pro_bar` | 查询本地 A 股日线行情，支持不复权、前复权（qfq）和后复权（hfq） |
-| `query` | 按接口名分发，例如 `pro.query("daily", ...)` |
+
+| 方法            | 说明                                   |
+| ------------- | ------------------------------------ |
+| `stock_basic` | 查询已同步的股票基础信息                         |
+| `trade_cal`   | 查询已同步的交易日历                           |
+| `daily`       | 查询已同步的 A 股日线行情                       |
+| `adj_factor`  | 查询已同步的复权因子                           |
+| `pro_bar`     | 查询本地 A 股日线行情，支持不复权、前复权（qfq）和后复权（hfq） |
+| `query`       | 按接口名分发，例如 `pro.query("daily", ...)`  |
+
 
 运行示例：
 
@@ -128,8 +130,8 @@ data/
 │   ├── exchange=SSE/data.parquet
 │   ├── exchange=SZSE/data.parquet
 │   └── ...                          # CFFEX / SHFE / CZCE / DCE / INE
-├── basic/
-│   └── data.parquet
+├── stock_basic/
+│   └── data.parquet            # 对应 Tushare stock_basic 全量镜像
 ├── daily_kline/
 │   ├── date=20160104/data.parquet
 │   ├── date=20160105/data.parquet
@@ -144,15 +146,17 @@ db/
 
 ## CLI 命令
 
-| 命令 | 说明 |
-|------|------|
-| `sync --table trade_cal` | 同步交易日历（7 个交易所） |
-| `sync --table basic` | 同步股票基础信息 |
-| `sync --table daily_kline` | 增量同步日线行情 |
-| `sync --table adj_factor` | 增量同步复权因子 |
-| `sync --all` | 按顺序同步全部 |
-| `status` | 查看各表最后同步时间 |
-| `scheduler start` | 启动定时调度 |
+
+| 命令                         | 说明             |
+| -------------------------- | -------------- |
+| `sync --table trade_cal`   | 同步交易日历（7 个交易所） |
+| `sync --table stock_basic` | 同步股票基础信息       |
+| `sync --table daily_kline` | 增量同步日线行情       |
+| `sync --table adj_factor`  | 增量同步复权因子       |
+| `sync --all`               | 按顺序同步全部        |
+| `status`                   | 查看各表最后同步时间     |
+| `scheduler start`          | 启动定时调度         |
+
 
 ## 配置说明
 

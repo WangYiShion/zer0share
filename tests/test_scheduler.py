@@ -45,7 +45,7 @@ def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
 
         start_scheduler(str(cfg_file))
 
-    assert set(registered_jobs) == {"daily_kline", "basic", "adj_factor"}
+    assert set(registered_jobs) == {"daily_kline", "stock_basic", "adj_factor"}
     assert len(registered_jobs) == 3
 
 

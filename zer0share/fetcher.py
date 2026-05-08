@@ -35,7 +35,7 @@ class TushareFetcher:
     def __init__(self, token: str):
         self._pro = ts.pro_api(token)
 
-    def fetch_basic(self) -> pd.DataFrame:
+    def fetch_stock_basic(self) -> pd.DataFrame:
         logger.info("拉取 stock_basic")
         df = self._pro.stock_basic(
             exchange="",

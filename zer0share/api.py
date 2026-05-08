@@ -22,9 +22,11 @@ class LocalPro:
         is_hs: str | None = None,
         fields: str | list[str] | None = None,
     ) -> pd.DataFrame:
-        path = self._data_dir / "basic" / "data.parquet"
+        path = self._data_dir / "stock_basic" / "data.parquet"
         if not path.exists():
-            raise FileNotFoundError("basic data not found; run `python main.py sync --table basic` first")
+            raise FileNotFoundError(
+                "stock_basic data not found; run `python main.py sync --table stock_basic` first"
+            )
 
         columns = _parse_fields(fields, BASIC_COLS)
         where = []

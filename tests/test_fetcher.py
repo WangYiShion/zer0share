@@ -60,21 +60,21 @@ def mock_pro():
         yield mock.return_value
 
 
-def test_fetch_basic_returns_all_documented_columns(mock_pro):
+def test_fetch_stock_basic_returns_all_documented_columns(mock_pro):
     mock_pro.stock_basic.return_value = pd.DataFrame([_basic_row()])
     fetcher = TushareFetcher("fake_token")
 
-    df = fetcher.fetch_basic()
+    df = fetcher.fetch_stock_basic()
 
     assert list(df.columns) == BASIC_COLS
     assert len(df) == 1
 
 
-def test_fetch_basic_requests_all_statuses_and_fields(mock_pro):
+def test_fetch_stock_basic_requests_all_statuses_and_fields(mock_pro):
     mock_pro.stock_basic.return_value = pd.DataFrame([_basic_row()])
     fetcher = TushareFetcher("fake_token")
 
-    fetcher.fetch_basic()
+    fetcher.fetch_stock_basic()
 
     mock_pro.stock_basic.assert_called_once_with(
         exchange="",
@@ -83,13 +83,13 @@ def test_fetch_basic_requests_all_statuses_and_fields(mock_pro):
     )
 
 
-def test_fetch_basic_converts_only_date_fields(mock_pro):
+def test_fetch_stock_basic_converts_only_date_fields(mock_pro):
     mock_pro.stock_basic.return_value = pd.DataFrame(
         [_basic_row(list_status="D", delist_date="20240131")]
     )
     fetcher = TushareFetcher("fake_token")
 
-    df = fetcher.fetch_basic()
+    df = fetcher.fetch_stock_basic()
 
     assert df.iloc[0]["list_date"] == date(1991, 4, 3)
     assert df.iloc[0]["delist_date"] == date(2024, 1, 31)

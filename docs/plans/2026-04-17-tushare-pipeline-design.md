@@ -30,7 +30,7 @@ zer0share/
 │   │   │   └── data.parquet
 │   │   └── date=20240102/
 │   │       └── data.parquet
-│   └── basic/
+│   └── stock_basic/
 │       └── data.parquet     # stock_basic 全字段快照，全量覆盖
 ├── db/
 │   └── meta.duckdb          # 增量同步元数据
@@ -63,9 +63,9 @@ zer0share/
 | vol | DOUBLE | 成交量（手）|
 | amount | DOUBLE | 成交额（千元）|
 
-### basic 字段
+### stock_basic 字段
 
-`basic` 的设计原则不是精选字段表，而是 `stock_basic` 的本地镜像层。落库时保留官方接口全部字段，仅对 `list_date` 和 `delist_date` 做最小必要的日期类型转换，其余字段保持原样。
+`stock_basic` 本地快照的设计原则不是精选字段表，而是 Tushare `stock_basic` 的本地镜像层。落库时保留官方接口全部字段，仅对 `list_date` 和 `delist_date` 做最小必要的日期类型转换，其余字段保持原样。
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
@@ -91,7 +91,7 @@ zer0share/
 
 ```sql
 CREATE TABLE sync_meta (
-    table_name  VARCHAR PRIMARY KEY,  -- 'daily_kline' / 'basic'
+    table_name  VARCHAR PRIMARY KEY,  -- 'daily_kline' / 'stock_basic'
     last_date   DATE,
     updated_at  TIMESTAMP
 );
@@ -101,7 +101,7 @@ CREATE TABLE sync_meta (
 
 ```
 1. 读取 meta.duckdb 中 daily_kline 的 last_date
-2. 读取 basic/data.parquet 获取全量 ts_code 列表
+2. 读取 stock_basic/data.parquet 获取全量 ts_code 列表
 3. 按 last_date+1 → 今天，逐日请求 Tushare pro_bar 接口
 4. 每天数据写入 data/daily_kline/date=YYYYMMDD/data.parquet
 5. 更新 sync_meta 中的 last_date
@@ -115,11 +115,11 @@ CREATE TABLE sync_meta (
 - 全量拉取 stock_basic（list_status=L,D,P,G）
 - 显式请求官方文档中的全部字段，不做字段裁剪
 - 保留 `list_date` / `delist_date` 的日期转换，其余字段原样保留
-- 覆盖写入 data/basic/data.parquet
+- 覆盖写入 data/stock_basic/data.parquet
 
 ## 设计约束
 
-- `basic/data.parquet` 表示当前 `stock_basic` 的全量快照，而不是当前上市股票子集
+- `stock_basic/data.parquet` 表示当前 `stock_basic` 的全量快照，而不是当前上市股票子集
 - 任何新增分析字段、衍生字段、清洗字段都不直接写入镜像层，应放在下游查询或派生层处理
 - 若 Tushare `stock_basic` 字段定义变更，需要显式更新 `fetcher` 中的字段列表和测试用例
 
@@ -127,7 +127,7 @@ CREATE TABLE sync_meta (
 
 ```bash
 python main.py sync --table daily_kline   # 增量同步日线
-python main.py sync --table basic         # 全量刷新基础信息
+python main.py sync --table stock_basic         # 全量刷新基础信息
 python main.py sync --all                 # 同步全部
 python main.py status                     # 显示各表最后更新时间
 python main.py scheduler start            # 启动定时调度
@@ -139,8 +139,8 @@ python main.py scheduler start            # 启动定时调度
 # 每天 18:00 自动同步日线（收盘后）
 scheduler.add_job(sync_daily_kline, CronTrigger(hour=18, minute=0))
 
-# 每周一 08:00 刷新 basic
-scheduler.add_job(sync_basic, CronTrigger(day_of_week='mon', hour=8))
+# 每周一 08:00 刷新 stock_basic
+scheduler.add_job(sync_stock_basic, CronTrigger(day_of_week='mon', hour=8))
 ```
 
 ## 告警策略
@@ -164,6 +164,6 @@ SELECT * FROM read_parquet('data/daily_kline/date=20240101/data.parquet');
 -- 联表查询（行情 + 基础信息）
 SELECT k.*, b.name, b.industry
 FROM read_parquet('data/daily_kline/date=*/data.parquet') k
-JOIN read_parquet('data/basic/data.parquet') b ON k.ts_code = b.ts_code
+JOIN read_parquet('data/stock_basic/data.parquet') b ON k.ts_code = b.ts_code
 WHERE k.trade_date = '2024-01-01';
 ```

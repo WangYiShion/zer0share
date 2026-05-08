@@ -126,15 +126,15 @@ def adj_factor_partition_exists(data_dir: Path, trade_date: date) -> bool:
     return path.exists()
 
 
-def write_basic(data_dir: Path, df: pd.DataFrame) -> None:
-    basic_dir = data_dir / "basic"
-    basic_dir.mkdir(parents=True, exist_ok=True)
+def write_stock_basic(data_dir: Path, df: pd.DataFrame) -> None:
+    stock_basic_dir = data_dir / "stock_basic"
+    stock_basic_dir.mkdir(parents=True, exist_ok=True)
     table = pa.Table.from_pandas(df, preserve_index=False)
-    pq.write_table(table, basic_dir / "data.parquet")
+    pq.write_table(table, stock_basic_dir / "data.parquet")
 
 
-def read_basic(data_dir: Path) -> pd.DataFrame:
-    path = data_dir / "basic" / "data.parquet"
+def read_stock_basic(data_dir: Path) -> pd.DataFrame:
+    path = data_dir / "stock_basic" / "data.parquet"
     if not path.exists():
         return pd.DataFrame()
     return pq.read_table(path).to_pandas()

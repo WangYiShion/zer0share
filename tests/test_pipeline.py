@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from zer0share.pipeline import Pipeline, EXCHANGES
-from zer0share.storage import write_basic, write_trade_cal
+from zer0share.storage import write_stock_basic, write_trade_cal
 
 
 def _basic_df() -> pd.DataFrame:
@@ -47,18 +47,18 @@ def pipeline(cfg):
     return Pipeline(cfg, fetcher, notifier)
 
 
-def test_sync_basic_first_run_writes_parquet(pipeline, cfg):
-    pipeline._fetcher.fetch_basic.return_value = _basic_df()
-    pipeline.sync_basic()
-    assert (cfg.data_dir / "basic" / "data.parquet").exists()
+def test_sync_stock_basic_first_run_writes_parquet(pipeline, cfg):
+    pipeline._fetcher.fetch_stock_basic.return_value = _basic_df()
+    pipeline.sync_stock_basic()
+    assert (cfg.data_dir / "stock_basic" / "data.parquet").exists()
 
 
-def test_sync_basic_refreshes_even_if_recently_updated(pipeline):
-    pipeline._fetcher.fetch_basic.return_value = _basic_df()
-    pipeline.sync_basic()
-    pipeline._fetcher.fetch_basic.reset_mock()
-    pipeline.sync_basic()
-    pipeline._fetcher.fetch_basic.assert_called_once()
+def test_sync_stock_basic_refreshes_even_if_recently_updated(pipeline):
+    pipeline._fetcher.fetch_stock_basic.return_value = _basic_df()
+    pipeline.sync_stock_basic()
+    pipeline._fetcher.fetch_stock_basic.reset_mock()
+    pipeline.sync_stock_basic()
+    pipeline._fetcher.fetch_stock_basic.assert_called_once()
 
 
 def _setup_trade_cal_sse(pipeline, cfg) -> None:
@@ -75,7 +75,7 @@ def _setup_trade_cal_sse(pipeline, cfg) -> None:
 
 
 def test_sync_daily_kline_writes_parquet(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     _setup_trade_cal_sse(pipeline, cfg)
     kline_df = pd.DataFrame(
         {
@@ -104,7 +104,7 @@ def test_sync_daily_kline_writes_parquet(pipeline, cfg):
 
 
 def test_sync_daily_kline_skips_empty_dates(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     _setup_trade_cal_sse(pipeline, cfg)
     pipeline._fetcher.fetch_daily_kline.return_value = pd.DataFrame()
     pipeline._meta.update_last_date("daily_kline", date(2024, 1, 1))
@@ -118,7 +118,7 @@ def test_sync_daily_kline_skips_empty_dates(pipeline, cfg):
 
 
 def test_sync_daily_kline_sends_completion_notification(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     _setup_trade_cal_sse(pipeline, cfg)
     kline_df = pd.DataFrame(
         {
@@ -149,24 +149,24 @@ def test_sync_daily_kline_sends_completion_notification(pipeline, cfg):
 
 
 def test_sync_daily_kline_already_up_to_date(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     today = date.today()
     pipeline._meta.update_last_date("daily_kline", today)
     pipeline.sync_daily_kline()
     pipeline._fetcher.fetch_daily_kline.assert_not_called()
 
 
-def test_sync_basic_failure_sends_alert_and_raises(pipeline):
-    pipeline._fetcher.fetch_basic.side_effect = RuntimeError("API error")
+def test_sync_stock_basic_failure_sends_alert_and_raises(pipeline):
+    pipeline._fetcher.fetch_stock_basic.side_effect = RuntimeError("API error")
     with pytest.raises(RuntimeError):
-        pipeline.sync_basic()
+        pipeline.sync_stock_basic()
     pipeline._notifier.send.assert_called_once()
     msg = pipeline._notifier.send.call_args[0][0]
-    assert "basic 同步失败" in msg
+    assert "stock_basic 同步失败" in msg
 
 
 def test_sync_daily_kline_failure_sends_alert_and_raises(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     _setup_trade_cal_sse(pipeline, cfg)
     pipeline._fetcher.fetch_daily_kline.side_effect = RuntimeError("API error")
     pipeline._meta.update_last_date("daily_kline", date(2024, 1, 1))
@@ -261,7 +261,7 @@ def test_sync_daily_kline_raises_if_no_trade_cal(pipeline, cfg):
 
 
 def test_sync_daily_kline_range_skips_existing_partitions(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     trade_cal = pd.DataFrame(
         {
             "exchange": ["SSE", "SSE", "SSE"],
@@ -304,7 +304,7 @@ def test_sync_daily_kline_range_skips_existing_partitions(pipeline, cfg):
 
 
 def test_sync_daily_kline_old_range_does_not_rewind_meta(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     trade_cal = pd.DataFrame(
         {
             "exchange": ["SSE", "SSE"],
@@ -340,7 +340,7 @@ def test_sync_daily_kline_old_range_does_not_rewind_meta(pipeline, cfg):
 
 
 def test_sync_daily_kline_range_defaults_end_date_to_today(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     trade_cal = pd.DataFrame(
         {
             "exchange": ["SSE", "SSE"],
@@ -377,7 +377,7 @@ def test_sync_daily_kline_range_defaults_end_date_to_today(pipeline, cfg):
 
 
 def test_sync_daily_kline_sleeps_between_requests(pipeline, cfg):
-    write_basic(cfg.data_dir, _basic_df())
+    write_stock_basic(cfg.data_dir, _basic_df())
     trade_cal = pd.DataFrame(
         {
             "exchange": ["SSE", "SSE"],

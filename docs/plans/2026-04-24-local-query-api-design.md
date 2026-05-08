@@ -4,7 +4,7 @@
 
 `zer0share` already syncs these Tushare datasets into local Parquet files:
 
-- `stock_basic` -> `data/basic/data.parquet`
+- `stock_basic` -> `data/stock_basic/data.parquet`
 - `trade_cal` -> `data/trade_cal/exchange=*/data.parquet`
 - `daily` -> `data/daily_kline/date=*/data.parquet`
 - `adj_factor` -> `data/adj_factor/date=*/data.parquet`
@@ -161,7 +161,7 @@ pandas before filtering.
 Suggested file patterns:
 
 ```sql
-read_parquet('data/basic/data.parquet')
+read_parquet('data/stock_basic/data.parquet')
 read_parquet('data/trade_cal/exchange=*/data.parquet', hive_partitioning=true)
 read_parquet('data/daily_kline/date=*/data.parquet', hive_partitioning=true)
 read_parquet('data/adj_factor/date=*/data.parquet', hive_partitioning=true)

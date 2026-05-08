@@ -4,7 +4,12 @@ import pandas as pd
 import pytest
 
 from zer0share.api import LocalPro
-from zer0share.storage import write_adj_factor, write_basic, write_daily_kline, write_trade_cal
+from zer0share.storage import (
+    write_adj_factor,
+    write_daily_kline,
+    write_stock_basic,
+    write_trade_cal,
+)
 
 
 def test_stock_basic_filters_and_formats_dates(tmp_path):
@@ -29,7 +34,7 @@ def test_stock_basic_filters_and_formats_dates(tmp_path):
             "act_ent_type": ["Local SOE", "Local SOE"],
         }
     )
-    write_basic(tmp_path, df)
+    write_stock_basic(tmp_path, df)
 
     pro = LocalPro(tmp_path)
     result = pro.stock_basic(
@@ -195,7 +200,7 @@ def test_unknown_query_api_raises_value_error(tmp_path):
 
 
 def test_unknown_field_raises_value_error(tmp_path):
-    write_basic(
+    write_stock_basic(
         tmp_path,
         pd.DataFrame(
             {
@@ -228,7 +233,7 @@ def test_unknown_field_raises_value_error(tmp_path):
 def test_missing_data_raises_file_not_found_with_sync_hint(tmp_path):
     pro = LocalPro(tmp_path)
 
-    with pytest.raises(FileNotFoundError, match="sync --table basic"):
+    with pytest.raises(FileNotFoundError, match="sync --table stock_basic"):
         pro.stock_basic()
 
 
