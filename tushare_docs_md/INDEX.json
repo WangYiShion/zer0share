@@ -1,0 +1,4970 @@
+{
+  "_meta": {
+    "index_version": 3,
+    "generated_utc": "2026-05-09T09:52:03Z",
+    "root_dir": "tushare_docs_md",
+    "md_leaf_filename": "data.md",
+    "entry_count": 267,
+    "entries_with_doc_id": 267,
+    "usage_for_llm_zh": "检索：优先 doc_id。tushare 文档网址形如 https://tushare.pro/document/2?doc_id=XX；用 XX 键查 by_doc_id 得到 md_path_posix。按菜单：breadcrumb_zh 为左侧目录对应的中文层级（已去掉开头的 01_ 序号前缀）。menu_leaf_zh 为菜单末级文件夹名（已去序号）；markdown_first_heading 为正文首个标题，常与菜单名不同（如菜单「股票列表」对应正文「股票基础信息」）。pro_api_name_guess 从「接口：」提取，可为空或非 pro 文档页。category_tree 的叶键 __pages__ 列出该层级文件夹下的 data.md 路径。",
+    "doc_id_collisions": []
+  },
+  "by_doc_id": {
+    "384": "tushare_docs_md/02_ETF专题/data.md",
+    "462": "tushare_docs_md/02_ETF专题/03_ETF业绩比较基准/data.md",
+    "408": "tushare_docs_md/02_ETF专题/09_ETF份额规模/data.md",
+    "387": "tushare_docs_md/02_ETF专题/05_ETF历史分钟/data.md",
+    "386": "tushare_docs_md/02_ETF专题/02_ETF基准指数/data.md",
+    "385": "tushare_docs_md/02_ETF专题/01_ETF基本信息/data.md",
+    "199": "tushare_docs_md/02_ETF专题/08_ETF复权因子/data.md",
+    "416": "tushare_docs_md/02_ETF专题/04_ETF实时分钟/data.md",
+    "454": "tushare_docs_md/02_ETF专题/10_ETF实时参考/data.md",
+    "400": "tushare_docs_md/02_ETF专题/06_ETF实时日线/data.md",
+    "127": "tushare_docs_md/02_ETF专题/07_ETF日线行情/data.md",
+    "460": "tushare_docs_md/02_ETF专题/11_指数公司公告/data.md",
+    "184": "tushare_docs_md/08_债券专题/data.md",
+    "256": "tushare_docs_md/08_债券专题/11_债券回购日行情/data.md",
+    "233": "tushare_docs_md/08_债券专题/17_全球财经事件/data.md",
+    "458": "tushare_docs_md/08_债券专题/10_可转债债券评级/data.md",
+    "459": "tushare_docs_md/08_债券专题/06_可转债十大持有人/data.md",
+    "186": "tushare_docs_md/08_债券专题/02_可转债发行/data.md",
+    "185": "tushare_docs_md/08_债券专题/01_可转债基础信息/data.md",
+    "392": "tushare_docs_md/08_债券专题/07_可转债技术面因子(专业版)/data.md",
+    "305": "tushare_docs_md/08_债券专题/04_可转债票面利率/data.md",
+    "187": "tushare_docs_md/08_债券专题/05_可转债行情/data.md",
+    "269": "tushare_docs_md/08_债券专题/03_可转债赎回信息/data.md",
+    "246": "tushare_docs_md/08_债券专题/08_可转债转股价变动/data.md",
+    "247": "tushare_docs_md/08_债券专题/09_可转债转股结果/data.md",
+    "201": "tushare_docs_md/08_债券专题/16_国债收益率曲线/data.md",
+    "271": "tushare_docs_md/08_债券专题/14_大宗交易/data.md",
+    "272": "tushare_docs_md/08_债券专题/15_大宗交易明细/data.md",
+    "322": "tushare_docs_md/08_债券专题/12_柜台流通式债券报价/data.md",
+    "323": "tushare_docs_md/08_债券专题/13_柜台流通式债券最优报价/data.md",
+    "18": "tushare_docs_md/04_公募基金/data.md",
+    "119": "tushare_docs_md/04_公募基金/05_基金净值/data.md",
+    "120": "tushare_docs_md/04_公募基金/06_基金分红/data.md",
+    "19": "tushare_docs_md/04_公募基金/01_基金列表/data.md",
+    "359": "tushare_docs_md/04_公募基金/08_基金技术面因子(专业版)/data.md",
+    "121": "tushare_docs_md/04_公募基金/07_基金持仓/data.md",
+    "118": "tushare_docs_md/04_公募基金/02_基金管理人/data.md",
+    "208": "tushare_docs_md/04_公募基金/03_基金经理/data.md",
+    "207": "tushare_docs_md/04_公募基金/04_基金规模/data.md",
+    "177": "tushare_docs_md/09_外汇数据/data.md",
+    "178": "tushare_docs_md/09_外汇数据/01_外汇基础信息（海外）/data.md",
+    "179": "tushare_docs_md/09_外汇数据/02_外汇日线行情/data.md",
+    "142": "tushare_docs_md/13_大模型语料专题数据/data.md",
+    "176": "tushare_docs_md/13_大模型语料专题数据/06_上市公司公告/data.md",
+    "366": "tushare_docs_md/13_大模型语料专题数据/07_上证e互动问答/data.md",
+    "415": "tushare_docs_md/13_大模型语料专题数据/02_券商研究报告/data.md",
+    "406": "tushare_docs_md/13_大模型语料专题数据/01_国家政策库/data.md",
+    "143": "tushare_docs_md/13_大模型语料专题数据/03_新闻快讯（短讯）/data.md",
+    "154": "tushare_docs_md/13_大模型语料专题数据/05_新闻联播文字稿/data.md",
+    "195": "tushare_docs_md/13_大模型语料专题数据/04_新闻通讯（长篇）/data.md",
+    "367": "tushare_docs_md/13_大模型语料专题数据/08_深证易互动问答/data.md",
+    "147": "tushare_docs_md/12_宏观经济/data.md",
+    "224": "tushare_docs_md/12_宏观经济/01_国内宏观/data.md",
+    "461": "tushare_docs_md/12_宏观经济/01_国内宏观/01_中国经济数据发布日程/data.md",
+    "226": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/data.md",
+    "228": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/01_居民消费价格指数（CPI）/data.md",
+    "245": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/02_工业生产者出厂价格指数（PPI）/data.md",
+    "148": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/data.md",
+    "153": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/05_Hibor利率/data.md",
+    "151": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/03_LPR贷款基础利率/data.md",
+    "152": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/04_Libor利率/data.md",
+    "149": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/01_Shibor利率/data.md",
+    "150": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/02_Shibor报价数据/data.md",
+    "174": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/07_广州民间借贷利率/data.md",
+    "173": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/06_温州民间借贷利率/data.md",
+    "225": "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/data.md",
+    "227": "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/01_国内生产总值（GDP）/data.md",
+    "324": "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/data.md",
+    "325": "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/01_采购经理指数（PMI）/data.md",
+    "240": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/data.md",
+    "309": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/data.md",
+    "310": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/01_社融增量（月度）/data.md",
+    "241": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/data.md",
+    "242": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/01_货币供应量（月）/data.md",
+    "217": "tushare_docs_md/12_宏观经济/02_国际宏观/data.md",
+    "218": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/data.md",
+    "220": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/02_国债实际收益率曲线利率/data.md",
+    "219": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/01_国债收益率曲线利率/data.md",
+    "222": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/04_国债长期利率/data.md",
+    "223": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/05_国债长期利率平均值/data.md",
+    "221": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/03_短期国债利率/data.md",
+    "93": "tushare_docs_md/03_指数专题/data.md",
+    "373": "tushare_docs_md/03_指数专题/14_中信行业成分/data.md",
+    "308": "tushare_docs_md/03_指数专题/15_中信行业指数日行情/data.md",
+    "211": "tushare_docs_md/03_指数专题/16_国际主要指数/data.md",
+    "128": "tushare_docs_md/03_指数专题/09_大盘指数每日指标/data.md",
+    "419": "tushare_docs_md/03_指数专题/06_指数历史分钟/data.md",
+    "171": "tushare_docs_md/03_指数专题/05_指数周线行情/data.md",
+    "94": "tushare_docs_md/03_指数专题/01_指数基本信息/data.md",
+    "420": "tushare_docs_md/03_指数专题/04_指数实时分钟/data.md",
+    "403": "tushare_docs_md/03_指数专题/03_指数实时日线/data.md",
+    "96": "tushare_docs_md/03_指数专题/08_指数成分和权重/data.md",
+    "358": "tushare_docs_md/03_指数专题/17_指数技术面因子(专业版)/data.md",
+    "95": "tushare_docs_md/03_指数专题/02_指数日线行情/data.md",
+    "172": "tushare_docs_md/03_指数专题/07_指数月线行情/data.md",
+    "215": "tushare_docs_md/03_指数专题/18_沪深市场每日交易统计/data.md",
+    "268": "tushare_docs_md/03_指数专题/19_深圳市场每日交易情况/data.md",
+    "417": "tushare_docs_md/03_指数专题/13_申万实时行情/data.md",
+    "181": "tushare_docs_md/03_指数专题/10_申万行业分类/data.md",
+    "335": "tushare_docs_md/03_指数专题/11_申万行业成分（分级）/data.md",
+    "327": "tushare_docs_md/03_指数专题/12_申万行业指数日行情/data.md",
+    "157": "tushare_docs_md/07_期权数据/data.md",
+    "341": "tushare_docs_md/07_期权数据/03_期权分钟行情/data.md",
+    "158": "tushare_docs_md/07_期权数据/01_期权合约信息/data.md",
+    "159": "tushare_docs_md/07_期权数据/02_期权日线行情/data.md",
+    "134": "tushare_docs_md/05_期货数据/data.md",
+    "137": "tushare_docs_md/05_期货数据/02_交易日历/data.md",
+    "140": "tushare_docs_md/05_期货数据/07_仓单日报/data.md",
+    "155": "tushare_docs_md/05_期货数据/11_南华期货指数行情/data.md",
+    "314": "tushare_docs_md/05_期货数据/09_历史Tick行情/data.md",
+    "313": "tushare_docs_md/05_期货数据/05_历史分钟行情/data.md",
+    "135": "tushare_docs_md/05_期货数据/01_合约信息/data.md",
+    "340": "tushare_docs_md/05_期货数据/06_实时分钟行情/data.md",
+    "138": "tushare_docs_md/05_期货数据/03_日线行情/data.md",
+    "189": "tushare_docs_md/05_期货数据/12_期货主力与连续合约/data.md",
+    "216": "tushare_docs_md/05_期货数据/13_期货主要品种交易周报/data.md",
+    "368": "tushare_docs_md/05_期货数据/14_期货合约涨跌停价格/data.md",
+    "337": "tushare_docs_md/05_期货数据/04_期货周_月线行情(每日更新)/data.md",
+    "139": "tushare_docs_md/05_期货数据/10_每日持仓排名/data.md",
+    "141": "tushare_docs_md/05_期货数据/08_每日结算参数/data.md",
+    "190": "tushare_docs_md/10_港股数据/data.md",
+    "250": "tushare_docs_md/10_港股数据/02_港股交易日历/data.md",
+    "304": "tushare_docs_md/10_港股数据/06_港股分钟行情/data.md",
+    "389": "tushare_docs_md/10_港股数据/08_港股利润表/data.md",
+    "191": "tushare_docs_md/10_港股数据/01_港股基础信息/data.md",
+    "401": "tushare_docs_md/10_港股数据/05_港股复权因子/data.md",
+    "339": "tushare_docs_md/10_港股数据/04_港股复权行情/data.md",
+    "383": "tushare_docs_md/10_港股数据/07_港股实时日线/data.md",
+    "192": "tushare_docs_md/10_港股数据/03_港股日线行情/data.md",
+    "391": "tushare_docs_md/10_港股数据/10_港股现金流量表/data.md",
+    "388": "tushare_docs_md/10_港股数据/11_港股财务指标数据/data.md",
+    "390": "tushare_docs_md/10_港股数据/09_港股资产负债表/data.md",
+    "283": "tushare_docs_md/06_现货数据/data.md",
+    "284": "tushare_docs_md/06_现货数据/01_上海黄金基础信息/data.md",
+    "285": "tushare_docs_md/06_现货数据/02_上海黄金现货日行情/data.md",
+    "251": "tushare_docs_md/11_美股数据/data.md",
+    "253": "tushare_docs_md/11_美股数据/02_美股交易日历/data.md",
+    "394": "tushare_docs_md/11_美股数据/06_美股利润表/data.md",
+    "252": "tushare_docs_md/11_美股数据/01_美股基础信息/data.md",
+    "402": "tushare_docs_md/11_美股数据/05_美股复权因子/data.md",
+    "338": "tushare_docs_md/11_美股数据/04_美股复权行情/data.md",
+    "254": "tushare_docs_md/11_美股数据/03_美股日线行情/data.md",
+    "396": "tushare_docs_md/11_美股数据/08_美股现金流量表/data.md",
+    "393": "tushare_docs_md/11_美股数据/09_美股财务指标数据/data.md",
+    "395": "tushare_docs_md/11_美股数据/07_美股资产负债表/data.md",
+    "14": "tushare_docs_md/01_股票数据/data.md",
+    "330": "tushare_docs_md/01_股票数据/06_两融及转融通/data.md",
+    "334": "tushare_docs_md/01_股票数据/06_两融及转融通/07_做市借券交易汇总(停）/data.md",
+    "59": "tushare_docs_md/01_股票数据/06_两融及转融通/02_融资融券交易明细/data.md",
+    "58": "tushare_docs_md/01_股票数据/06_两融及转融通/01_融资融券交易汇总/data.md",
+    "326": "tushare_docs_md/01_股票数据/06_两融及转融通/03_融资融券标的（盘前）/data.md",
+    "333": "tushare_docs_md/01_股票数据/06_两融及转融通/06_转融券交易明细(停）/data.md",
+    "332": "tushare_docs_md/01_股票数据/06_两融及转融通/04_转融券交易汇总(停）/data.md",
+    "331": "tushare_docs_md/01_股票数据/06_两融及转融通/05_转融资交易汇总/data.md",
+    "17": "tushare_docs_md/01_股票数据/04_参考数据/data.md",
+    "452": "tushare_docs_md/01_股票数据/04_参考数据/02_个股严重异常波动/data.md",
+    "451": "tushare_docs_md/01_股票数据/04_参考数据/01_个股异常波动/data.md",
+    "453": "tushare_docs_md/01_股票数据/04_参考数据/03_交易所重点提示证券/data.md",
+    "62": "tushare_docs_md/01_股票数据/04_参考数据/05_前十大流通股东/data.md",
+    "61": "tushare_docs_md/01_股票数据/04_参考数据/04_前十大股东/data.md",
+    "161": "tushare_docs_md/01_股票数据/04_参考数据/10_大宗交易/data.md",
+    "166": "tushare_docs_md/01_股票数据/04_参考数据/13_股东人数/data.md",
+    "175": "tushare_docs_md/01_股票数据/04_参考数据/14_股东增减持/data.md",
+    "111": "tushare_docs_md/01_股票数据/04_参考数据/07_股权质押明细数据/data.md",
+    "110": "tushare_docs_md/01_股票数据/04_参考数据/06_股权质押统计数据/data.md",
+    "124": "tushare_docs_md/01_股票数据/04_参考数据/08_股票回购/data.md",
+    "164": "tushare_docs_md/01_股票数据/04_参考数据/11_股票开户数据（停）/data.md",
+    "165": "tushare_docs_md/01_股票数据/04_参考数据/12_股票开户数据（旧）/data.md",
+    "160": "tushare_docs_md/01_股票数据/04_参考数据/09_限售股解禁/data.md",
+    "24": "tushare_docs_md/01_股票数据/01_基础数据/data.md",
+    "123": "tushare_docs_md/01_股票数据/01_基础数据/12_IPO新股上市/data.md",
+    "397": "tushare_docs_md/01_股票数据/01_基础数据/04_ST股票列表/data.md",
+    "423": "tushare_docs_md/01_股票数据/01_基础数据/05_ST风险警示板股票/data.md",
+    "112": "tushare_docs_md/01_股票数据/01_基础数据/08_上市公司基本信息/data.md",
+    "193": "tushare_docs_md/01_股票数据/01_基础数据/09_上市公司管理层/data.md",
+    "26": "tushare_docs_md/01_股票数据/01_基础数据/03_交易日历/data.md",
+    "375": "tushare_docs_md/01_股票数据/01_基础数据/11_北交所新旧代码对照/data.md",
+    "329": "tushare_docs_md/01_股票数据/01_基础数据/02_每日股本（盘前）/data.md",
+    "398": "tushare_docs_md/01_股票数据/01_基础数据/06_沪深港通股票列表/data.md",
+    "194": "tushare_docs_md/01_股票数据/01_基础数据/10_管理层薪酬和持股/data.md",
+    "25": "tushare_docs_md/01_股票数据/01_基础数据/01_股票列表/data.md",
+    "262": "tushare_docs_md/01_股票数据/01_基础数据/13_股票历史列表/data.md",
+    "100": "tushare_docs_md/01_股票数据/01_基础数据/07_股票曾用名/data.md",
+    "346": "tushare_docs_md/01_股票数据/08_打板专题数据/data.md",
+    "321": "tushare_docs_md/01_股票数据/08_打板专题数据/17_东方财富App热榜/data.md",
+    "363": "tushare_docs_md/01_股票数据/08_打板专题数据/11_东方财富概念成分/data.md",
+    "362": "tushare_docs_md/01_股票数据/08_打板专题数据/10_东方财富概念板块/data.md",
+    "382": "tushare_docs_md/01_股票数据/08_打板专题数据/12_东财概念和行业指数行情/data.md",
+    "320": "tushare_docs_md/01_股票数据/08_打板专题数据/16_同花顺App热榜数/data.md",
+    "260": "tushare_docs_md/01_股票数据/08_打板专题数据/08_同花顺概念和行业指数行情/data.md",
+    "355": "tushare_docs_md/01_股票数据/08_打板专题数据/03_同花顺涨跌停榜单/data.md",
+    "261": "tushare_docs_md/01_股票数据/08_打板专题数据/09_同花顺行业概念成分/data.md",
+    "259": "tushare_docs_md/01_股票数据/08_打板专题数据/07_同花顺行业概念板块/data.md",
+    "311": "tushare_docs_md/01_股票数据/08_打板专题数据/14_市场游资最全名录/data.md",
+    "369": "tushare_docs_md/01_股票数据/08_打板专题数据/13_开盘竞价成交（当日）/data.md",
+    "347": "tushare_docs_md/01_股票数据/08_打板专题数据/21_榜单数据（开盘啦）/data.md",
+    "357": "tushare_docs_md/01_股票数据/08_打板专题数据/06_涨停最强板块统计/data.md",
+    "356": "tushare_docs_md/01_股票数据/08_打板专题数据/05_涨停股票连板天梯/data.md",
+    "298": "tushare_docs_md/01_股票数据/08_打板专题数据/04_涨跌停和炸板数据/data.md",
+    "312": "tushare_docs_md/01_股票数据/08_打板专题数据/15_游资交易每日明细/data.md",
+    "376": "tushare_docs_md/01_股票数据/08_打板专题数据/18_通达信板块信息/data.md",
+    "377": "tushare_docs_md/01_股票数据/08_打板专题数据/19_通达信板块成分/data.md",
+    "378": "tushare_docs_md/01_股票数据/08_打板专题数据/20_通达信板块行情/data.md",
+    "422": "tushare_docs_md/01_股票数据/08_打板专题数据/24_题材成分（东方财富）/data.md",
+    "351": "tushare_docs_md/01_股票数据/08_打板专题数据/22_题材成分（开盘啦）/data.md",
+    "421": "tushare_docs_md/01_股票数据/08_打板专题数据/23_题材数据（东方财富）/data.md",
+    "107": "tushare_docs_md/01_股票数据/08_打板专题数据/02_龙虎榜机构交易单/data.md",
+    "106": "tushare_docs_md/01_股票数据/08_打板专题数据/01_龙虎榜每日统计单/data.md",
+    "291": "tushare_docs_md/01_股票数据/05_特色数据/data.md",
+    "399": "tushare_docs_md/01_股票数据/05_特色数据/11_AH股比价/data.md",
+    "274": "tushare_docs_md/01_股票数据/05_特色数据/06_中央结算系统持股明细/data.md",
+    "295": "tushare_docs_md/01_股票数据/05_特色数据/05_中央结算系统持股统计/data.md",
+    "267": "tushare_docs_md/01_股票数据/05_特色数据/13_券商月度金股/data.md",
+    "292": "tushare_docs_md/01_股票数据/05_特色数据/01_券商盈利预测数据/data.md",
+    "275": "tushare_docs_md/01_股票数据/05_特色数据/12_机构调研数据/data.md",
+    "294": "tushare_docs_md/01_股票数据/05_特色数据/03_每日筹码分布/data.md",
+    "293": "tushare_docs_md/01_股票数据/05_特色数据/02_每日筹码及胜率/data.md",
+    "188": "tushare_docs_md/01_股票数据/05_特色数据/07_沪深股通持股明细/data.md",
+    "364": "tushare_docs_md/01_股票数据/05_特色数据/10_神奇九转指标/data.md",
+    "353": "tushare_docs_md/01_股票数据/05_特色数据/08_股票开盘集合竞价数据/data.md",
+    "328": "tushare_docs_md/01_股票数据/05_特色数据/04_股票技术面因子(专业版）/data.md",
+    "354": "tushare_docs_md/01_股票数据/05_特色数据/09_股票收盘集合竞价数据/data.md",
+    "15": "tushare_docs_md/01_股票数据/02_行情数据/data.md",
+    "457": "tushare_docs_md/01_股票数据/02_行情数据/05_A股实时分钟-日累计/data.md",
+    "370": "tushare_docs_md/01_股票数据/02_行情数据/03_历史分钟/data.md",
+    "27": "tushare_docs_md/01_股票数据/02_行情数据/01_历史日线/data.md",
+    "365": "tushare_docs_md/01_股票数据/02_行情数据/10_周_月线复权行情(每日更新)/data.md",
+    "336": "tushare_docs_md/01_股票数据/02_行情数据/09_周_月线行情(每日更新)/data.md",
+    "144": "tushare_docs_md/01_股票数据/02_行情数据/06_周线行情/data.md",
+    "255": "tushare_docs_md/01_股票数据/02_行情数据/20_备用行情/data.md",
+    "28": "tushare_docs_md/01_股票数据/02_行情数据/11_复权因子/data.md",
+    "146": "tushare_docs_md/01_股票数据/02_行情数据/08_复权行情/data.md",
+    "374": "tushare_docs_md/01_股票数据/02_行情数据/04_实时分钟/data.md",
+    "372": "tushare_docs_md/01_股票数据/02_行情数据/02_实时日线/data.md",
+    "145": "tushare_docs_md/01_股票数据/02_行情数据/07_月线行情/data.md",
+    "214": "tushare_docs_md/01_股票数据/02_行情数据/15_每日停复牌信息/data.md",
+    "32": "tushare_docs_md/01_股票数据/02_行情数据/12_每日指标/data.md",
+    "183": "tushare_docs_md/01_股票数据/02_行情数据/14_每日涨跌停价格/data.md",
+    "48": "tushare_docs_md/01_股票数据/02_行情数据/16_沪深股通十大成交股/data.md",
+    "49": "tushare_docs_md/01_股票数据/02_行情数据/17_港股通十大成交股/data.md",
+    "196": "tushare_docs_md/01_股票数据/02_行情数据/18_港股通每日成交统计/data.md",
+    "197": "tushare_docs_md/01_股票数据/02_行情数据/19_港股通每月成交统计/data.md",
+    "109": "tushare_docs_md/01_股票数据/02_行情数据/13_通用行情接口/data.md",
+    "16": "tushare_docs_md/01_股票数据/03_财务数据/data.md",
+    "46": "tushare_docs_md/01_股票数据/03_财务数据/05_业绩快报/data.md",
+    "45": "tushare_docs_md/01_股票数据/03_财务数据/04_业绩预告/data.md",
+    "81": "tushare_docs_md/01_股票数据/03_财务数据/09_主营业务构成/data.md",
+    "103": "tushare_docs_md/01_股票数据/03_财务数据/06_分红送股数据/data.md",
+    "33": "tushare_docs_md/01_股票数据/03_财务数据/01_利润表/data.md",
+    "44": "tushare_docs_md/01_股票数据/03_财务数据/03_现金流量表/data.md",
+    "80": "tushare_docs_md/01_股票数据/03_财务数据/08_财务审计意见/data.md",
+    "79": "tushare_docs_md/01_股票数据/03_财务数据/07_财务指标数据/data.md",
+    "162": "tushare_docs_md/01_股票数据/03_财务数据/10_财报披露日期表/data.md",
+    "36": "tushare_docs_md/01_股票数据/03_财务数据/02_资产负债表/data.md",
+    "342": "tushare_docs_md/01_股票数据/07_资金流向数据/data.md",
+    "170": "tushare_docs_md/01_股票数据/07_资金流向数据/01_个股资金流向/data.md",
+    "349": "tushare_docs_md/01_股票数据/07_资金流向数据/03_个股资金流向（DC）/data.md",
+    "348": "tushare_docs_md/01_股票数据/07_资金流向数据/02_个股资金流向（THS）/data.md",
+    "345": "tushare_docs_md/01_股票数据/07_资金流向数据/07_大盘资金流向（DC）/data.md",
+    "344": "tushare_docs_md/01_股票数据/07_资金流向数据/06_板块资金流向（DC）/data.md",
+    "371": "tushare_docs_md/01_股票数据/07_资金流向数据/04_板块资金流向（THS)/data.md",
+    "47": "tushare_docs_md/01_股票数据/07_资金流向数据/08_沪深港通资金流向/data.md",
+    "343": "tushare_docs_md/01_股票数据/07_资金流向数据/05_行业资金流向（THS）/data.md",
+    "263": "tushare_docs_md/14_财富管理/data.md",
+    "264": "tushare_docs_md/14_财富管理/01_基金销售行业数据/data.md",
+    "265": "tushare_docs_md/14_财富管理/01_基金销售行业数据/01_各渠道公募基金销售保有规模占比/data.md",
+    "266": "tushare_docs_md/14_财富管理/01_基金销售行业数据/02_销售机构公募基金销售保有规模/data.md"
+  },
+  "category_tree": {
+    "ETF专题": {
+      "__pages__": [
+        "tushare_docs_md/02_ETF专题/data.md"
+      ],
+      "ETF业绩比较基准": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/03_ETF业绩比较基准/data.md"
+        ]
+      },
+      "ETF份额规模": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/09_ETF份额规模/data.md"
+        ]
+      },
+      "ETF历史分钟": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/05_ETF历史分钟/data.md"
+        ]
+      },
+      "ETF基准指数": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/02_ETF基准指数/data.md"
+        ]
+      },
+      "ETF基本信息": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/01_ETF基本信息/data.md"
+        ]
+      },
+      "ETF复权因子": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/08_ETF复权因子/data.md"
+        ]
+      },
+      "ETF实时分钟": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/04_ETF实时分钟/data.md"
+        ]
+      },
+      "ETF实时参考": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/10_ETF实时参考/data.md"
+        ]
+      },
+      "ETF实时日线": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/06_ETF实时日线/data.md"
+        ]
+      },
+      "ETF日线行情": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/07_ETF日线行情/data.md"
+        ]
+      },
+      "指数公司公告": {
+        "__pages__": [
+          "tushare_docs_md/02_ETF专题/11_指数公司公告/data.md"
+        ]
+      }
+    },
+    "债券专题": {
+      "__pages__": [
+        "tushare_docs_md/08_债券专题/data.md"
+      ],
+      "债券回购日行情": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/11_债券回购日行情/data.md"
+        ]
+      },
+      "全球财经事件": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/17_全球财经事件/data.md"
+        ]
+      },
+      "可转债债券评级": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/10_可转债债券评级/data.md"
+        ]
+      },
+      "可转债十大持有人": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/06_可转债十大持有人/data.md"
+        ]
+      },
+      "可转债发行": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/02_可转债发行/data.md"
+        ]
+      },
+      "可转债基础信息": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/01_可转债基础信息/data.md"
+        ]
+      },
+      "可转债技术面因子(专业版)": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/07_可转债技术面因子(专业版)/data.md"
+        ]
+      },
+      "可转债票面利率": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/04_可转债票面利率/data.md"
+        ]
+      },
+      "可转债行情": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/05_可转债行情/data.md"
+        ]
+      },
+      "可转债赎回信息": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/03_可转债赎回信息/data.md"
+        ]
+      },
+      "可转债转股价变动": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/08_可转债转股价变动/data.md"
+        ]
+      },
+      "可转债转股结果": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/09_可转债转股结果/data.md"
+        ]
+      },
+      "国债收益率曲线": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/16_国债收益率曲线/data.md"
+        ]
+      },
+      "大宗交易": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/14_大宗交易/data.md"
+        ]
+      },
+      "大宗交易明细": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/15_大宗交易明细/data.md"
+        ]
+      },
+      "柜台流通式债券报价": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/12_柜台流通式债券报价/data.md"
+        ]
+      },
+      "柜台流通式债券最优报价": {
+        "__pages__": [
+          "tushare_docs_md/08_债券专题/13_柜台流通式债券最优报价/data.md"
+        ]
+      }
+    },
+    "公募基金": {
+      "__pages__": [
+        "tushare_docs_md/04_公募基金/data.md"
+      ],
+      "基金净值": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/05_基金净值/data.md"
+        ]
+      },
+      "基金分红": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/06_基金分红/data.md"
+        ]
+      },
+      "基金列表": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/01_基金列表/data.md"
+        ]
+      },
+      "基金技术面因子(专业版)": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/08_基金技术面因子(专业版)/data.md"
+        ]
+      },
+      "基金持仓": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/07_基金持仓/data.md"
+        ]
+      },
+      "基金管理人": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/02_基金管理人/data.md"
+        ]
+      },
+      "基金经理": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/03_基金经理/data.md"
+        ]
+      },
+      "基金规模": {
+        "__pages__": [
+          "tushare_docs_md/04_公募基金/04_基金规模/data.md"
+        ]
+      }
+    },
+    "外汇数据": {
+      "__pages__": [
+        "tushare_docs_md/09_外汇数据/data.md"
+      ],
+      "外汇基础信息（海外）": {
+        "__pages__": [
+          "tushare_docs_md/09_外汇数据/01_外汇基础信息（海外）/data.md"
+        ]
+      },
+      "外汇日线行情": {
+        "__pages__": [
+          "tushare_docs_md/09_外汇数据/02_外汇日线行情/data.md"
+        ]
+      }
+    },
+    "大模型语料专题数据": {
+      "__pages__": [
+        "tushare_docs_md/13_大模型语料专题数据/data.md"
+      ],
+      "上市公司公告": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/06_上市公司公告/data.md"
+        ]
+      },
+      "上证e互动问答": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/07_上证e互动问答/data.md"
+        ]
+      },
+      "券商研究报告": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/02_券商研究报告/data.md"
+        ]
+      },
+      "国家政策库": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/01_国家政策库/data.md"
+        ]
+      },
+      "新闻快讯（短讯）": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/03_新闻快讯（短讯）/data.md"
+        ]
+      },
+      "新闻联播文字稿": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/05_新闻联播文字稿/data.md"
+        ]
+      },
+      "新闻通讯（长篇）": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/04_新闻通讯（长篇）/data.md"
+        ]
+      },
+      "深证易互动问答": {
+        "__pages__": [
+          "tushare_docs_md/13_大模型语料专题数据/08_深证易互动问答/data.md"
+        ]
+      }
+    },
+    "宏观经济": {
+      "__pages__": [
+        "tushare_docs_md/12_宏观经济/data.md"
+      ],
+      "国内宏观": {
+        "__pages__": [
+          "tushare_docs_md/12_宏观经济/01_国内宏观/data.md"
+        ],
+        "中国经济数据发布日程": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/01_中国经济数据发布日程/data.md"
+          ]
+        },
+        "价格指数": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/data.md"
+          ],
+          "居民消费价格指数（CPI）": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/01_居民消费价格指数（CPI）/data.md"
+            ]
+          },
+          "工业生产者出厂价格指数（PPI）": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/02_工业生产者出厂价格指数（PPI）/data.md"
+            ]
+          }
+        },
+        "利率数据": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/data.md"
+          ],
+          "Hibor利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/05_Hibor利率/data.md"
+            ]
+          },
+          "LPR贷款基础利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/03_LPR贷款基础利率/data.md"
+            ]
+          },
+          "Libor利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/04_Libor利率/data.md"
+            ]
+          },
+          "Shibor利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/01_Shibor利率/data.md"
+            ]
+          },
+          "Shibor报价数据": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/02_Shibor报价数据/data.md"
+            ]
+          },
+          "广州民间借贷利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/07_广州民间借贷利率/data.md"
+            ]
+          },
+          "温州民间借贷利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/06_温州民间借贷利率/data.md"
+            ]
+          }
+        },
+        "国民经济": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/data.md"
+          ],
+          "国内生产总值（GDP）": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/01_国内生产总值（GDP）/data.md"
+            ]
+          }
+        },
+        "景气度": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/data.md"
+          ],
+          "采购经理指数（PMI）": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/01_采购经理指数（PMI）/data.md"
+            ]
+          }
+        },
+        "金融": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/data.md"
+          ],
+          "社会融资": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/data.md"
+            ],
+            "社融增量（月度）": {
+              "__pages__": [
+                "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/01_社融增量（月度）/data.md"
+              ]
+            }
+          },
+          "货币供应量": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/data.md"
+            ],
+            "货币供应量（月）": {
+              "__pages__": [
+                "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/01_货币供应量（月）/data.md"
+              ]
+            }
+          }
+        }
+      },
+      "国际宏观": {
+        "__pages__": [
+          "tushare_docs_md/12_宏观经济/02_国际宏观/data.md"
+        ],
+        "美国利率": {
+          "__pages__": [
+            "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/data.md"
+          ],
+          "国债实际收益率曲线利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/02_国债实际收益率曲线利率/data.md"
+            ]
+          },
+          "国债收益率曲线利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/01_国债收益率曲线利率/data.md"
+            ]
+          },
+          "国债长期利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/04_国债长期利率/data.md"
+            ]
+          },
+          "国债长期利率平均值": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/05_国债长期利率平均值/data.md"
+            ]
+          },
+          "短期国债利率": {
+            "__pages__": [
+              "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/03_短期国债利率/data.md"
+            ]
+          }
+        }
+      }
+    },
+    "指数专题": {
+      "__pages__": [
+        "tushare_docs_md/03_指数专题/data.md"
+      ],
+      "中信行业成分": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/14_中信行业成分/data.md"
+        ]
+      },
+      "中信行业指数日行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/15_中信行业指数日行情/data.md"
+        ]
+      },
+      "国际主要指数": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/16_国际主要指数/data.md"
+        ]
+      },
+      "大盘指数每日指标": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/09_大盘指数每日指标/data.md"
+        ]
+      },
+      "指数历史分钟": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/06_指数历史分钟/data.md"
+        ]
+      },
+      "指数周线行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/05_指数周线行情/data.md"
+        ]
+      },
+      "指数基本信息": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/01_指数基本信息/data.md"
+        ]
+      },
+      "指数实时分钟": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/04_指数实时分钟/data.md"
+        ]
+      },
+      "指数实时日线": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/03_指数实时日线/data.md"
+        ]
+      },
+      "指数成分和权重": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/08_指数成分和权重/data.md"
+        ]
+      },
+      "指数技术面因子(专业版)": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/17_指数技术面因子(专业版)/data.md"
+        ]
+      },
+      "指数日线行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/02_指数日线行情/data.md"
+        ]
+      },
+      "指数月线行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/07_指数月线行情/data.md"
+        ]
+      },
+      "沪深市场每日交易统计": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/18_沪深市场每日交易统计/data.md"
+        ]
+      },
+      "深圳市场每日交易情况": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/19_深圳市场每日交易情况/data.md"
+        ]
+      },
+      "申万实时行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/13_申万实时行情/data.md"
+        ]
+      },
+      "申万行业分类": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/10_申万行业分类/data.md"
+        ]
+      },
+      "申万行业成分（分级）": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/11_申万行业成分（分级）/data.md"
+        ]
+      },
+      "申万行业指数日行情": {
+        "__pages__": [
+          "tushare_docs_md/03_指数专题/12_申万行业指数日行情/data.md"
+        ]
+      }
+    },
+    "期权数据": {
+      "__pages__": [
+        "tushare_docs_md/07_期权数据/data.md"
+      ],
+      "期权分钟行情": {
+        "__pages__": [
+          "tushare_docs_md/07_期权数据/03_期权分钟行情/data.md"
+        ]
+      },
+      "期权合约信息": {
+        "__pages__": [
+          "tushare_docs_md/07_期权数据/01_期权合约信息/data.md"
+        ]
+      },
+      "期权日线行情": {
+        "__pages__": [
+          "tushare_docs_md/07_期权数据/02_期权日线行情/data.md"
+        ]
+      }
+    },
+    "期货数据": {
+      "__pages__": [
+        "tushare_docs_md/05_期货数据/data.md"
+      ],
+      "交易日历": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/02_交易日历/data.md"
+        ]
+      },
+      "仓单日报": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/07_仓单日报/data.md"
+        ]
+      },
+      "南华期货指数行情": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/11_南华期货指数行情/data.md"
+        ]
+      },
+      "历史Tick行情": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/09_历史Tick行情/data.md"
+        ]
+      },
+      "历史分钟行情": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/05_历史分钟行情/data.md"
+        ]
+      },
+      "合约信息": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/01_合约信息/data.md"
+        ]
+      },
+      "实时分钟行情": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/06_实时分钟行情/data.md"
+        ]
+      },
+      "日线行情": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/03_日线行情/data.md"
+        ]
+      },
+      "期货主力与连续合约": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/12_期货主力与连续合约/data.md"
+        ]
+      },
+      "期货主要品种交易周报": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/13_期货主要品种交易周报/data.md"
+        ]
+      },
+      "期货合约涨跌停价格": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/14_期货合约涨跌停价格/data.md"
+        ]
+      },
+      "期货周_月线行情(每日更新)": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/04_期货周_月线行情(每日更新)/data.md"
+        ]
+      },
+      "每日持仓排名": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/10_每日持仓排名/data.md"
+        ]
+      },
+      "每日结算参数": {
+        "__pages__": [
+          "tushare_docs_md/05_期货数据/08_每日结算参数/data.md"
+        ]
+      }
+    },
+    "港股数据": {
+      "__pages__": [
+        "tushare_docs_md/10_港股数据/data.md"
+      ],
+      "港股交易日历": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/02_港股交易日历/data.md"
+        ]
+      },
+      "港股分钟行情": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/06_港股分钟行情/data.md"
+        ]
+      },
+      "港股利润表": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/08_港股利润表/data.md"
+        ]
+      },
+      "港股基础信息": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/01_港股基础信息/data.md"
+        ]
+      },
+      "港股复权因子": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/05_港股复权因子/data.md"
+        ]
+      },
+      "港股复权行情": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/04_港股复权行情/data.md"
+        ]
+      },
+      "港股实时日线": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/07_港股实时日线/data.md"
+        ]
+      },
+      "港股日线行情": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/03_港股日线行情/data.md"
+        ]
+      },
+      "港股现金流量表": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/10_港股现金流量表/data.md"
+        ]
+      },
+      "港股财务指标数据": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/11_港股财务指标数据/data.md"
+        ]
+      },
+      "港股资产负债表": {
+        "__pages__": [
+          "tushare_docs_md/10_港股数据/09_港股资产负债表/data.md"
+        ]
+      }
+    },
+    "现货数据": {
+      "__pages__": [
+        "tushare_docs_md/06_现货数据/data.md"
+      ],
+      "上海黄金基础信息": {
+        "__pages__": [
+          "tushare_docs_md/06_现货数据/01_上海黄金基础信息/data.md"
+        ]
+      },
+      "上海黄金现货日行情": {
+        "__pages__": [
+          "tushare_docs_md/06_现货数据/02_上海黄金现货日行情/data.md"
+        ]
+      }
+    },
+    "美股数据": {
+      "__pages__": [
+        "tushare_docs_md/11_美股数据/data.md"
+      ],
+      "美股交易日历": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/02_美股交易日历/data.md"
+        ]
+      },
+      "美股利润表": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/06_美股利润表/data.md"
+        ]
+      },
+      "美股基础信息": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/01_美股基础信息/data.md"
+        ]
+      },
+      "美股复权因子": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/05_美股复权因子/data.md"
+        ]
+      },
+      "美股复权行情": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/04_美股复权行情/data.md"
+        ]
+      },
+      "美股日线行情": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/03_美股日线行情/data.md"
+        ]
+      },
+      "美股现金流量表": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/08_美股现金流量表/data.md"
+        ]
+      },
+      "美股财务指标数据": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/09_美股财务指标数据/data.md"
+        ]
+      },
+      "美股资产负债表": {
+        "__pages__": [
+          "tushare_docs_md/11_美股数据/07_美股资产负债表/data.md"
+        ]
+      }
+    },
+    "股票数据": {
+      "__pages__": [
+        "tushare_docs_md/01_股票数据/data.md"
+      ],
+      "两融及转融通": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/06_两融及转融通/data.md"
+        ],
+        "做市借券交易汇总(停）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/07_做市借券交易汇总(停）/data.md"
+          ]
+        },
+        "融资融券交易明细": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/02_融资融券交易明细/data.md"
+          ]
+        },
+        "融资融券交易汇总": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/01_融资融券交易汇总/data.md"
+          ]
+        },
+        "融资融券标的（盘前）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/03_融资融券标的（盘前）/data.md"
+          ]
+        },
+        "转融券交易明细(停）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/06_转融券交易明细(停）/data.md"
+          ]
+        },
+        "转融券交易汇总(停）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/04_转融券交易汇总(停）/data.md"
+          ]
+        },
+        "转融资交易汇总": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/06_两融及转融通/05_转融资交易汇总/data.md"
+          ]
+        }
+      },
+      "参考数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/04_参考数据/data.md"
+        ],
+        "个股严重异常波动": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/02_个股严重异常波动/data.md"
+          ]
+        },
+        "个股异常波动": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/01_个股异常波动/data.md"
+          ]
+        },
+        "交易所重点提示证券": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/03_交易所重点提示证券/data.md"
+          ]
+        },
+        "前十大流通股东": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/05_前十大流通股东/data.md"
+          ]
+        },
+        "前十大股东": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/04_前十大股东/data.md"
+          ]
+        },
+        "大宗交易": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/10_大宗交易/data.md"
+          ]
+        },
+        "股东人数": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/13_股东人数/data.md"
+          ]
+        },
+        "股东增减持": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/14_股东增减持/data.md"
+          ]
+        },
+        "股权质押明细数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/07_股权质押明细数据/data.md"
+          ]
+        },
+        "股权质押统计数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/06_股权质押统计数据/data.md"
+          ]
+        },
+        "股票回购": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/08_股票回购/data.md"
+          ]
+        },
+        "股票开户数据（停）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/11_股票开户数据（停）/data.md"
+          ]
+        },
+        "股票开户数据（旧）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/12_股票开户数据（旧）/data.md"
+          ]
+        },
+        "限售股解禁": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/04_参考数据/09_限售股解禁/data.md"
+          ]
+        }
+      },
+      "基础数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/01_基础数据/data.md"
+        ],
+        "IPO新股上市": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/12_IPO新股上市/data.md"
+          ]
+        },
+        "ST股票列表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/04_ST股票列表/data.md"
+          ]
+        },
+        "ST风险警示板股票": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/05_ST风险警示板股票/data.md"
+          ]
+        },
+        "上市公司基本信息": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/08_上市公司基本信息/data.md"
+          ]
+        },
+        "上市公司管理层": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/09_上市公司管理层/data.md"
+          ]
+        },
+        "交易日历": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/03_交易日历/data.md"
+          ]
+        },
+        "北交所新旧代码对照": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/11_北交所新旧代码对照/data.md"
+          ]
+        },
+        "每日股本（盘前）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/02_每日股本（盘前）/data.md"
+          ]
+        },
+        "沪深港通股票列表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/06_沪深港通股票列表/data.md"
+          ]
+        },
+        "管理层薪酬和持股": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/10_管理层薪酬和持股/data.md"
+          ]
+        },
+        "股票列表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/01_股票列表/data.md"
+          ]
+        },
+        "股票历史列表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/13_股票历史列表/data.md"
+          ]
+        },
+        "股票曾用名": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/01_基础数据/07_股票曾用名/data.md"
+          ]
+        }
+      },
+      "打板专题数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/08_打板专题数据/data.md"
+        ],
+        "东方财富App热榜": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/17_东方财富App热榜/data.md"
+          ]
+        },
+        "东方财富概念成分": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/11_东方财富概念成分/data.md"
+          ]
+        },
+        "东方财富概念板块": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/10_东方财富概念板块/data.md"
+          ]
+        },
+        "东财概念和行业指数行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/12_东财概念和行业指数行情/data.md"
+          ]
+        },
+        "同花顺App热榜数": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/16_同花顺App热榜数/data.md"
+          ]
+        },
+        "同花顺概念和行业指数行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/08_同花顺概念和行业指数行情/data.md"
+          ]
+        },
+        "同花顺涨跌停榜单": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/03_同花顺涨跌停榜单/data.md"
+          ]
+        },
+        "同花顺行业概念成分": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/09_同花顺行业概念成分/data.md"
+          ]
+        },
+        "同花顺行业概念板块": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/07_同花顺行业概念板块/data.md"
+          ]
+        },
+        "市场游资最全名录": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/14_市场游资最全名录/data.md"
+          ]
+        },
+        "开盘竞价成交（当日）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/13_开盘竞价成交（当日）/data.md"
+          ]
+        },
+        "榜单数据（开盘啦）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/21_榜单数据（开盘啦）/data.md"
+          ]
+        },
+        "涨停最强板块统计": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/06_涨停最强板块统计/data.md"
+          ]
+        },
+        "涨停股票连板天梯": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/05_涨停股票连板天梯/data.md"
+          ]
+        },
+        "涨跌停和炸板数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/04_涨跌停和炸板数据/data.md"
+          ]
+        },
+        "游资交易每日明细": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/15_游资交易每日明细/data.md"
+          ]
+        },
+        "通达信板块信息": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/18_通达信板块信息/data.md"
+          ]
+        },
+        "通达信板块成分": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/19_通达信板块成分/data.md"
+          ]
+        },
+        "通达信板块行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/20_通达信板块行情/data.md"
+          ]
+        },
+        "题材成分（东方财富）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/24_题材成分（东方财富）/data.md"
+          ]
+        },
+        "题材成分（开盘啦）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/22_题材成分（开盘啦）/data.md"
+          ]
+        },
+        "题材数据（东方财富）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/23_题材数据（东方财富）/data.md"
+          ]
+        },
+        "龙虎榜机构交易单": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/02_龙虎榜机构交易单/data.md"
+          ]
+        },
+        "龙虎榜每日统计单": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/08_打板专题数据/01_龙虎榜每日统计单/data.md"
+          ]
+        }
+      },
+      "特色数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/05_特色数据/data.md"
+        ],
+        "AH股比价": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/11_AH股比价/data.md"
+          ]
+        },
+        "中央结算系统持股明细": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/06_中央结算系统持股明细/data.md"
+          ]
+        },
+        "中央结算系统持股统计": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/05_中央结算系统持股统计/data.md"
+          ]
+        },
+        "券商月度金股": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/13_券商月度金股/data.md"
+          ]
+        },
+        "券商盈利预测数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/01_券商盈利预测数据/data.md"
+          ]
+        },
+        "机构调研数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/12_机构调研数据/data.md"
+          ]
+        },
+        "每日筹码分布": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/03_每日筹码分布/data.md"
+          ]
+        },
+        "每日筹码及胜率": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/02_每日筹码及胜率/data.md"
+          ]
+        },
+        "沪深股通持股明细": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/07_沪深股通持股明细/data.md"
+          ]
+        },
+        "神奇九转指标": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/10_神奇九转指标/data.md"
+          ]
+        },
+        "股票开盘集合竞价数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/08_股票开盘集合竞价数据/data.md"
+          ]
+        },
+        "股票技术面因子(专业版）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/04_股票技术面因子(专业版）/data.md"
+          ]
+        },
+        "股票收盘集合竞价数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/05_特色数据/09_股票收盘集合竞价数据/data.md"
+          ]
+        }
+      },
+      "行情数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/02_行情数据/data.md"
+        ],
+        "A股实时分钟-日累计": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/05_A股实时分钟-日累计/data.md"
+          ]
+        },
+        "历史分钟": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/03_历史分钟/data.md"
+          ]
+        },
+        "历史日线": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/01_历史日线/data.md"
+          ]
+        },
+        "周_月线复权行情(每日更新)": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/10_周_月线复权行情(每日更新)/data.md"
+          ]
+        },
+        "周_月线行情(每日更新)": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/09_周_月线行情(每日更新)/data.md"
+          ]
+        },
+        "周线行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/06_周线行情/data.md"
+          ]
+        },
+        "备用行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/20_备用行情/data.md"
+          ]
+        },
+        "复权因子": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/11_复权因子/data.md"
+          ]
+        },
+        "复权行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/08_复权行情/data.md"
+          ]
+        },
+        "实时分钟": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/04_实时分钟/data.md"
+          ]
+        },
+        "实时日线": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/02_实时日线/data.md"
+          ]
+        },
+        "月线行情": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/07_月线行情/data.md"
+          ]
+        },
+        "每日停复牌信息": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/15_每日停复牌信息/data.md"
+          ]
+        },
+        "每日指标": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/12_每日指标/data.md"
+          ]
+        },
+        "每日涨跌停价格": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/14_每日涨跌停价格/data.md"
+          ]
+        },
+        "沪深股通十大成交股": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/16_沪深股通十大成交股/data.md"
+          ]
+        },
+        "港股通十大成交股": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/17_港股通十大成交股/data.md"
+          ]
+        },
+        "港股通每日成交统计": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/18_港股通每日成交统计/data.md"
+          ]
+        },
+        "港股通每月成交统计": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/19_港股通每月成交统计/data.md"
+          ]
+        },
+        "通用行情接口": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/02_行情数据/13_通用行情接口/data.md"
+          ]
+        }
+      },
+      "财务数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/03_财务数据/data.md"
+        ],
+        "业绩快报": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/05_业绩快报/data.md"
+          ]
+        },
+        "业绩预告": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/04_业绩预告/data.md"
+          ]
+        },
+        "主营业务构成": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/09_主营业务构成/data.md"
+          ]
+        },
+        "分红送股数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/06_分红送股数据/data.md"
+          ]
+        },
+        "利润表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/01_利润表/data.md"
+          ]
+        },
+        "现金流量表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/03_现金流量表/data.md"
+          ]
+        },
+        "财务审计意见": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/08_财务审计意见/data.md"
+          ]
+        },
+        "财务指标数据": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/07_财务指标数据/data.md"
+          ]
+        },
+        "财报披露日期表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/10_财报披露日期表/data.md"
+          ]
+        },
+        "资产负债表": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/03_财务数据/02_资产负债表/data.md"
+          ]
+        }
+      },
+      "资金流向数据": {
+        "__pages__": [
+          "tushare_docs_md/01_股票数据/07_资金流向数据/data.md"
+        ],
+        "个股资金流向": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/01_个股资金流向/data.md"
+          ]
+        },
+        "个股资金流向（DC）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/03_个股资金流向（DC）/data.md"
+          ]
+        },
+        "个股资金流向（THS）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/02_个股资金流向（THS）/data.md"
+          ]
+        },
+        "大盘资金流向（DC）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/07_大盘资金流向（DC）/data.md"
+          ]
+        },
+        "板块资金流向（DC）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/06_板块资金流向（DC）/data.md"
+          ]
+        },
+        "板块资金流向（THS)": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/04_板块资金流向（THS)/data.md"
+          ]
+        },
+        "沪深港通资金流向": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/08_沪深港通资金流向/data.md"
+          ]
+        },
+        "行业资金流向（THS）": {
+          "__pages__": [
+            "tushare_docs_md/01_股票数据/07_资金流向数据/05_行业资金流向（THS）/data.md"
+          ]
+        }
+      }
+    },
+    "财富管理": {
+      "__pages__": [
+        "tushare_docs_md/14_财富管理/data.md"
+      ],
+      "基金销售行业数据": {
+        "__pages__": [
+          "tushare_docs_md/14_财富管理/01_基金销售行业数据/data.md"
+        ],
+        "各渠道公募基金销售保有规模占比": {
+          "__pages__": [
+            "tushare_docs_md/14_财富管理/01_基金销售行业数据/01_各渠道公募基金销售保有规模占比/data.md"
+          ]
+        },
+        "销售机构公募基金销售保有规模": {
+          "__pages__": [
+            "tushare_docs_md/14_财富管理/01_基金销售行业数据/02_销售机构公募基金销售保有规模/data.md"
+          ]
+        }
+      }
+    }
+  },
+  "entries": [
+    {
+      "doc_id": "384",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=384",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/data.md",
+      "breadcrumb_zh": [
+        "ETF专题"
+      ],
+      "menu_leaf_zh": "ETF专题",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "462",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=462",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/03_ETF业绩比较基准/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF业绩比较基准"
+      ],
+      "menu_leaf_zh": "ETF业绩比较基准",
+      "markdown_first_heading": "ETF业绩比较基准",
+      "pro_api_name_guess": "mkt_idx_bmk"
+    },
+    {
+      "doc_id": "408",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=408",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/09_ETF份额规模/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF份额规模"
+      ],
+      "menu_leaf_zh": "ETF份额规模",
+      "markdown_first_heading": "ETF份额规模",
+      "pro_api_name_guess": "etf_share_size"
+    },
+    {
+      "doc_id": "387",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=387",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/05_ETF历史分钟/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF历史分钟"
+      ],
+      "menu_leaf_zh": "ETF历史分钟",
+      "markdown_first_heading": "ETF历史分钟行情",
+      "pro_api_name_guess": "stk_mins"
+    },
+    {
+      "doc_id": "386",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=386",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/02_ETF基准指数/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF基准指数"
+      ],
+      "menu_leaf_zh": "ETF基准指数",
+      "markdown_first_heading": "ETF基准指数列表",
+      "pro_api_name_guess": "etf_index"
+    },
+    {
+      "doc_id": "385",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=385",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/01_ETF基本信息/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF基本信息"
+      ],
+      "menu_leaf_zh": "ETF基本信息",
+      "markdown_first_heading": "ETF基础信息",
+      "pro_api_name_guess": "etf_basic"
+    },
+    {
+      "doc_id": "199",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=199",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/08_ETF复权因子/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF复权因子"
+      ],
+      "menu_leaf_zh": "ETF复权因子",
+      "markdown_first_heading": "基金复权因子",
+      "pro_api_name_guess": "fund_adj"
+    },
+    {
+      "doc_id": "416",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=416",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/04_ETF实时分钟/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF实时分钟"
+      ],
+      "menu_leaf_zh": "ETF实时分钟",
+      "markdown_first_heading": "ETF实时分钟",
+      "pro_api_name_guess": "rt_min"
+    },
+    {
+      "doc_id": "454",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=454",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/10_ETF实时参考/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF实时参考"
+      ],
+      "menu_leaf_zh": "ETF实时参考",
+      "markdown_first_heading": "ETF实时参考",
+      "pro_api_name_guess": "rt_etf_sz_iopv"
+    },
+    {
+      "doc_id": "400",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=400",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/06_ETF实时日线/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF实时日线"
+      ],
+      "menu_leaf_zh": "ETF实时日线",
+      "markdown_first_heading": "ETF实时日线",
+      "pro_api_name_guess": "rt_etf_k"
+    },
+    {
+      "doc_id": "127",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=127",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/07_ETF日线行情/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "ETF日线行情"
+      ],
+      "menu_leaf_zh": "ETF日线行情",
+      "markdown_first_heading": "ETF日线行情",
+      "pro_api_name_guess": "fund_daily"
+    },
+    {
+      "doc_id": "460",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=460",
+      "md_path_posix": "tushare_docs_md/02_ETF专题/11_指数公司公告/data.md",
+      "breadcrumb_zh": [
+        "ETF专题",
+        "指数公司公告"
+      ],
+      "menu_leaf_zh": "指数公司公告",
+      "markdown_first_heading": "指数公告",
+      "pro_api_name_guess": "idx_anns"
+    },
+    {
+      "doc_id": "184",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=184",
+      "md_path_posix": "tushare_docs_md/08_债券专题/data.md",
+      "breadcrumb_zh": [
+        "债券专题"
+      ],
+      "menu_leaf_zh": "债券专题",
+      "markdown_first_heading": "Tushare债券数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "256",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=256",
+      "md_path_posix": "tushare_docs_md/08_债券专题/11_债券回购日行情/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "债券回购日行情"
+      ],
+      "menu_leaf_zh": "债券回购日行情",
+      "markdown_first_heading": "债券回购日行情",
+      "pro_api_name_guess": "repo_daily"
+    },
+    {
+      "doc_id": "233",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=233",
+      "md_path_posix": "tushare_docs_md/08_债券专题/17_全球财经事件/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "全球财经事件"
+      ],
+      "menu_leaf_zh": "全球财经事件",
+      "markdown_first_heading": "财经日历",
+      "pro_api_name_guess": "eco_cal"
+    },
+    {
+      "doc_id": "458",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=458",
+      "md_path_posix": "tushare_docs_md/08_债券专题/10_可转债债券评级/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债债券评级"
+      ],
+      "menu_leaf_zh": "可转债债券评级",
+      "markdown_first_heading": "获取可转债评级历史记录",
+      "pro_api_name_guess": "cb_rating"
+    },
+    {
+      "doc_id": "459",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=459",
+      "md_path_posix": "tushare_docs_md/08_债券专题/06_可转债十大持有人/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债十大持有人"
+      ],
+      "menu_leaf_zh": "可转债十大持有人",
+      "markdown_first_heading": "可转债十大持有人",
+      "pro_api_name_guess": "top10_cb_holders"
+    },
+    {
+      "doc_id": "186",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=186",
+      "md_path_posix": "tushare_docs_md/08_债券专题/02_可转债发行/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债发行"
+      ],
+      "menu_leaf_zh": "可转债发行",
+      "markdown_first_heading": "可转债发行",
+      "pro_api_name_guess": "cb_issue"
+    },
+    {
+      "doc_id": "185",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=185",
+      "md_path_posix": "tushare_docs_md/08_债券专题/01_可转债基础信息/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债基础信息"
+      ],
+      "menu_leaf_zh": "可转债基础信息",
+      "markdown_first_heading": "可转债基本信息",
+      "pro_api_name_guess": "cb_basic"
+    },
+    {
+      "doc_id": "392",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=392",
+      "md_path_posix": "tushare_docs_md/08_债券专题/07_可转债技术面因子(专业版)/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债技术面因子(专业版)"
+      ],
+      "menu_leaf_zh": "可转债技术面因子(专业版)",
+      "markdown_first_heading": "可转债技术因子(专业版)",
+      "pro_api_name_guess": "cb_factor_pro"
+    },
+    {
+      "doc_id": "305",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=305",
+      "md_path_posix": "tushare_docs_md/08_债券专题/04_可转债票面利率/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债票面利率"
+      ],
+      "menu_leaf_zh": "可转债票面利率",
+      "markdown_first_heading": "可转债票面利率",
+      "pro_api_name_guess": "cb_rate"
+    },
+    {
+      "doc_id": "187",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=187",
+      "md_path_posix": "tushare_docs_md/08_债券专题/05_可转债行情/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债行情"
+      ],
+      "menu_leaf_zh": "可转债行情",
+      "markdown_first_heading": "可转债行情",
+      "pro_api_name_guess": "cb_daily"
+    },
+    {
+      "doc_id": "269",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=269",
+      "md_path_posix": "tushare_docs_md/08_债券专题/03_可转债赎回信息/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债赎回信息"
+      ],
+      "menu_leaf_zh": "可转债赎回信息",
+      "markdown_first_heading": "可转债赎回信息",
+      "pro_api_name_guess": "cb_call"
+    },
+    {
+      "doc_id": "246",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=246",
+      "md_path_posix": "tushare_docs_md/08_债券专题/08_可转债转股价变动/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债转股价变动"
+      ],
+      "menu_leaf_zh": "可转债转股价变动",
+      "markdown_first_heading": "可转债转股价变动",
+      "pro_api_name_guess": "cb_price_chg"
+    },
+    {
+      "doc_id": "247",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=247",
+      "md_path_posix": "tushare_docs_md/08_债券专题/09_可转债转股结果/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "可转债转股结果"
+      ],
+      "menu_leaf_zh": "可转债转股结果",
+      "markdown_first_heading": "可转债转股结果",
+      "pro_api_name_guess": "cb_share"
+    },
+    {
+      "doc_id": "201",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=201",
+      "md_path_posix": "tushare_docs_md/08_债券专题/16_国债收益率曲线/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "国债收益率曲线"
+      ],
+      "menu_leaf_zh": "国债收益率曲线",
+      "markdown_first_heading": "国债收益率曲线",
+      "pro_api_name_guess": "yc_cb"
+    },
+    {
+      "doc_id": "271",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=271",
+      "md_path_posix": "tushare_docs_md/08_债券专题/14_大宗交易/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "大宗交易"
+      ],
+      "menu_leaf_zh": "大宗交易",
+      "markdown_first_heading": "债券大宗交易",
+      "pro_api_name_guess": "bond_blk"
+    },
+    {
+      "doc_id": "272",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=272",
+      "md_path_posix": "tushare_docs_md/08_债券专题/15_大宗交易明细/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "大宗交易明细"
+      ],
+      "menu_leaf_zh": "大宗交易明细",
+      "markdown_first_heading": "大宗交易明细",
+      "pro_api_name_guess": "bond_blk_detail"
+    },
+    {
+      "doc_id": "322",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=322",
+      "md_path_posix": "tushare_docs_md/08_债券专题/12_柜台流通式债券报价/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "柜台流通式债券报价"
+      ],
+      "menu_leaf_zh": "柜台流通式债券报价",
+      "markdown_first_heading": "柜台流通式债券报价",
+      "pro_api_name_guess": "bc_otcqt"
+    },
+    {
+      "doc_id": "323",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=323",
+      "md_path_posix": "tushare_docs_md/08_债券专题/13_柜台流通式债券最优报价/data.md",
+      "breadcrumb_zh": [
+        "债券专题",
+        "柜台流通式债券最优报价"
+      ],
+      "menu_leaf_zh": "柜台流通式债券最优报价",
+      "markdown_first_heading": "柜台流通式债券最优报价",
+      "pro_api_name_guess": "bc_bestotcqt"
+    },
+    {
+      "doc_id": "18",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=18",
+      "md_path_posix": "tushare_docs_md/04_公募基金/data.md",
+      "breadcrumb_zh": [
+        "公募基金"
+      ],
+      "menu_leaf_zh": "公募基金",
+      "markdown_first_heading": "基金数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "119",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=119",
+      "md_path_posix": "tushare_docs_md/04_公募基金/05_基金净值/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金净值"
+      ],
+      "menu_leaf_zh": "基金净值",
+      "markdown_first_heading": "公募基金净值",
+      "pro_api_name_guess": "fund_nav"
+    },
+    {
+      "doc_id": "120",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=120",
+      "md_path_posix": "tushare_docs_md/04_公募基金/06_基金分红/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金分红"
+      ],
+      "menu_leaf_zh": "基金分红",
+      "markdown_first_heading": "公募基金分红",
+      "pro_api_name_guess": "fund_div"
+    },
+    {
+      "doc_id": "19",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=19",
+      "md_path_posix": "tushare_docs_md/04_公募基金/01_基金列表/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金列表"
+      ],
+      "menu_leaf_zh": "基金列表",
+      "markdown_first_heading": "公募基金列表",
+      "pro_api_name_guess": "fund_basic"
+    },
+    {
+      "doc_id": "359",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=359",
+      "md_path_posix": "tushare_docs_md/04_公募基金/08_基金技术面因子(专业版)/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金技术面因子(专业版)"
+      ],
+      "menu_leaf_zh": "基金技术面因子(专业版)",
+      "markdown_first_heading": "场内基金技术因子(专业版)",
+      "pro_api_name_guess": "fund_factor_pro"
+    },
+    {
+      "doc_id": "121",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=121",
+      "md_path_posix": "tushare_docs_md/04_公募基金/07_基金持仓/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金持仓"
+      ],
+      "menu_leaf_zh": "基金持仓",
+      "markdown_first_heading": "公募基金持仓数据",
+      "pro_api_name_guess": "fund_portfolio"
+    },
+    {
+      "doc_id": "118",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=118",
+      "md_path_posix": "tushare_docs_md/04_公募基金/02_基金管理人/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金管理人"
+      ],
+      "menu_leaf_zh": "基金管理人",
+      "markdown_first_heading": "公募基金公司",
+      "pro_api_name_guess": "fund_company"
+    },
+    {
+      "doc_id": "208",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=208",
+      "md_path_posix": "tushare_docs_md/04_公募基金/03_基金经理/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金经理"
+      ],
+      "menu_leaf_zh": "基金经理",
+      "markdown_first_heading": "基金经理",
+      "pro_api_name_guess": "fund_manager"
+    },
+    {
+      "doc_id": "207",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=207",
+      "md_path_posix": "tushare_docs_md/04_公募基金/04_基金规模/data.md",
+      "breadcrumb_zh": [
+        "公募基金",
+        "基金规模"
+      ],
+      "menu_leaf_zh": "基金规模",
+      "markdown_first_heading": "基金规模数据",
+      "pro_api_name_guess": "fund_share"
+    },
+    {
+      "doc_id": "177",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=177",
+      "md_path_posix": "tushare_docs_md/09_外汇数据/data.md",
+      "breadcrumb_zh": [
+        "外汇数据"
+      ],
+      "menu_leaf_zh": "外汇数据",
+      "markdown_first_heading": "Tushare外汇数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "178",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=178",
+      "md_path_posix": "tushare_docs_md/09_外汇数据/01_外汇基础信息（海外）/data.md",
+      "breadcrumb_zh": [
+        "外汇数据",
+        "外汇基础信息（海外）"
+      ],
+      "menu_leaf_zh": "外汇基础信息（海外）",
+      "markdown_first_heading": "外汇基础信息（海外）",
+      "pro_api_name_guess": "fx_obasic"
+    },
+    {
+      "doc_id": "179",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=179",
+      "md_path_posix": "tushare_docs_md/09_外汇数据/02_外汇日线行情/data.md",
+      "breadcrumb_zh": [
+        "外汇数据",
+        "外汇日线行情"
+      ],
+      "menu_leaf_zh": "外汇日线行情",
+      "markdown_first_heading": "外汇日线行情",
+      "pro_api_name_guess": "fx_daily"
+    },
+    {
+      "doc_id": "142",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=142",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据"
+      ],
+      "menu_leaf_zh": "大模型语料专题数据",
+      "markdown_first_heading": "特色大数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "176",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=176",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/06_上市公司公告/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "上市公司公告"
+      ],
+      "menu_leaf_zh": "上市公司公告",
+      "markdown_first_heading": "上市公司全量公告",
+      "pro_api_name_guess": "anns_d"
+    },
+    {
+      "doc_id": "366",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=366",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/07_上证e互动问答/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "上证e互动问答"
+      ],
+      "menu_leaf_zh": "上证e互动问答",
+      "markdown_first_heading": "上证E互动",
+      "pro_api_name_guess": "irm_qa_sh"
+    },
+    {
+      "doc_id": "415",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=415",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/02_券商研究报告/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "券商研究报告"
+      ],
+      "menu_leaf_zh": "券商研究报告",
+      "markdown_first_heading": "券商研究报告",
+      "pro_api_name_guess": "research_report"
+    },
+    {
+      "doc_id": "406",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=406",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/01_国家政策库/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "国家政策库"
+      ],
+      "menu_leaf_zh": "国家政策库",
+      "markdown_first_heading": "国家政策法规库",
+      "pro_api_name_guess": "npr"
+    },
+    {
+      "doc_id": "143",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=143",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/03_新闻快讯（短讯）/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "新闻快讯（短讯）"
+      ],
+      "menu_leaf_zh": "新闻快讯（短讯）",
+      "markdown_first_heading": "新闻快讯",
+      "pro_api_name_guess": "news"
+    },
+    {
+      "doc_id": "154",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=154",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/05_新闻联播文字稿/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "新闻联播文字稿"
+      ],
+      "menu_leaf_zh": "新闻联播文字稿",
+      "markdown_first_heading": "新闻联播",
+      "pro_api_name_guess": "cctv_news"
+    },
+    {
+      "doc_id": "195",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=195",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/04_新闻通讯（长篇）/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "新闻通讯（长篇）"
+      ],
+      "menu_leaf_zh": "新闻通讯（长篇）",
+      "markdown_first_heading": "新闻通讯",
+      "pro_api_name_guess": "major_news"
+    },
+    {
+      "doc_id": "367",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=367",
+      "md_path_posix": "tushare_docs_md/13_大模型语料专题数据/08_深证易互动问答/data.md",
+      "breadcrumb_zh": [
+        "大模型语料专题数据",
+        "深证易互动问答"
+      ],
+      "menu_leaf_zh": "深证易互动问答",
+      "markdown_first_heading": "深证互动易",
+      "pro_api_name_guess": "irm_qa_sz"
+    },
+    {
+      "doc_id": "147",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=147",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/data.md",
+      "breadcrumb_zh": [
+        "宏观经济"
+      ],
+      "menu_leaf_zh": "宏观经济",
+      "markdown_first_heading": "宏观经济数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "224",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=224",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观"
+      ],
+      "menu_leaf_zh": "国内宏观",
+      "markdown_first_heading": "国内宏观经济",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "461",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=461",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/01_中国经济数据发布日程/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "中国经济数据发布日程"
+      ],
+      "menu_leaf_zh": "中国经济数据发布日程",
+      "markdown_first_heading": "中国经济数据发布日程",
+      "pro_api_name_guess": "cn_schedule"
+    },
+    {
+      "doc_id": "226",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=226",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "价格指数"
+      ],
+      "menu_leaf_zh": "价格指数",
+      "markdown_first_heading": "价格指数",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "228",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=228",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/01_居民消费价格指数（CPI）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "价格指数",
+        "居民消费价格指数（CPI）"
+      ],
+      "menu_leaf_zh": "居民消费价格指数（CPI）",
+      "markdown_first_heading": "居民消费价格指数",
+      "pro_api_name_guess": "cn_cpi"
+    },
+    {
+      "doc_id": "245",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=245",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/04_价格指数/02_工业生产者出厂价格指数（PPI）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "价格指数",
+        "工业生产者出厂价格指数（PPI）"
+      ],
+      "menu_leaf_zh": "工业生产者出厂价格指数（PPI）",
+      "markdown_first_heading": "工业生产者出厂价格指数",
+      "pro_api_name_guess": "cn_ppi"
+    },
+    {
+      "doc_id": "148",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=148",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据"
+      ],
+      "menu_leaf_zh": "利率数据",
+      "markdown_first_heading": "利率数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "153",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=153",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/05_Hibor利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "Hibor利率"
+      ],
+      "menu_leaf_zh": "Hibor利率",
+      "markdown_first_heading": "Hibor利率",
+      "pro_api_name_guess": "hibor"
+    },
+    {
+      "doc_id": "151",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=151",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/03_LPR贷款基础利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "LPR贷款基础利率"
+      ],
+      "menu_leaf_zh": "LPR贷款基础利率",
+      "markdown_first_heading": "LPR贷款基础利率",
+      "pro_api_name_guess": "shibor_lpr"
+    },
+    {
+      "doc_id": "152",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=152",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/04_Libor利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "Libor利率"
+      ],
+      "menu_leaf_zh": "Libor利率",
+      "markdown_first_heading": "Libor拆借利率",
+      "pro_api_name_guess": "libor"
+    },
+    {
+      "doc_id": "149",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=149",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/01_Shibor利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "Shibor利率"
+      ],
+      "menu_leaf_zh": "Shibor利率",
+      "markdown_first_heading": "Shibor利率数据",
+      "pro_api_name_guess": "shibor"
+    },
+    {
+      "doc_id": "150",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=150",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/02_Shibor报价数据/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "Shibor报价数据"
+      ],
+      "menu_leaf_zh": "Shibor报价数据",
+      "markdown_first_heading": "Shibor报价数据",
+      "pro_api_name_guess": "shibor_quote"
+    },
+    {
+      "doc_id": "174",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=174",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/07_广州民间借贷利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "广州民间借贷利率"
+      ],
+      "menu_leaf_zh": "广州民间借贷利率",
+      "markdown_first_heading": "广州民间借贷利率",
+      "pro_api_name_guess": "gz_index"
+    },
+    {
+      "doc_id": "173",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=173",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/02_利率数据/06_温州民间借贷利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "利率数据",
+        "温州民间借贷利率"
+      ],
+      "menu_leaf_zh": "温州民间借贷利率",
+      "markdown_first_heading": "温州民间借贷利率",
+      "pro_api_name_guess": "wz_index"
+    },
+    {
+      "doc_id": "225",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=225",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "国民经济"
+      ],
+      "menu_leaf_zh": "国民经济",
+      "markdown_first_heading": "国民经济核算",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "227",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=227",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/03_国民经济/01_国内生产总值（GDP）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "国民经济",
+        "国内生产总值（GDP）"
+      ],
+      "menu_leaf_zh": "国内生产总值（GDP）",
+      "markdown_first_heading": "GDP数据",
+      "pro_api_name_guess": "cn_gdp"
+    },
+    {
+      "doc_id": "324",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=324",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "景气度"
+      ],
+      "menu_leaf_zh": "景气度",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "325",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=325",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/06_景气度/01_采购经理指数（PMI）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "景气度",
+        "采购经理指数（PMI）"
+      ],
+      "menu_leaf_zh": "采购经理指数（PMI）",
+      "markdown_first_heading": "采购经理人指数",
+      "pro_api_name_guess": "cn_pmi"
+    },
+    {
+      "doc_id": "240",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=240",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "金融"
+      ],
+      "menu_leaf_zh": "金融",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "309",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=309",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "金融",
+        "社会融资"
+      ],
+      "menu_leaf_zh": "社会融资",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "310",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=310",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/02_社会融资/01_社融增量（月度）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "金融",
+        "社会融资",
+        "社融增量（月度）"
+      ],
+      "menu_leaf_zh": "社融增量（月度）",
+      "markdown_first_heading": "社融数据（月度）",
+      "pro_api_name_guess": "sf_month"
+    },
+    {
+      "doc_id": "241",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=241",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "金融",
+        "货币供应量"
+      ],
+      "menu_leaf_zh": "货币供应量",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "242",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=242",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/01_国内宏观/05_金融/01_货币供应量/01_货币供应量（月）/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国内宏观",
+        "金融",
+        "货币供应量",
+        "货币供应量（月）"
+      ],
+      "menu_leaf_zh": "货币供应量（月）",
+      "markdown_first_heading": "货币供应量",
+      "pro_api_name_guess": "cn_m"
+    },
+    {
+      "doc_id": "217",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=217",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观"
+      ],
+      "menu_leaf_zh": "国际宏观",
+      "markdown_first_heading": "国际宏观经济数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "218",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=218",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率"
+      ],
+      "menu_leaf_zh": "美国利率",
+      "markdown_first_heading": "美国利率统计数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "220",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=220",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/02_国债实际收益率曲线利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率",
+        "国债实际收益率曲线利率"
+      ],
+      "menu_leaf_zh": "国债实际收益率曲线利率",
+      "markdown_first_heading": "国债实际收益率曲线利率",
+      "pro_api_name_guess": "us_trycr"
+    },
+    {
+      "doc_id": "219",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=219",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/01_国债收益率曲线利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率",
+        "国债收益率曲线利率"
+      ],
+      "menu_leaf_zh": "国债收益率曲线利率",
+      "markdown_first_heading": "国债收益率曲线利率（日频）",
+      "pro_api_name_guess": "us_tycr"
+    },
+    {
+      "doc_id": "222",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=222",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/04_国债长期利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率",
+        "国债长期利率"
+      ],
+      "menu_leaf_zh": "国债长期利率",
+      "markdown_first_heading": "国债长期利率",
+      "pro_api_name_guess": "us_tltr"
+    },
+    {
+      "doc_id": "223",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=223",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/05_国债长期利率平均值/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率",
+        "国债长期利率平均值"
+      ],
+      "menu_leaf_zh": "国债长期利率平均值",
+      "markdown_first_heading": "国债实际长期利率平均值",
+      "pro_api_name_guess": "us_trltr"
+    },
+    {
+      "doc_id": "221",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=221",
+      "md_path_posix": "tushare_docs_md/12_宏观经济/02_国际宏观/01_美国利率/03_短期国债利率/data.md",
+      "breadcrumb_zh": [
+        "宏观经济",
+        "国际宏观",
+        "美国利率",
+        "短期国债利率"
+      ],
+      "menu_leaf_zh": "短期国债利率",
+      "markdown_first_heading": "短期国债利率",
+      "pro_api_name_guess": "us_tbr"
+    },
+    {
+      "doc_id": "93",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=93",
+      "md_path_posix": "tushare_docs_md/03_指数专题/data.md",
+      "breadcrumb_zh": [
+        "指数专题"
+      ],
+      "menu_leaf_zh": "指数专题",
+      "markdown_first_heading": "指数数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "373",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=373",
+      "md_path_posix": "tushare_docs_md/03_指数专题/14_中信行业成分/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "中信行业成分"
+      ],
+      "menu_leaf_zh": "中信行业成分",
+      "markdown_first_heading": "中信行业成分",
+      "pro_api_name_guess": "ci_index_member"
+    },
+    {
+      "doc_id": "308",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=308",
+      "md_path_posix": "tushare_docs_md/03_指数专题/15_中信行业指数日行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "中信行业指数日行情"
+      ],
+      "menu_leaf_zh": "中信行业指数日行情",
+      "markdown_first_heading": "中信行业指数行情",
+      "pro_api_name_guess": "ci_daily"
+    },
+    {
+      "doc_id": "211",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=211",
+      "md_path_posix": "tushare_docs_md/03_指数专题/16_国际主要指数/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "国际主要指数"
+      ],
+      "menu_leaf_zh": "国际主要指数",
+      "markdown_first_heading": "国际指数",
+      "pro_api_name_guess": "index_global"
+    },
+    {
+      "doc_id": "128",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=128",
+      "md_path_posix": "tushare_docs_md/03_指数专题/09_大盘指数每日指标/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "大盘指数每日指标"
+      ],
+      "menu_leaf_zh": "大盘指数每日指标",
+      "markdown_first_heading": "大盘指数每日指标",
+      "pro_api_name_guess": "index_dailybasic"
+    },
+    {
+      "doc_id": "419",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=419",
+      "md_path_posix": "tushare_docs_md/03_指数专题/06_指数历史分钟/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数历史分钟"
+      ],
+      "menu_leaf_zh": "指数历史分钟",
+      "markdown_first_heading": "股票历史分钟行情",
+      "pro_api_name_guess": "idx_mins"
+    },
+    {
+      "doc_id": "171",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=171",
+      "md_path_posix": "tushare_docs_md/03_指数专题/05_指数周线行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数周线行情"
+      ],
+      "menu_leaf_zh": "指数周线行情",
+      "markdown_first_heading": "指数周线行情",
+      "pro_api_name_guess": "index_weekly"
+    },
+    {
+      "doc_id": "94",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=94",
+      "md_path_posix": "tushare_docs_md/03_指数专题/01_指数基本信息/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数基本信息"
+      ],
+      "menu_leaf_zh": "指数基本信息",
+      "markdown_first_heading": "指数基本信息",
+      "pro_api_name_guess": "index_basic"
+    },
+    {
+      "doc_id": "420",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=420",
+      "md_path_posix": "tushare_docs_md/03_指数专题/04_指数实时分钟/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数实时分钟"
+      ],
+      "menu_leaf_zh": "指数实时分钟",
+      "markdown_first_heading": "A股实时分钟",
+      "pro_api_name_guess": "rt_idx_min"
+    },
+    {
+      "doc_id": "403",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=403",
+      "md_path_posix": "tushare_docs_md/03_指数专题/03_指数实时日线/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数实时日线"
+      ],
+      "menu_leaf_zh": "指数实时日线",
+      "markdown_first_heading": "交易所指数实时日线",
+      "pro_api_name_guess": "rt_idx_k"
+    },
+    {
+      "doc_id": "96",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=96",
+      "md_path_posix": "tushare_docs_md/03_指数专题/08_指数成分和权重/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数成分和权重"
+      ],
+      "menu_leaf_zh": "指数成分和权重",
+      "markdown_first_heading": "指数成分和权重",
+      "pro_api_name_guess": "index_weight"
+    },
+    {
+      "doc_id": "358",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=358",
+      "md_path_posix": "tushare_docs_md/03_指数专题/17_指数技术面因子(专业版)/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数技术面因子(专业版)"
+      ],
+      "menu_leaf_zh": "指数技术面因子(专业版)",
+      "markdown_first_heading": "指数技术因子(专业版)",
+      "pro_api_name_guess": "idx_factor_pro"
+    },
+    {
+      "doc_id": "95",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=95",
+      "md_path_posix": "tushare_docs_md/03_指数专题/02_指数日线行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数日线行情"
+      ],
+      "menu_leaf_zh": "指数日线行情",
+      "markdown_first_heading": "指数日线行情",
+      "pro_api_name_guess": "index_daily"
+    },
+    {
+      "doc_id": "172",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=172",
+      "md_path_posix": "tushare_docs_md/03_指数专题/07_指数月线行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "指数月线行情"
+      ],
+      "menu_leaf_zh": "指数月线行情",
+      "markdown_first_heading": "指数月线行情",
+      "pro_api_name_guess": "index_monthly"
+    },
+    {
+      "doc_id": "215",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=215",
+      "md_path_posix": "tushare_docs_md/03_指数专题/18_沪深市场每日交易统计/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "沪深市场每日交易统计"
+      ],
+      "menu_leaf_zh": "沪深市场每日交易统计",
+      "markdown_first_heading": "市场交易统计",
+      "pro_api_name_guess": "daily_info"
+    },
+    {
+      "doc_id": "268",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=268",
+      "md_path_posix": "tushare_docs_md/03_指数专题/19_深圳市场每日交易情况/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "深圳市场每日交易情况"
+      ],
+      "menu_leaf_zh": "深圳市场每日交易情况",
+      "markdown_first_heading": "深圳市场每日交易概况",
+      "pro_api_name_guess": "sz_daily_info"
+    },
+    {
+      "doc_id": "417",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=417",
+      "md_path_posix": "tushare_docs_md/03_指数专题/13_申万实时行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "申万实时行情"
+      ],
+      "menu_leaf_zh": "申万实时行情",
+      "markdown_first_heading": "申万实时行情",
+      "pro_api_name_guess": "rt_sw_k"
+    },
+    {
+      "doc_id": "181",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=181",
+      "md_path_posix": "tushare_docs_md/03_指数专题/10_申万行业分类/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "申万行业分类"
+      ],
+      "menu_leaf_zh": "申万行业分类",
+      "markdown_first_heading": "申万行业分类",
+      "pro_api_name_guess": "index_classify"
+    },
+    {
+      "doc_id": "335",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=335",
+      "md_path_posix": "tushare_docs_md/03_指数专题/11_申万行业成分（分级）/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "申万行业成分（分级）"
+      ],
+      "menu_leaf_zh": "申万行业成分（分级）",
+      "markdown_first_heading": "申万行业成分构成(分级)",
+      "pro_api_name_guess": "index_member_all"
+    },
+    {
+      "doc_id": "327",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=327",
+      "md_path_posix": "tushare_docs_md/03_指数专题/12_申万行业指数日行情/data.md",
+      "breadcrumb_zh": [
+        "指数专题",
+        "申万行业指数日行情"
+      ],
+      "menu_leaf_zh": "申万行业指数日行情",
+      "markdown_first_heading": "申万行业日线行情",
+      "pro_api_name_guess": "sw_daily"
+    },
+    {
+      "doc_id": "157",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=157",
+      "md_path_posix": "tushare_docs_md/07_期权数据/data.md",
+      "breadcrumb_zh": [
+        "期权数据"
+      ],
+      "menu_leaf_zh": "期权数据",
+      "markdown_first_heading": "Tushare期权数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "341",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=341",
+      "md_path_posix": "tushare_docs_md/07_期权数据/03_期权分钟行情/data.md",
+      "breadcrumb_zh": [
+        "期权数据",
+        "期权分钟行情"
+      ],
+      "menu_leaf_zh": "期权分钟行情",
+      "markdown_first_heading": "期权历史分钟行情",
+      "pro_api_name_guess": "opt_mins"
+    },
+    {
+      "doc_id": "158",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=158",
+      "md_path_posix": "tushare_docs_md/07_期权数据/01_期权合约信息/data.md",
+      "breadcrumb_zh": [
+        "期权数据",
+        "期权合约信息"
+      ],
+      "menu_leaf_zh": "期权合约信息",
+      "markdown_first_heading": "期权合约信息",
+      "pro_api_name_guess": "opt_basic"
+    },
+    {
+      "doc_id": "159",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=159",
+      "md_path_posix": "tushare_docs_md/07_期权数据/02_期权日线行情/data.md",
+      "breadcrumb_zh": [
+        "期权数据",
+        "期权日线行情"
+      ],
+      "menu_leaf_zh": "期权日线行情",
+      "markdown_first_heading": "期权日线行情",
+      "pro_api_name_guess": "opt_daily"
+    },
+    {
+      "doc_id": "134",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=134",
+      "md_path_posix": "tushare_docs_md/05_期货数据/data.md",
+      "breadcrumb_zh": [
+        "期货数据"
+      ],
+      "menu_leaf_zh": "期货数据",
+      "markdown_first_heading": "Tushare期货数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "137",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=137",
+      "md_path_posix": "tushare_docs_md/05_期货数据/02_交易日历/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "交易日历"
+      ],
+      "menu_leaf_zh": "交易日历",
+      "markdown_first_heading": "交易日历",
+      "pro_api_name_guess": "trade_cal"
+    },
+    {
+      "doc_id": "140",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=140",
+      "md_path_posix": "tushare_docs_md/05_期货数据/07_仓单日报/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "仓单日报"
+      ],
+      "menu_leaf_zh": "仓单日报",
+      "markdown_first_heading": "仓单日报",
+      "pro_api_name_guess": "fut_wsr"
+    },
+    {
+      "doc_id": "155",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=155",
+      "md_path_posix": "tushare_docs_md/05_期货数据/11_南华期货指数行情/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "南华期货指数行情"
+      ],
+      "menu_leaf_zh": "南华期货指数行情",
+      "markdown_first_heading": "南华期货指数日线行情",
+      "pro_api_name_guess": "index_daily"
+    },
+    {
+      "doc_id": "314",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=314",
+      "md_path_posix": "tushare_docs_md/05_期货数据/09_历史Tick行情/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "历史Tick行情"
+      ],
+      "menu_leaf_zh": "历史Tick行情",
+      "markdown_first_heading": "期货Tick行情数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "313",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=313",
+      "md_path_posix": "tushare_docs_md/05_期货数据/05_历史分钟行情/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "历史分钟行情"
+      ],
+      "menu_leaf_zh": "历史分钟行情",
+      "markdown_first_heading": "期货历史分钟行情",
+      "pro_api_name_guess": "ft_mins"
+    },
+    {
+      "doc_id": "135",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=135",
+      "md_path_posix": "tushare_docs_md/05_期货数据/01_合约信息/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "合约信息"
+      ],
+      "menu_leaf_zh": "合约信息",
+      "markdown_first_heading": "期货合约信息表",
+      "pro_api_name_guess": "fut_basic"
+    },
+    {
+      "doc_id": "340",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=340",
+      "md_path_posix": "tushare_docs_md/05_期货数据/06_实时分钟行情/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "实时分钟行情"
+      ],
+      "menu_leaf_zh": "实时分钟行情",
+      "markdown_first_heading": "期货实时分钟行情",
+      "pro_api_name_guess": "rt_fut_min"
+    },
+    {
+      "doc_id": "138",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=138",
+      "md_path_posix": "tushare_docs_md/05_期货数据/03_日线行情/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "日线行情"
+      ],
+      "menu_leaf_zh": "日线行情",
+      "markdown_first_heading": "期货日线行情",
+      "pro_api_name_guess": "fut_daily"
+    },
+    {
+      "doc_id": "189",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=189",
+      "md_path_posix": "tushare_docs_md/05_期货数据/12_期货主力与连续合约/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "期货主力与连续合约"
+      ],
+      "menu_leaf_zh": "期货主力与连续合约",
+      "markdown_first_heading": "期货主力与连续合约",
+      "pro_api_name_guess": "fut_mapping"
+    },
+    {
+      "doc_id": "216",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=216",
+      "md_path_posix": "tushare_docs_md/05_期货数据/13_期货主要品种交易周报/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "期货主要品种交易周报"
+      ],
+      "menu_leaf_zh": "期货主要品种交易周报",
+      "markdown_first_heading": "期货主要品种交易周报",
+      "pro_api_name_guess": "fut_weekly_detail"
+    },
+    {
+      "doc_id": "368",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=368",
+      "md_path_posix": "tushare_docs_md/05_期货数据/14_期货合约涨跌停价格/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "期货合约涨跌停价格"
+      ],
+      "menu_leaf_zh": "期货合约涨跌停价格",
+      "markdown_first_heading": "期货合约涨跌停价格（盘前）",
+      "pro_api_name_guess": "ft_limit"
+    },
+    {
+      "doc_id": "337",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=337",
+      "md_path_posix": "tushare_docs_md/05_期货数据/04_期货周_月线行情(每日更新)/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "期货周_月线行情(每日更新)"
+      ],
+      "menu_leaf_zh": "期货周_月线行情(每日更新)",
+      "markdown_first_heading": "期货周/月线行情(每日更新)",
+      "pro_api_name_guess": "fut_weekly_monthly"
+    },
+    {
+      "doc_id": "139",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=139",
+      "md_path_posix": "tushare_docs_md/05_期货数据/10_每日持仓排名/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "每日持仓排名"
+      ],
+      "menu_leaf_zh": "每日持仓排名",
+      "markdown_first_heading": "每日成交持仓排名",
+      "pro_api_name_guess": "fut_holding"
+    },
+    {
+      "doc_id": "141",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=141",
+      "md_path_posix": "tushare_docs_md/05_期货数据/08_每日结算参数/data.md",
+      "breadcrumb_zh": [
+        "期货数据",
+        "每日结算参数"
+      ],
+      "menu_leaf_zh": "每日结算参数",
+      "markdown_first_heading": "结算参数",
+      "pro_api_name_guess": "fut_settle"
+    },
+    {
+      "doc_id": "190",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=190",
+      "md_path_posix": "tushare_docs_md/10_港股数据/data.md",
+      "breadcrumb_zh": [
+        "港股数据"
+      ],
+      "menu_leaf_zh": "港股数据",
+      "markdown_first_heading": "Tushare港股数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "250",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=250",
+      "md_path_posix": "tushare_docs_md/10_港股数据/02_港股交易日历/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股交易日历"
+      ],
+      "menu_leaf_zh": "港股交易日历",
+      "markdown_first_heading": "港股交易日历",
+      "pro_api_name_guess": "hk_tradecal"
+    },
+    {
+      "doc_id": "304",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=304",
+      "md_path_posix": "tushare_docs_md/10_港股数据/06_港股分钟行情/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股分钟行情"
+      ],
+      "menu_leaf_zh": "港股分钟行情",
+      "markdown_first_heading": "港股分钟行情",
+      "pro_api_name_guess": "hk_mins"
+    },
+    {
+      "doc_id": "389",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=389",
+      "md_path_posix": "tushare_docs_md/10_港股数据/08_港股利润表/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股利润表"
+      ],
+      "menu_leaf_zh": "港股利润表",
+      "markdown_first_heading": "港股利润表",
+      "pro_api_name_guess": "hk_income"
+    },
+    {
+      "doc_id": "191",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=191",
+      "md_path_posix": "tushare_docs_md/10_港股数据/01_港股基础信息/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股基础信息"
+      ],
+      "menu_leaf_zh": "港股基础信息",
+      "markdown_first_heading": "港股列表",
+      "pro_api_name_guess": "hk_basic"
+    },
+    {
+      "doc_id": "401",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=401",
+      "md_path_posix": "tushare_docs_md/10_港股数据/05_港股复权因子/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股复权因子"
+      ],
+      "menu_leaf_zh": "港股复权因子",
+      "markdown_first_heading": "港股复权因子",
+      "pro_api_name_guess": "hk_adjfactor"
+    },
+    {
+      "doc_id": "339",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=339",
+      "md_path_posix": "tushare_docs_md/10_港股数据/04_港股复权行情/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股复权行情"
+      ],
+      "menu_leaf_zh": "港股复权行情",
+      "markdown_first_heading": "港股复权行情",
+      "pro_api_name_guess": "hk_daily_adj"
+    },
+    {
+      "doc_id": "383",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=383",
+      "md_path_posix": "tushare_docs_md/10_港股数据/07_港股实时日线/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股实时日线"
+      ],
+      "menu_leaf_zh": "港股实时日线",
+      "markdown_first_heading": "港股实时日线",
+      "pro_api_name_guess": "rt_hk_k"
+    },
+    {
+      "doc_id": "192",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=192",
+      "md_path_posix": "tushare_docs_md/10_港股数据/03_港股日线行情/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股日线行情"
+      ],
+      "menu_leaf_zh": "港股日线行情",
+      "markdown_first_heading": "港股行情",
+      "pro_api_name_guess": "hk_daily"
+    },
+    {
+      "doc_id": "391",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=391",
+      "md_path_posix": "tushare_docs_md/10_港股数据/10_港股现金流量表/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股现金流量表"
+      ],
+      "menu_leaf_zh": "港股现金流量表",
+      "markdown_first_heading": "港股现金流量表",
+      "pro_api_name_guess": "hk_cashflow"
+    },
+    {
+      "doc_id": "388",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=388",
+      "md_path_posix": "tushare_docs_md/10_港股数据/11_港股财务指标数据/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股财务指标数据"
+      ],
+      "menu_leaf_zh": "港股财务指标数据",
+      "markdown_first_heading": "港股财务指标数据",
+      "pro_api_name_guess": "hk_fina_indicator"
+    },
+    {
+      "doc_id": "390",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=390",
+      "md_path_posix": "tushare_docs_md/10_港股数据/09_港股资产负债表/data.md",
+      "breadcrumb_zh": [
+        "港股数据",
+        "港股资产负债表"
+      ],
+      "menu_leaf_zh": "港股资产负债表",
+      "markdown_first_heading": "港股资产负债表",
+      "pro_api_name_guess": "hk_balancesheet"
+    },
+    {
+      "doc_id": "283",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=283",
+      "md_path_posix": "tushare_docs_md/06_现货数据/data.md",
+      "breadcrumb_zh": [
+        "现货数据"
+      ],
+      "menu_leaf_zh": "现货数据",
+      "markdown_first_heading": "现货数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "284",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=284",
+      "md_path_posix": "tushare_docs_md/06_现货数据/01_上海黄金基础信息/data.md",
+      "breadcrumb_zh": [
+        "现货数据",
+        "上海黄金基础信息"
+      ],
+      "menu_leaf_zh": "上海黄金基础信息",
+      "markdown_first_heading": "黄金现货基础信息",
+      "pro_api_name_guess": "sge_basic"
+    },
+    {
+      "doc_id": "285",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=285",
+      "md_path_posix": "tushare_docs_md/06_现货数据/02_上海黄金现货日行情/data.md",
+      "breadcrumb_zh": [
+        "现货数据",
+        "上海黄金现货日行情"
+      ],
+      "menu_leaf_zh": "上海黄金现货日行情",
+      "markdown_first_heading": "现货黄金日行情",
+      "pro_api_name_guess": "sge_daily"
+    },
+    {
+      "doc_id": "251",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=251",
+      "md_path_posix": "tushare_docs_md/11_美股数据/data.md",
+      "breadcrumb_zh": [
+        "美股数据"
+      ],
+      "menu_leaf_zh": "美股数据",
+      "markdown_first_heading": "美股数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "253",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=253",
+      "md_path_posix": "tushare_docs_md/11_美股数据/02_美股交易日历/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股交易日历"
+      ],
+      "menu_leaf_zh": "美股交易日历",
+      "markdown_first_heading": "美股交易日历",
+      "pro_api_name_guess": "us_tradecal"
+    },
+    {
+      "doc_id": "394",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=394",
+      "md_path_posix": "tushare_docs_md/11_美股数据/06_美股利润表/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股利润表"
+      ],
+      "menu_leaf_zh": "美股利润表",
+      "markdown_first_heading": "美股利润表",
+      "pro_api_name_guess": "us_income"
+    },
+    {
+      "doc_id": "252",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=252",
+      "md_path_posix": "tushare_docs_md/11_美股数据/01_美股基础信息/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股基础信息"
+      ],
+      "menu_leaf_zh": "美股基础信息",
+      "markdown_first_heading": "美股列表",
+      "pro_api_name_guess": "us_basic"
+    },
+    {
+      "doc_id": "402",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=402",
+      "md_path_posix": "tushare_docs_md/11_美股数据/05_美股复权因子/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股复权因子"
+      ],
+      "menu_leaf_zh": "美股复权因子",
+      "markdown_first_heading": "美股复权因子",
+      "pro_api_name_guess": "us_adjfactor"
+    },
+    {
+      "doc_id": "338",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=338",
+      "md_path_posix": "tushare_docs_md/11_美股数据/04_美股复权行情/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股复权行情"
+      ],
+      "menu_leaf_zh": "美股复权行情",
+      "markdown_first_heading": "美股复权行情",
+      "pro_api_name_guess": "us_daily_adj"
+    },
+    {
+      "doc_id": "254",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=254",
+      "md_path_posix": "tushare_docs_md/11_美股数据/03_美股日线行情/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股日线行情"
+      ],
+      "menu_leaf_zh": "美股日线行情",
+      "markdown_first_heading": "美股行情",
+      "pro_api_name_guess": "us_daily"
+    },
+    {
+      "doc_id": "396",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=396",
+      "md_path_posix": "tushare_docs_md/11_美股数据/08_美股现金流量表/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股现金流量表"
+      ],
+      "menu_leaf_zh": "美股现金流量表",
+      "markdown_first_heading": "美股现金流量表",
+      "pro_api_name_guess": "us_cashflow"
+    },
+    {
+      "doc_id": "393",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=393",
+      "md_path_posix": "tushare_docs_md/11_美股数据/09_美股财务指标数据/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股财务指标数据"
+      ],
+      "menu_leaf_zh": "美股财务指标数据",
+      "markdown_first_heading": "美股财务指标数据",
+      "pro_api_name_guess": "us_fina_indicator"
+    },
+    {
+      "doc_id": "395",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=395",
+      "md_path_posix": "tushare_docs_md/11_美股数据/07_美股资产负债表/data.md",
+      "breadcrumb_zh": [
+        "美股数据",
+        "美股资产负债表"
+      ],
+      "menu_leaf_zh": "美股资产负债表",
+      "markdown_first_heading": "美股资产负债表",
+      "pro_api_name_guess": "us_balancesheet"
+    },
+    {
+      "doc_id": "14",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=14",
+      "md_path_posix": "tushare_docs_md/01_股票数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据"
+      ],
+      "menu_leaf_zh": "股票数据",
+      "markdown_first_heading": "沪深股票",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "330",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=330",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通"
+      ],
+      "menu_leaf_zh": "两融及转融通",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "334",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=334",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/07_做市借券交易汇总(停）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "做市借券交易汇总(停）"
+      ],
+      "menu_leaf_zh": "做市借券交易汇总(停）",
+      "markdown_first_heading": "做市借券交易汇总",
+      "pro_api_name_guess": "slb_len_mm"
+    },
+    {
+      "doc_id": "59",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=59",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/02_融资融券交易明细/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "融资融券交易明细"
+      ],
+      "menu_leaf_zh": "融资融券交易明细",
+      "markdown_first_heading": "融资融券交易明细",
+      "pro_api_name_guess": "margin_detail"
+    },
+    {
+      "doc_id": "58",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=58",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/01_融资融券交易汇总/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "融资融券交易汇总"
+      ],
+      "menu_leaf_zh": "融资融券交易汇总",
+      "markdown_first_heading": "融资融券交易汇总",
+      "pro_api_name_guess": "margin"
+    },
+    {
+      "doc_id": "326",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=326",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/03_融资融券标的（盘前）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "融资融券标的（盘前）"
+      ],
+      "menu_leaf_zh": "融资融券标的（盘前）",
+      "markdown_first_heading": "融资融券标的（盘前更新）",
+      "pro_api_name_guess": "margin_secs"
+    },
+    {
+      "doc_id": "333",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=333",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/06_转融券交易明细(停）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "转融券交易明细(停）"
+      ],
+      "menu_leaf_zh": "转融券交易明细(停）",
+      "markdown_first_heading": "转融券交易明细",
+      "pro_api_name_guess": "slb_sec_detail"
+    },
+    {
+      "doc_id": "332",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=332",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/04_转融券交易汇总(停）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "转融券交易汇总(停）"
+      ],
+      "menu_leaf_zh": "转融券交易汇总(停）",
+      "markdown_first_heading": "转融券交易汇总",
+      "pro_api_name_guess": "slb_sec"
+    },
+    {
+      "doc_id": "331",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=331",
+      "md_path_posix": "tushare_docs_md/01_股票数据/06_两融及转融通/05_转融资交易汇总/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "两融及转融通",
+        "转融资交易汇总"
+      ],
+      "menu_leaf_zh": "转融资交易汇总",
+      "markdown_first_heading": "转融资交易汇总",
+      "pro_api_name_guess": "slb_len"
+    },
+    {
+      "doc_id": "17",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=17",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据"
+      ],
+      "menu_leaf_zh": "参考数据",
+      "markdown_first_heading": "市场参考数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "452",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=452",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/02_个股严重异常波动/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "个股严重异常波动"
+      ],
+      "menu_leaf_zh": "个股严重异常波动",
+      "markdown_first_heading": "个股严重异常波动",
+      "pro_api_name_guess": "stk_high_shock"
+    },
+    {
+      "doc_id": "451",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=451",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/01_个股异常波动/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "个股异常波动"
+      ],
+      "menu_leaf_zh": "个股异常波动",
+      "markdown_first_heading": "个股异常波动",
+      "pro_api_name_guess": "stk_shock"
+    },
+    {
+      "doc_id": "453",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=453",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/03_交易所重点提示证券/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "交易所重点提示证券"
+      ],
+      "menu_leaf_zh": "交易所重点提示证券",
+      "markdown_first_heading": "交易所重点提示证券",
+      "pro_api_name_guess": "stk_alert"
+    },
+    {
+      "doc_id": "62",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=62",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/05_前十大流通股东/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "前十大流通股东"
+      ],
+      "menu_leaf_zh": "前十大流通股东",
+      "markdown_first_heading": "前十大流通股东",
+      "pro_api_name_guess": "top10_floatholders"
+    },
+    {
+      "doc_id": "61",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=61",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/04_前十大股东/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "前十大股东"
+      ],
+      "menu_leaf_zh": "前十大股东",
+      "markdown_first_heading": "前十大股东",
+      "pro_api_name_guess": "top10_holders"
+    },
+    {
+      "doc_id": "161",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=161",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/10_大宗交易/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "大宗交易"
+      ],
+      "menu_leaf_zh": "大宗交易",
+      "markdown_first_heading": "大宗交易",
+      "pro_api_name_guess": "block_trade"
+    },
+    {
+      "doc_id": "166",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=166",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/13_股东人数/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股东人数"
+      ],
+      "menu_leaf_zh": "股东人数",
+      "markdown_first_heading": "股东人数",
+      "pro_api_name_guess": "stk_holdernumber"
+    },
+    {
+      "doc_id": "175",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=175",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/14_股东增减持/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股东增减持"
+      ],
+      "menu_leaf_zh": "股东增减持",
+      "markdown_first_heading": "股东增减持",
+      "pro_api_name_guess": "stk_holdertrade"
+    },
+    {
+      "doc_id": "111",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=111",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/07_股权质押明细数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股权质押明细数据"
+      ],
+      "menu_leaf_zh": "股权质押明细数据",
+      "markdown_first_heading": "股权质押明细",
+      "pro_api_name_guess": "pledge_detail"
+    },
+    {
+      "doc_id": "110",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=110",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/06_股权质押统计数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股权质押统计数据"
+      ],
+      "menu_leaf_zh": "股权质押统计数据",
+      "markdown_first_heading": "股权质押统计数据",
+      "pro_api_name_guess": "pledge_stat"
+    },
+    {
+      "doc_id": "124",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=124",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/08_股票回购/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股票回购"
+      ],
+      "menu_leaf_zh": "股票回购",
+      "markdown_first_heading": "股票回购",
+      "pro_api_name_guess": "repurchase"
+    },
+    {
+      "doc_id": "164",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=164",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/11_股票开户数据（停）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股票开户数据（停）"
+      ],
+      "menu_leaf_zh": "股票开户数据（停）",
+      "markdown_first_heading": "股票账户开户数据",
+      "pro_api_name_guess": "stk_account"
+    },
+    {
+      "doc_id": "165",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=165",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/12_股票开户数据（旧）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "股票开户数据（旧）"
+      ],
+      "menu_leaf_zh": "股票开户数据（旧）",
+      "markdown_first_heading": "股票账户开户数据（旧）",
+      "pro_api_name_guess": "stk_account_old"
+    },
+    {
+      "doc_id": "160",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=160",
+      "md_path_posix": "tushare_docs_md/01_股票数据/04_参考数据/09_限售股解禁/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "参考数据",
+        "限售股解禁"
+      ],
+      "menu_leaf_zh": "限售股解禁",
+      "markdown_first_heading": "限售股解禁",
+      "pro_api_name_guess": "share_float"
+    },
+    {
+      "doc_id": "24",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=24",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据"
+      ],
+      "menu_leaf_zh": "基础数据",
+      "markdown_first_heading": "基础数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "123",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=123",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/12_IPO新股上市/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "IPO新股上市"
+      ],
+      "menu_leaf_zh": "IPO新股上市",
+      "markdown_first_heading": "IPO新股列表",
+      "pro_api_name_guess": "new_share"
+    },
+    {
+      "doc_id": "397",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=397",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/04_ST股票列表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "ST股票列表"
+      ],
+      "menu_leaf_zh": "ST股票列表",
+      "markdown_first_heading": "ST股票列表",
+      "pro_api_name_guess": "stock_st"
+    },
+    {
+      "doc_id": "423",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=423",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/05_ST风险警示板股票/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "ST风险警示板股票"
+      ],
+      "menu_leaf_zh": "ST风险警示板股票",
+      "markdown_first_heading": "ST风险警示板股票",
+      "pro_api_name_guess": "st"
+    },
+    {
+      "doc_id": "112",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=112",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/08_上市公司基本信息/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "上市公司基本信息"
+      ],
+      "menu_leaf_zh": "上市公司基本信息",
+      "markdown_first_heading": "上市公司基本信息",
+      "pro_api_name_guess": "stock_company"
+    },
+    {
+      "doc_id": "193",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=193",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/09_上市公司管理层/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "上市公司管理层"
+      ],
+      "menu_leaf_zh": "上市公司管理层",
+      "markdown_first_heading": "上市公司管理层",
+      "pro_api_name_guess": "stk_managers"
+    },
+    {
+      "doc_id": "26",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=26",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/03_交易日历/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "交易日历"
+      ],
+      "menu_leaf_zh": "交易日历",
+      "markdown_first_heading": "交易日历",
+      "pro_api_name_guess": "trade_cal"
+    },
+    {
+      "doc_id": "375",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=375",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/11_北交所新旧代码对照/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "北交所新旧代码对照"
+      ],
+      "menu_leaf_zh": "北交所新旧代码对照",
+      "markdown_first_heading": "北交所新旧代码对照表",
+      "pro_api_name_guess": "bse_mapping"
+    },
+    {
+      "doc_id": "329",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=329",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/02_每日股本（盘前）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "每日股本（盘前）"
+      ],
+      "menu_leaf_zh": "每日股本（盘前）",
+      "markdown_first_heading": "股本情况（盘前）",
+      "pro_api_name_guess": "stk_premarket"
+    },
+    {
+      "doc_id": "398",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=398",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/06_沪深港通股票列表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "沪深港通股票列表"
+      ],
+      "menu_leaf_zh": "沪深港通股票列表",
+      "markdown_first_heading": "沪深港通股票列表",
+      "pro_api_name_guess": "stock_hsgt"
+    },
+    {
+      "doc_id": "194",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=194",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/10_管理层薪酬和持股/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "管理层薪酬和持股"
+      ],
+      "menu_leaf_zh": "管理层薪酬和持股",
+      "markdown_first_heading": "管理层薪酬和持股",
+      "pro_api_name_guess": "stk_rewards"
+    },
+    {
+      "doc_id": "25",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=25",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/01_股票列表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "股票列表"
+      ],
+      "menu_leaf_zh": "股票列表",
+      "markdown_first_heading": "股票基础信息",
+      "pro_api_name_guess": "stock_basic"
+    },
+    {
+      "doc_id": "262",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=262",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/13_股票历史列表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "股票历史列表"
+      ],
+      "menu_leaf_zh": "股票历史列表",
+      "markdown_first_heading": "股票历史列表（历史每天股票列表）",
+      "pro_api_name_guess": "bak_basic"
+    },
+    {
+      "doc_id": "100",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=100",
+      "md_path_posix": "tushare_docs_md/01_股票数据/01_基础数据/07_股票曾用名/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "基础数据",
+        "股票曾用名"
+      ],
+      "menu_leaf_zh": "股票曾用名",
+      "markdown_first_heading": "股票曾用名",
+      "pro_api_name_guess": "namechange"
+    },
+    {
+      "doc_id": "346",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=346",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据"
+      ],
+      "menu_leaf_zh": "打板专题数据",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "321",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=321",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/17_东方财富App热榜/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "东方财富App热榜"
+      ],
+      "menu_leaf_zh": "东方财富App热榜",
+      "markdown_first_heading": "东方财富热榜",
+      "pro_api_name_guess": "dc_hot"
+    },
+    {
+      "doc_id": "363",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=363",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/11_东方财富概念成分/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "东方财富概念成分"
+      ],
+      "menu_leaf_zh": "东方财富概念成分",
+      "markdown_first_heading": "东方财富板块成分",
+      "pro_api_name_guess": "dc_member"
+    },
+    {
+      "doc_id": "362",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=362",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/10_东方财富概念板块/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "东方财富概念板块"
+      ],
+      "menu_leaf_zh": "东方财富概念板块",
+      "markdown_first_heading": "东方财富概念板块",
+      "pro_api_name_guess": "dc_index"
+    },
+    {
+      "doc_id": "382",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=382",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/12_东财概念和行业指数行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "东财概念和行业指数行情"
+      ],
+      "menu_leaf_zh": "东财概念和行业指数行情",
+      "markdown_first_heading": "东财概念板块行情",
+      "pro_api_name_guess": "dc_daily"
+    },
+    {
+      "doc_id": "320",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=320",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/16_同花顺App热榜数/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "同花顺App热榜数"
+      ],
+      "menu_leaf_zh": "同花顺App热榜数",
+      "markdown_first_heading": "同花顺热榜",
+      "pro_api_name_guess": "ths_hot"
+    },
+    {
+      "doc_id": "260",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=260",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/08_同花顺概念和行业指数行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "同花顺概念和行业指数行情"
+      ],
+      "menu_leaf_zh": "同花顺概念和行业指数行情",
+      "markdown_first_heading": "同花顺板块指数行情",
+      "pro_api_name_guess": "ths_daily"
+    },
+    {
+      "doc_id": "355",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=355",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/03_同花顺涨跌停榜单/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "同花顺涨跌停榜单"
+      ],
+      "menu_leaf_zh": "同花顺涨跌停榜单",
+      "markdown_first_heading": "涨跌停榜单（同花顺）",
+      "pro_api_name_guess": "limit_list_ths"
+    },
+    {
+      "doc_id": "261",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=261",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/09_同花顺行业概念成分/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "同花顺行业概念成分"
+      ],
+      "menu_leaf_zh": "同花顺行业概念成分",
+      "markdown_first_heading": "同花顺概念板块成分",
+      "pro_api_name_guess": "ths_member"
+    },
+    {
+      "doc_id": "259",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=259",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/07_同花顺行业概念板块/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "同花顺行业概念板块"
+      ],
+      "menu_leaf_zh": "同花顺行业概念板块",
+      "markdown_first_heading": "同花顺概念和行业指数",
+      "pro_api_name_guess": "ths_index"
+    },
+    {
+      "doc_id": "311",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=311",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/14_市场游资最全名录/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "市场游资最全名录"
+      ],
+      "menu_leaf_zh": "市场游资最全名录",
+      "markdown_first_heading": "游资名录",
+      "pro_api_name_guess": "hm_list"
+    },
+    {
+      "doc_id": "369",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=369",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/13_开盘竞价成交（当日）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "开盘竞价成交（当日）"
+      ],
+      "menu_leaf_zh": "开盘竞价成交（当日）",
+      "markdown_first_heading": "当日集合竞价",
+      "pro_api_name_guess": "stk_auction"
+    },
+    {
+      "doc_id": "347",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=347",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/21_榜单数据（开盘啦）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "榜单数据（开盘啦）"
+      ],
+      "menu_leaf_zh": "榜单数据（开盘啦）",
+      "markdown_first_heading": "开盘啦榜单数据",
+      "pro_api_name_guess": "kpl_list"
+    },
+    {
+      "doc_id": "357",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=357",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/06_涨停最强板块统计/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "涨停最强板块统计"
+      ],
+      "menu_leaf_zh": "涨停最强板块统计",
+      "markdown_first_heading": "最强板块统计",
+      "pro_api_name_guess": "limit_cpt_list"
+    },
+    {
+      "doc_id": "356",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=356",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/05_涨停股票连板天梯/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "涨停股票连板天梯"
+      ],
+      "menu_leaf_zh": "涨停股票连板天梯",
+      "markdown_first_heading": "连板天梯",
+      "pro_api_name_guess": "limit_step"
+    },
+    {
+      "doc_id": "298",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=298",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/04_涨跌停和炸板数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "涨跌停和炸板数据"
+      ],
+      "menu_leaf_zh": "涨跌停和炸板数据",
+      "markdown_first_heading": "涨跌停列表（新）",
+      "pro_api_name_guess": "limit_list_d"
+    },
+    {
+      "doc_id": "312",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=312",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/15_游资交易每日明细/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "游资交易每日明细"
+      ],
+      "menu_leaf_zh": "游资交易每日明细",
+      "markdown_first_heading": "游资每日明细",
+      "pro_api_name_guess": "hm_detail"
+    },
+    {
+      "doc_id": "376",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=376",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/18_通达信板块信息/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "通达信板块信息"
+      ],
+      "menu_leaf_zh": "通达信板块信息",
+      "markdown_first_heading": "通达信板块信息",
+      "pro_api_name_guess": "tdx_index"
+    },
+    {
+      "doc_id": "377",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=377",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/19_通达信板块成分/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "通达信板块成分"
+      ],
+      "menu_leaf_zh": "通达信板块成分",
+      "markdown_first_heading": "通达信板块成分",
+      "pro_api_name_guess": "tdx_member"
+    },
+    {
+      "doc_id": "378",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=378",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/20_通达信板块行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "通达信板块行情"
+      ],
+      "menu_leaf_zh": "通达信板块行情",
+      "markdown_first_heading": "通达信板块行情",
+      "pro_api_name_guess": "tdx_daily"
+    },
+    {
+      "doc_id": "422",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=422",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/24_题材成分（东方财富）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "题材成分（东方财富）"
+      ],
+      "menu_leaf_zh": "题材成分（东方财富）",
+      "markdown_first_heading": "东方财富题材成分",
+      "pro_api_name_guess": "dc_concept_cons"
+    },
+    {
+      "doc_id": "351",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=351",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/22_题材成分（开盘啦）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "题材成分（开盘啦）"
+      ],
+      "menu_leaf_zh": "题材成分（开盘啦）",
+      "markdown_first_heading": "开盘啦题材成分",
+      "pro_api_name_guess": "kpl_concept_cons"
+    },
+    {
+      "doc_id": "421",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=421",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/23_题材数据（东方财富）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "题材数据（东方财富）"
+      ],
+      "menu_leaf_zh": "题材数据（东方财富）",
+      "markdown_first_heading": "东方财富题材库",
+      "pro_api_name_guess": "dc_concept"
+    },
+    {
+      "doc_id": "107",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=107",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/02_龙虎榜机构交易单/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "龙虎榜机构交易单"
+      ],
+      "menu_leaf_zh": "龙虎榜机构交易单",
+      "markdown_first_heading": "龙虎榜机构明细",
+      "pro_api_name_guess": "top_inst"
+    },
+    {
+      "doc_id": "106",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=106",
+      "md_path_posix": "tushare_docs_md/01_股票数据/08_打板专题数据/01_龙虎榜每日统计单/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "打板专题数据",
+        "龙虎榜每日统计单"
+      ],
+      "menu_leaf_zh": "龙虎榜每日统计单",
+      "markdown_first_heading": "龙虎榜每日明细",
+      "pro_api_name_guess": "top_list"
+    },
+    {
+      "doc_id": "291",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=291",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据"
+      ],
+      "menu_leaf_zh": "特色数据",
+      "markdown_first_heading": "股票特色数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "399",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=399",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/11_AH股比价/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "AH股比价"
+      ],
+      "menu_leaf_zh": "AH股比价",
+      "markdown_first_heading": "AH股比价",
+      "pro_api_name_guess": "stk_ah_comparison"
+    },
+    {
+      "doc_id": "274",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=274",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/06_中央结算系统持股明细/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "中央结算系统持股明细"
+      ],
+      "menu_leaf_zh": "中央结算系统持股明细",
+      "markdown_first_heading": "中央结算系统持股明细",
+      "pro_api_name_guess": "ccass_hold_detail"
+    },
+    {
+      "doc_id": "295",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=295",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/05_中央结算系统持股统计/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "中央结算系统持股统计"
+      ],
+      "menu_leaf_zh": "中央结算系统持股统计",
+      "markdown_first_heading": "中央结算系统持股汇总",
+      "pro_api_name_guess": "ccass_hold"
+    },
+    {
+      "doc_id": "267",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=267",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/13_券商月度金股/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "券商月度金股"
+      ],
+      "menu_leaf_zh": "券商月度金股",
+      "markdown_first_heading": "券商每月荐股",
+      "pro_api_name_guess": "broker_recommend"
+    },
+    {
+      "doc_id": "292",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=292",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/01_券商盈利预测数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "券商盈利预测数据"
+      ],
+      "menu_leaf_zh": "券商盈利预测数据",
+      "markdown_first_heading": "卖方盈利预测数据",
+      "pro_api_name_guess": "report_rc"
+    },
+    {
+      "doc_id": "275",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=275",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/12_机构调研数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "机构调研数据"
+      ],
+      "menu_leaf_zh": "机构调研数据",
+      "markdown_first_heading": "机构调研表",
+      "pro_api_name_guess": "stk_surv"
+    },
+    {
+      "doc_id": "294",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=294",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/03_每日筹码分布/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "每日筹码分布"
+      ],
+      "menu_leaf_zh": "每日筹码分布",
+      "markdown_first_heading": "每日筹码分布",
+      "pro_api_name_guess": "cyq_chips"
+    },
+    {
+      "doc_id": "293",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=293",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/02_每日筹码及胜率/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "每日筹码及胜率"
+      ],
+      "menu_leaf_zh": "每日筹码及胜率",
+      "markdown_first_heading": "每日筹码及胜率",
+      "pro_api_name_guess": "cyq_perf"
+    },
+    {
+      "doc_id": "188",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=188",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/07_沪深股通持股明细/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "沪深股通持股明细"
+      ],
+      "menu_leaf_zh": "沪深股通持股明细",
+      "markdown_first_heading": "沪深港股通持股明细",
+      "pro_api_name_guess": "hk_hold"
+    },
+    {
+      "doc_id": "364",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=364",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/10_神奇九转指标/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "神奇九转指标"
+      ],
+      "menu_leaf_zh": "神奇九转指标",
+      "markdown_first_heading": "神奇九转指标",
+      "pro_api_name_guess": "stk_nineturn"
+    },
+    {
+      "doc_id": "353",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=353",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/08_股票开盘集合竞价数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "股票开盘集合竞价数据"
+      ],
+      "menu_leaf_zh": "股票开盘集合竞价数据",
+      "markdown_first_heading": "股票开盘集合竞价数据",
+      "pro_api_name_guess": "stk_auction_o"
+    },
+    {
+      "doc_id": "328",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=328",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/04_股票技术面因子(专业版）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "股票技术面因子(专业版）"
+      ],
+      "menu_leaf_zh": "股票技术面因子(专业版）",
+      "markdown_first_heading": "股票技术面因子(专业版)",
+      "pro_api_name_guess": "stk_factor_pro"
+    },
+    {
+      "doc_id": "354",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=354",
+      "md_path_posix": "tushare_docs_md/01_股票数据/05_特色数据/09_股票收盘集合竞价数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "特色数据",
+        "股票收盘集合竞价数据"
+      ],
+      "menu_leaf_zh": "股票收盘集合竞价数据",
+      "markdown_first_heading": "股票收盘集合竞价数据",
+      "pro_api_name_guess": "stk_auction_c"
+    },
+    {
+      "doc_id": "15",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=15",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据"
+      ],
+      "menu_leaf_zh": "行情数据",
+      "markdown_first_heading": "行情数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "457",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=457",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/05_A股实时分钟-日累计/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "A股实时分钟-日累计"
+      ],
+      "menu_leaf_zh": "A股实时分钟-日累计",
+      "markdown_first_heading": "A股实时分钟-日累计",
+      "pro_api_name_guess": "rt_min_daily"
+    },
+    {
+      "doc_id": "370",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=370",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/03_历史分钟/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "历史分钟"
+      ],
+      "menu_leaf_zh": "历史分钟",
+      "markdown_first_heading": "股票历史分钟行情",
+      "pro_api_name_guess": "stk_mins"
+    },
+    {
+      "doc_id": "27",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=27",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/01_历史日线/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "历史日线"
+      ],
+      "menu_leaf_zh": "历史日线",
+      "markdown_first_heading": "A股日线行情",
+      "pro_api_name_guess": "daily"
+    },
+    {
+      "doc_id": "365",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=365",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/10_周_月线复权行情(每日更新)/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "周_月线复权行情(每日更新)"
+      ],
+      "menu_leaf_zh": "周_月线复权行情(每日更新)",
+      "markdown_first_heading": "股票周/月线行情(复权--每日更新)",
+      "pro_api_name_guess": "stk_week_month_adj"
+    },
+    {
+      "doc_id": "336",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=336",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/09_周_月线行情(每日更新)/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "周_月线行情(每日更新)"
+      ],
+      "menu_leaf_zh": "周_月线行情(每日更新)",
+      "markdown_first_heading": "股票周/月线行情(每日更新)",
+      "pro_api_name_guess": "stk_weekly_monthly"
+    },
+    {
+      "doc_id": "144",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=144",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/06_周线行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "周线行情"
+      ],
+      "menu_leaf_zh": "周线行情",
+      "markdown_first_heading": "周线行情",
+      "pro_api_name_guess": "weekly"
+    },
+    {
+      "doc_id": "255",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=255",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/20_备用行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "备用行情"
+      ],
+      "menu_leaf_zh": "备用行情",
+      "markdown_first_heading": "备用行情",
+      "pro_api_name_guess": "bak_daily"
+    },
+    {
+      "doc_id": "28",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=28",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/11_复权因子/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "复权因子"
+      ],
+      "menu_leaf_zh": "复权因子",
+      "markdown_first_heading": "复权因子",
+      "pro_api_name_guess": "adj_factor"
+    },
+    {
+      "doc_id": "146",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=146",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/08_复权行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "复权行情"
+      ],
+      "menu_leaf_zh": "复权行情",
+      "markdown_first_heading": "A股复权行情",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "374",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=374",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/04_实时分钟/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "实时分钟"
+      ],
+      "menu_leaf_zh": "实时分钟",
+      "markdown_first_heading": "A股实时分钟",
+      "pro_api_name_guess": "rt_min"
+    },
+    {
+      "doc_id": "372",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=372",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/02_实时日线/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "实时日线"
+      ],
+      "menu_leaf_zh": "实时日线",
+      "markdown_first_heading": "A股实时日线",
+      "pro_api_name_guess": "rt_k"
+    },
+    {
+      "doc_id": "145",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=145",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/07_月线行情/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "月线行情"
+      ],
+      "menu_leaf_zh": "月线行情",
+      "markdown_first_heading": "月线行情",
+      "pro_api_name_guess": "monthly"
+    },
+    {
+      "doc_id": "214",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=214",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/15_每日停复牌信息/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "每日停复牌信息"
+      ],
+      "menu_leaf_zh": "每日停复牌信息",
+      "markdown_first_heading": "每日停复牌信息",
+      "pro_api_name_guess": "suspend_d"
+    },
+    {
+      "doc_id": "32",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=32",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/12_每日指标/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "每日指标"
+      ],
+      "menu_leaf_zh": "每日指标",
+      "markdown_first_heading": "每日指标",
+      "pro_api_name_guess": "daily_basic"
+    },
+    {
+      "doc_id": "183",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=183",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/14_每日涨跌停价格/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "每日涨跌停价格"
+      ],
+      "menu_leaf_zh": "每日涨跌停价格",
+      "markdown_first_heading": "每日涨跌停价格",
+      "pro_api_name_guess": "stk_limit"
+    },
+    {
+      "doc_id": "48",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=48",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/16_沪深股通十大成交股/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "沪深股通十大成交股"
+      ],
+      "menu_leaf_zh": "沪深股通十大成交股",
+      "markdown_first_heading": "沪深股通十大成交股",
+      "pro_api_name_guess": "hsgt_top10"
+    },
+    {
+      "doc_id": "49",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=49",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/17_港股通十大成交股/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "港股通十大成交股"
+      ],
+      "menu_leaf_zh": "港股通十大成交股",
+      "markdown_first_heading": "港股通十大成交股",
+      "pro_api_name_guess": "ggt_top10"
+    },
+    {
+      "doc_id": "196",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=196",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/18_港股通每日成交统计/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "港股通每日成交统计"
+      ],
+      "menu_leaf_zh": "港股通每日成交统计",
+      "markdown_first_heading": "港股通每日成交统计",
+      "pro_api_name_guess": "ggt_daily"
+    },
+    {
+      "doc_id": "197",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=197",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/19_港股通每月成交统计/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "港股通每月成交统计"
+      ],
+      "menu_leaf_zh": "港股通每月成交统计",
+      "markdown_first_heading": "港股通每月成交统计",
+      "pro_api_name_guess": "ggt_monthly"
+    },
+    {
+      "doc_id": "109",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=109",
+      "md_path_posix": "tushare_docs_md/01_股票数据/02_行情数据/13_通用行情接口/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "行情数据",
+        "通用行情接口"
+      ],
+      "menu_leaf_zh": "通用行情接口",
+      "markdown_first_heading": "通用行情接口",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "16",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=16",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据"
+      ],
+      "menu_leaf_zh": "财务数据",
+      "markdown_first_heading": "财务数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "46",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=46",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/05_业绩快报/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "业绩快报"
+      ],
+      "menu_leaf_zh": "业绩快报",
+      "markdown_first_heading": "业绩快报",
+      "pro_api_name_guess": "express"
+    },
+    {
+      "doc_id": "45",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=45",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/04_业绩预告/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "业绩预告"
+      ],
+      "menu_leaf_zh": "业绩预告",
+      "markdown_first_heading": "业绩预告",
+      "pro_api_name_guess": "forecast"
+    },
+    {
+      "doc_id": "81",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=81",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/09_主营业务构成/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "主营业务构成"
+      ],
+      "menu_leaf_zh": "主营业务构成",
+      "markdown_first_heading": "主营业务构成",
+      "pro_api_name_guess": "fina_mainbz"
+    },
+    {
+      "doc_id": "103",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=103",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/06_分红送股数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "分红送股数据"
+      ],
+      "menu_leaf_zh": "分红送股数据",
+      "markdown_first_heading": "分红送股",
+      "pro_api_name_guess": "dividend"
+    },
+    {
+      "doc_id": "33",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=33",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/01_利润表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "利润表"
+      ],
+      "menu_leaf_zh": "利润表",
+      "markdown_first_heading": "利润表",
+      "pro_api_name_guess": "income"
+    },
+    {
+      "doc_id": "44",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=44",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/03_现金流量表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "现金流量表"
+      ],
+      "menu_leaf_zh": "现金流量表",
+      "markdown_first_heading": "现金流量表",
+      "pro_api_name_guess": "cashflow"
+    },
+    {
+      "doc_id": "80",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=80",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/08_财务审计意见/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "财务审计意见"
+      ],
+      "menu_leaf_zh": "财务审计意见",
+      "markdown_first_heading": "财务审计意见",
+      "pro_api_name_guess": "fina_audit"
+    },
+    {
+      "doc_id": "79",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=79",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/07_财务指标数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "财务指标数据"
+      ],
+      "menu_leaf_zh": "财务指标数据",
+      "markdown_first_heading": "财务指标数据",
+      "pro_api_name_guess": "fina_indicator"
+    },
+    {
+      "doc_id": "162",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=162",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/10_财报披露日期表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "财报披露日期表"
+      ],
+      "menu_leaf_zh": "财报披露日期表",
+      "markdown_first_heading": "财报披露计划",
+      "pro_api_name_guess": "disclosure_date"
+    },
+    {
+      "doc_id": "36",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=36",
+      "md_path_posix": "tushare_docs_md/01_股票数据/03_财务数据/02_资产负债表/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "财务数据",
+        "资产负债表"
+      ],
+      "menu_leaf_zh": "资产负债表",
+      "markdown_first_heading": "资产负债表",
+      "pro_api_name_guess": "balancesheet"
+    },
+    {
+      "doc_id": "342",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=342",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据"
+      ],
+      "menu_leaf_zh": "资金流向数据",
+      "markdown_first_heading": null,
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "170",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=170",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/01_个股资金流向/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "个股资金流向"
+      ],
+      "menu_leaf_zh": "个股资金流向",
+      "markdown_first_heading": "个股资金流向",
+      "pro_api_name_guess": "moneyflow"
+    },
+    {
+      "doc_id": "349",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=349",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/03_个股资金流向（DC）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "个股资金流向（DC）"
+      ],
+      "menu_leaf_zh": "个股资金流向（DC）",
+      "markdown_first_heading": "个股资金流向（DC）",
+      "pro_api_name_guess": "moneyflow_dc"
+    },
+    {
+      "doc_id": "348",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=348",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/02_个股资金流向（THS）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "个股资金流向（THS）"
+      ],
+      "menu_leaf_zh": "个股资金流向（THS）",
+      "markdown_first_heading": "个股资金流向（THS）",
+      "pro_api_name_guess": "moneyflow_ths"
+    },
+    {
+      "doc_id": "345",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=345",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/07_大盘资金流向（DC）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "大盘资金流向（DC）"
+      ],
+      "menu_leaf_zh": "大盘资金流向（DC）",
+      "markdown_first_heading": "大盘资金流向（DC）",
+      "pro_api_name_guess": "moneyflow_mkt_dc"
+    },
+    {
+      "doc_id": "344",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=344",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/06_板块资金流向（DC）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "板块资金流向（DC）"
+      ],
+      "menu_leaf_zh": "板块资金流向（DC）",
+      "markdown_first_heading": "东财概念及行业板块资金流向（DC）",
+      "pro_api_name_guess": "moneyflow_ind_dc"
+    },
+    {
+      "doc_id": "371",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=371",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/04_板块资金流向（THS)/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "板块资金流向（THS)"
+      ],
+      "menu_leaf_zh": "板块资金流向（THS)",
+      "markdown_first_heading": "同花顺概念板块资金流向（THS）",
+      "pro_api_name_guess": "moneyflow_cnt_ths"
+    },
+    {
+      "doc_id": "47",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=47",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/08_沪深港通资金流向/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "沪深港通资金流向"
+      ],
+      "menu_leaf_zh": "沪深港通资金流向",
+      "markdown_first_heading": "沪深港通资金流向",
+      "pro_api_name_guess": "moneyflow_hsgt"
+    },
+    {
+      "doc_id": "343",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=343",
+      "md_path_posix": "tushare_docs_md/01_股票数据/07_资金流向数据/05_行业资金流向（THS）/data.md",
+      "breadcrumb_zh": [
+        "股票数据",
+        "资金流向数据",
+        "行业资金流向（THS）"
+      ],
+      "menu_leaf_zh": "行业资金流向（THS）",
+      "markdown_first_heading": "同花顺行业资金流向（THS）",
+      "pro_api_name_guess": "moneyflow_ind_ths"
+    },
+    {
+      "doc_id": "263",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=263",
+      "md_path_posix": "tushare_docs_md/14_财富管理/data.md",
+      "breadcrumb_zh": [
+        "财富管理"
+      ],
+      "menu_leaf_zh": "财富管理",
+      "markdown_first_heading": "财务管理类数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "264",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=264",
+      "md_path_posix": "tushare_docs_md/14_财富管理/01_基金销售行业数据/data.md",
+      "breadcrumb_zh": [
+        "财富管理",
+        "基金销售行业数据"
+      ],
+      "menu_leaf_zh": "基金销售行业数据",
+      "markdown_first_heading": "基金销售行业数据",
+      "pro_api_name_guess": null
+    },
+    {
+      "doc_id": "265",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=265",
+      "md_path_posix": "tushare_docs_md/14_财富管理/01_基金销售行业数据/01_各渠道公募基金销售保有规模占比/data.md",
+      "breadcrumb_zh": [
+        "财富管理",
+        "基金销售行业数据",
+        "各渠道公募基金销售保有规模占比"
+      ],
+      "menu_leaf_zh": "各渠道公募基金销售保有规模占比",
+      "markdown_first_heading": "各渠道公募基金销售保有规模占比",
+      "pro_api_name_guess": "fund_sales_ratio"
+    },
+    {
+      "doc_id": "266",
+      "tushare_document_url": "https://tushare.pro/document/2?doc_id=266",
+      "md_path_posix": "tushare_docs_md/14_财富管理/01_基金销售行业数据/02_销售机构公募基金销售保有规模/data.md",
+      "breadcrumb_zh": [
+        "财富管理",
+        "基金销售行业数据",
+        "销售机构公募基金销售保有规模"
+      ],
+      "menu_leaf_zh": "销售机构公募基金销售保有规模",
+      "markdown_first_heading": "销售机构公募基金销售保有规模",
+      "pro_api_name_guess": "fund_sales_vol"
+    }
+  ]
+}
