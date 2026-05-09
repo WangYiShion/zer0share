@@ -43,6 +43,8 @@ flowchart LR
     localPro --> research["Research scripts and notebooks"]
 ```
 
+
+
 核心职责如下：
 
 - `zer0share/fetcher.py`：封装 Tushare SDK 调用，声明字段列表，做基础类型转换。
@@ -309,10 +311,10 @@ data/<table_name>/date=YYYYMMDD/data.parquet
 推荐顺序：
 
 1. `trade_cal`
-1. 快照型基础数据
-1. 交易日增量型行情和指标
-1. 报告期型财务数据
-1. 股票维度和专题数据
+2. 快照型基础数据
+3. 交易日增量型行情和指标
+4. 报告期型财务数据
+5. 股票维度和专题数据
 
 如果某些接口成本高或权限要求高，不应默认放入 `sync --all`，可以单独提供 `sync --table`。
 
@@ -368,14 +370,16 @@ def daily_basic(
 
 推荐分区规则：
 
-| 数据类型     | 推荐目录                                             |
-| ------------ | ---------------------------------------------------- |
-| 快照型       | `data/<table>/data.parquet`                          |
-| 交易日增量型 | `data/<table>/date=YYYYMMDD/data.parquet`            |
-| 报告期型     | `data/<table>/period=YYYYMMDD/data.parquet`          |
-| 公告日型     | `data/<table>/ann_date=YYYYMMDD/data.parquet`        |
+
+| 数据类型    | 推荐目录                                                 |
+| ------- | ---------------------------------------------------- |
+| 快照型     | `data/<table>/data.parquet`                          |
+| 交易日增量型  | `data/<table>/date=YYYYMMDD/data.parquet`            |
+| 报告期型    | `data/<table>/period=YYYYMMDD/data.parquet`          |
+| 公告日型    | `data/<table>/ann_date=YYYYMMDD/data.parquet`        |
 | 股票维度型   | `data/<table>/ts_code=<code>/data.parquet`           |
-| 股票 + 年份  | `data/<table>/ts_code=<code>/year=YYYY/data.parquet` |
+| 股票 + 年份 | `data/<table>/ts_code=<code>/year=YYYY/data.parquet` |
+
 
 ### 字段类型
 
@@ -565,45 +569,53 @@ financial_refresh_quarters = 8
 
 优先级最高，因为与现有日线和复权因子结构最接近。
 
-| 本地表名       | Tushare 接口   | 类型         | 推荐分区        | 用途                                     |
-| -------------- | -------------- | ------------ | --------------- | ---------------------------------------- |
+
+| 本地表名           | Tushare 接口     | 类型     | 推荐分区            | 用途                   |
+| -------------- | -------------- | ------ | --------------- | -------------------- |
 | `daily_basic`  | `daily_basic`  | 交易日增量型 | `date=YYYYMMDD` | 换手率、市盈率、市净率、总市值、流通市值 |
-| `moneyflow`    | `moneyflow`    | 交易日增量型 | `date=YYYYMMDD` | 个股资金流向                             |
-| `stk_limit`    | `stk_limit`    | 交易日增量型 | `date=YYYYMMDD` | 每日涨跌停价                             |
-| `limit_list_d` | `limit_list_d` | 交易日增量型 | `date=YYYYMMDD` | 涨跌停股票明细                           |
+| `moneyflow`    | `moneyflow`    | 交易日增量型 | `date=YYYYMMDD` | 个股资金流向               |
+| `stk_limit`    | `stk_limit`    | 交易日增量型 | `date=YYYYMMDD` | 每日涨跌停价               |
+| `limit_list_d` | `limit_list_d` | 交易日增量型 | `date=YYYYMMDD` | 涨跌停股票明细              |
+
 
 建议先实现 `daily_basic`，因为它和 `daily_kline` 最像，能验证通用日分区扩展是否合理。
 
 ### 第二批：财务报表与财务指标
 
-| 本地表名         | Tushare 接口     | 类型     | 推荐分区          | 用途       |
-| ---------------- | ---------------- | -------- | ----------------- | ---------- |
-| `income`         | `income`         | 报告期型 | `period=YYYYMMDD` | 利润表     |
+
+| 本地表名             | Tushare 接口       | 类型   | 推荐分区              | 用途    |
+| ---------------- | ---------------- | ---- | ----------------- | ----- |
+| `income`         | `income`         | 报告期型 | `period=YYYYMMDD` | 利润表   |
 | `balancesheet`   | `balancesheet`   | 报告期型 | `period=YYYYMMDD` | 资产负债表 |
 | `cashflow`       | `cashflow`       | 报告期型 | `period=YYYYMMDD` | 现金流量表 |
-| `fina_indicator` | `fina_indicator` | 报告期型 | `period=YYYYMMDD` | 财务指标   |
-| `fina_audit`     | `fina_audit`     | 报告期型 | `period=YYYYMMDD` | 审计意见   |
+| `fina_indicator` | `fina_indicator` | 报告期型 | `period=YYYYMMDD` | 财务指标  |
+| `fina_audit`     | `fina_audit`     | 报告期型 | `period=YYYYMMDD` | 审计意见  |
+
 
 财务类需要重点处理“后续修订”，建议默认刷新最近 8 个季度。
 
 ### 第三批：公司行动与事件
 
-| 本地表名    | Tushare 接口 | 类型            | 推荐分区            | 用途       |
-| ----------- | ------------ | --------------- | ------------------- | ---------- |
-| `dividend`  | `dividend`   | 报告期/公告日型 | `ann_date=YYYYMMDD` | 分红送转   |
-| `forecast`  | `forecast`   | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩预告   |
-| `express`   | `express`    | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩快报   |
-| `suspend_d` | `suspend_d`  | 股票维度/日期型 | 视接口而定          | 停复牌信息 |
+
+| 本地表名        | Tushare 接口  | 类型       | 推荐分区                | 用途    |
+| ----------- | ----------- | -------- | ------------------- | ----- |
+| `dividend`  | `dividend`  | 报告期/公告日型 | `ann_date=YYYYMMDD` | 分红送转  |
+| `forecast`  | `forecast`  | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩预告  |
+| `express`   | `express`   | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩快报  |
+| `suspend_d` | `suspend_d` | 股票维度/日期型 | 视接口而定               | 停复牌信息 |
+
 
 ### 第四批：指数、行业与专题
 
-| 本地表名         | Tushare 接口     | 类型         | 推荐分区                | 用途         |
-| ---------------- | ---------------- | ------------ | ----------------------- | ------------ |
-| `index_basic`    | `index_basic`    | 快照型       | `data.parquet`          | 指数基础信息 |
-| `index_daily`    | `index_daily`    | 交易日增量型 | `date=YYYYMMDD`         | 指数日线     |
-| `index_weight`   | `index_weight`   | 低频专题型   | `trade_date` 或 `month` | 指数成分权重 |
-| `concept`        | `concept`        | 快照型       | `data.parquet`          | 概念分类     |
-| `concept_detail` | `concept_detail` | 快照/专题型  | `data.parquet`          | 概念成分股   |
+
+| 本地表名             | Tushare 接口       | 类型     | 推荐分区                   | 用途     |
+| ---------------- | ---------------- | ------ | ---------------------- | ------ |
+| `index_basic`    | `index_basic`    | 快照型    | `data.parquet`         | 指数基础信息 |
+| `index_daily`    | `index_daily`    | 交易日增量型 | `date=YYYYMMDD`        | 指数日线   |
+| `index_weight`   | `index_weight`   | 低频专题型  | `trade_date` 或 `month` | 指数成分权重 |
+| `concept`        | `concept`        | 快照型    | `data.parquet`         | 概念分类   |
+| `concept_detail` | `concept_detail` | 快照/专题型 | `data.parquet`         | 概念成分股  |
+
 
 ## 分阶段落地路线
 
@@ -630,9 +642,9 @@ financial_refresh_quarters = 8
 建议顺序：
 
 1. `daily_basic`
-1. `stk_limit`
-1. `limit_list_d`
-1. `moneyflow`
+2. `stk_limit`
+3. `limit_list_d`
+4. `moneyflow`
 
 验收：
 
@@ -647,10 +659,10 @@ financial_refresh_quarters = 8
 建议顺序：
 
 1. `fina_indicator`
-1. `income`
-1. `balancesheet`
-1. `cashflow`
-1. `forecast`、`express`、`dividend`
+2. `income`
+3. `balancesheet`
+4. `cashflow`
+5. `forecast`、`express`、`dividend`
 
 验收：
 
@@ -695,3 +707,4 @@ financial_refresh_quarters = 8
 - 股票维度接口容易产生大量请求，需要更谨慎地控制频率。
 - 本地 API 查询大范围数据时要优先利用分区过滤，避免全表扫描。
 - Token 必须来自环境变量 `TUSHARE_TOKEN`，不要写入文档或配置文件。
+

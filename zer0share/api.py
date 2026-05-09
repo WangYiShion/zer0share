@@ -4,7 +4,7 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 
-from zer0share.config import load_config
+from zer0share.config import resolve_pro_api_data_directory
 from zer0share.fetcher import ADJ_FACTOR_COLS, BASIC_COLS, DAILY_COLS, TRADE_CAL_COLS
 
 
@@ -264,9 +264,31 @@ class LocalPro:
         return _format_date_columns(df, ["trade_date"])
 
 
-def pro_api(config_path: str | Path = "config/settings.toml") -> LocalPro:
-    cfg = load_config(Path(config_path))
-    return LocalPro(cfg.data_dir)
+def pro_api(
+    config_path: str | Path | None = None,
+    *,
+    data_dir: str | Path | None = None,
+) -> LocalPro:
+    """Local Tushare-style API backed by partitioned Parquet (no HTTP, no quota).
+
+    You do **not** need ``TUSHARE_TOKEN`` nor ``settings.toml`` to read synced data.
+
+    Data directory resolution (first match wins): explicit ``data_dir`` argument,
+    ``ZER0SHARE_DATA_DIR`` env, optional ``settings.toml`` (``paths.data_dir``), else
+    ``<zer0share checkout or install>/data``.
+
+    Passing ``config_path`` forces reading ``paths.data_dir`` from that file when that
+    file exists; omit it to auto-discover settings next to cwd or next to this package.
+
+    Examples::
+
+        pro = pro_api()
+        pro = pro_api(data_dir="D:/market/zer0share-data")
+        pro = pro_api("C:/path/to/config/settings.toml")
+    """
+    return LocalPro(
+        resolve_pro_api_data_directory(config_path, data_dir=data_dir),
+    )
 
 
 def _parse_fields(fields: str | list[str] | None, default_columns: list[str]) -> list[str]:
