@@ -4,7 +4,8 @@
 
 ## 维护说明
 
-- **重新生成**：在仓库根目录执行 `scripts/generate_tushare_interface_permissions_md.py`。
+- **重新生成**：在仓库根目录执行 `scripts/generate_tushare_interface_permissions_md.py`，会**同时**更新本 Markdown 与 **`docs/tushare-interface-permissions.json`**。
+- **机器检索**：自动化流程、脚本与 Agent **应优先读取 [`tushare-interface-permissions.json`](tushare-interface-permissions.json)**（结构化数组，按 `availability.code` / `apis` / `min_points_inferred` 筛选）；本表仅作人读对照。
 - **收录范围**：只包含 **叶子** `data.md`——即该文件所在目录下**没有子文件夹**的页面；含子目录的上级 `data.md`（专题总览）不列入本表，避免误当作独立接口。
 - **表格列**：`输出字段（官方文档表格）` 取自各页「输出参数」首张表的第一列字段名（若页面无表格或格式异常则为空）；`权限原文摘要` 为文首说明区截取，便于人工核对。
 - **积分门槛（解析）**：从说明文字中提取到的**最低**「××积分」要求（若同时出现试用档与高档，优先采用 ≥500 的最小档；个别页面如「基础积分」无数字时，`daily` 等按权限表归入 **120** 试用/免费档）。无法解析时为「—」，请回看该接口 `data.md` 或官网。
@@ -254,4 +255,4 @@
 | 265 | 财富管理/基金销售行业数据/各渠道公募基金销售保有规模占比 | 各渠道公募基金销售保有规模占比 | fund_sales_ratio | year,bank,sec_comp,fund_comp,indep_comp,rests | — | — | 待核对（文档未解析到明确积分门槛） | 来源: <https://tushare.pro/document/2?doc_id=265> ## 各渠道公募基金销售保有规模占比 ______________________________________________________________________ 接口：fund_sales_ratio 描述：获取各渠道公募基金销售保有规模占比数据，年度更新 限量：单次最大100行数据，数据从2015年开始公布，当前数据量很小 |
 | 266 | 财富管理/基金销售行业数据/销售机构公募基金销售保有规模 | 销售机构公募基金销售保有规模 | fund_sales_vol | year,quarter,inst_name,fund_scale,scale,rank | — | — | 待核对（文档未解析到明确积分门槛） | 来源: <https://tushare.pro/document/2?doc_id=266> ## 销售机构公募基金销售保有规模 ______________________________________________________________________ 接口：fund_sales_vol 描述：获取销售机构公募基金销售保有规模数据，本数据从2021年Q1开始公布，季度更新 限量：单次最大500行数据，目前总量只有10… |
 
-<!-- generated: scripts/generate_tushare_interface_permissions_md.py ns=1778493660866376000 entries=234 -->
+<!-- generated: scripts/generate_tushare_interface_permissions_md.py md+json ns=1778494033535594900 entries=234 -->

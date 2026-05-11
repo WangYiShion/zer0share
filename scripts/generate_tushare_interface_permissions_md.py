@@ -1,7 +1,11 @@
 """
-从 tushare_docs_md + docs/tushare积分权限表.xlsx 生成接口权限矩阵 Markdown。
+从 tushare_docs_md + docs/tushare积分权限表.xlsx 生成接口权限矩阵：
+
+- docs/tushare-interface-permissions.md — 表格，便于人工浏览
+- docs/tushare-interface-permissions.json — 结构化条目，便于程序与 Agent 检索
 
 用法（仓库根目录）:
+
   C:/Users/Erich/miniforge3/envs/free/python.exe scripts/generate_tushare_interface_permissions_md.py
 """
 from __future__ import annotations
@@ -15,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS_MD = ROOT / "tushare_docs_md"
 INDEX_JSON = DOCS_MD / "INDEX.json"
 OUT_MD = ROOT / "docs" / "tushare-interface-permissions.md"
+OUT_JSON = ROOT / "docs" / "tushare-interface-permissions.json"
 
 USER_POINTS = 8000
 
@@ -191,18 +196,6 @@ def is_separate_by_text(perm_blob: str) -> bool:
     return any(k in perm_blob for k in keys)
 
 
-def availability(r: Row) -> str:
-    if r.separate_sheet:
-        if r.separate_sheet.startswith(("随「", "依附「")):
-            return "否（依赖其他付费权限）"
-        return "否（需单独购买或未订阅）"
-    if r.separate_doc:
-        return "否（需单独购买或未订阅）"
-    if r.min_points is None:
-        return "待核对（文档未解析到明确积分门槛）"
-    return "是" if r.min_points <= USER_POINTS else f"否（文档门槛 {r.min_points} 积分）"
-
-
 def permission_blob_from_text(text: str) -> str:
     """取文首说明区（通常在第一个 #### 输入/输出 之前），用于权限解析。"""
     m = re.search(r"^[ \t]*####\s+", text, re.MULTILINE)
@@ -226,6 +219,7 @@ def cell_escape(s: str) -> str:
 @dataclass
 class Row:
     doc_id: str
+    md_path_posix: str
     crumb: str
     title_md: str
     api_guess: str | None
@@ -235,6 +229,82 @@ class Row:
     min_points: int | None
     separate_doc: bool
     separate_sheet: str | None
+
+
+@dataclass(frozen=True)
+class AvailabilityEval:
+    """程序化筛选用 `code`；展示用 `label_zh`。"""
+
+    code: str
+    label_zh: str
+
+
+def evaluate_availability(r: Row, user_pts: int = USER_POINTS) -> AvailabilityEval:
+    if r.separate_sheet:
+        if r.separate_sheet.startswith(("随「", "依附「")):
+            return AvailabilityEval(
+                "needs_parent_license_bundle",
+                "否（依赖其他付费权限）",
+            )
+        return AvailabilityEval(
+            "needs_separate_addon",
+            "否（需单独购买或未订阅）",
+        )
+    if r.separate_doc:
+        return AvailabilityEval(
+            "needs_separate_addon",
+            "否（需单独购买或未订阅）",
+        )
+    if r.min_points is None:
+        return AvailabilityEval(
+            "unknown_points_gate",
+            "待核对（文档未解析到明确积分门槛）",
+        )
+    if r.min_points <= user_pts:
+        return AvailabilityEval("ok_points_gate_only", "是")
+    return AvailabilityEval(
+        "insufficient_points",
+        f"否（文档门槛 {r.min_points} 积分）",
+    )
+
+
+def availability(r: Row) -> str:
+    return evaluate_availability(r).label_zh
+
+
+def entry_json(r: Row) -> dict:
+    ev = evaluate_availability(r)
+    blob = " ".join(r.perm_blob.replace("\r", "").split())
+    excerpt = ""
+    if blob:
+        excerpt = blob[:800] + ("…" if len(blob) > 800 else "")
+    sep_col: str | None = None
+    if r.separate_sheet:
+        sep_col = r.separate_sheet
+    elif r.separate_doc:
+        sep_col = "是（详见权限原文／官网单品）"
+    api_list = list(r.apis)
+    primary_api = api_list[0] if len(api_list) == 1 else None
+    return {
+        "doc_id": r.doc_id,
+        "md_path_posix": r.md_path_posix,
+        "tushare_document_url": f"https://tushare.pro/document/2?doc_id={r.doc_id}",
+        "breadcrumb_zh": r.crumb or None,
+        "title_md": r.title_md or None,
+        "pro_api_guess": r.api_guess,
+        "apis": api_list,
+        "primary_api": primary_api,
+        "output_fields": list(r.fields),
+        "min_points_inferred": r.min_points,
+        "separate_permission_in_doc": r.separate_doc,
+        "separate_product_hint_zh": r.separate_sheet,
+        "separate_license_column_zh": sep_col,
+        "availability": {
+            "code": ev.code,
+            "label_zh": ev.label_zh,
+        },
+        "permission_excerpt_zh": excerpt or None,
+    }
 
 
 def collect_rows() -> list[Row]:
@@ -252,11 +322,13 @@ def collect_rows() -> list[Row]:
         api_guess = ent.get("pro_api_name_guess")
         if not path.exists():
             continue
+        md_path_posix = str(ent["md_path_posix"])
         raw = path.read_text(encoding="utf-8")
         if not raw.strip():
             rows.append(
                 Row(
                     doc_id,
+                    md_path_posix,
                     crumb,
                     title_md,
                     api_guess,
@@ -288,6 +360,7 @@ def collect_rows() -> list[Row]:
         rows.append(
             Row(
                 doc_id,
+                md_path_posix,
                 crumb,
                 title_md,
                 api_guess,
@@ -313,7 +386,8 @@ def main() -> None:
     lines.append("")
     lines.append("## 维护说明")
     lines.append("")
-    lines.append("- **重新生成**：在仓库根目录执行 `scripts/generate_tushare_interface_permissions_md.py`。")
+    lines.append("- **重新生成**：在仓库根目录执行 `scripts/generate_tushare_interface_permissions_md.py`，会**同时**更新本 Markdown 与 **`docs/tushare-interface-permissions.json`**。")
+    lines.append("- **机器检索**：自动化流程、脚本与 Agent **应优先读取 [`tushare-interface-permissions.json`](tushare-interface-permissions.json)**（结构化数组，按 `availability.code` / `apis` / `min_points_inferred` 筛选）；本表仅作人读对照。")
     lines.append("- **收录范围**：只包含 **叶子** `data.md`——即该文件所在目录下**没有子文件夹**的页面；含子目录的上级 `data.md`（专题总览）不列入本表，避免误当作独立接口。")
     lines.append("- **表格列**：`输出字段（官方文档表格）` 取自各页「输出参数」首张表的第一列字段名（若页面无表格或格式异常则为空）；`权限原文摘要` 为文首说明区截取，便于人工核对。")
     lines.append("- **积分门槛（解析）**：从说明文字中提取到的**最低**「××积分」要求（若同时出现试用档与高档，优先采用 ≥500 的最小档；个别页面如「基础积分」无数字时，`daily` 等按权限表归入 **120** 试用/免费档）。无法解析时为「—」，请回看该接口 `data.md` 或官网。")
@@ -367,11 +441,31 @@ def main() -> None:
         )
 
     lines.append("")
-    lines.append(f"<!-- generated: scripts/generate_tushare_interface_permissions_md.py ns={gen_time} entries={len(rows)} -->")
-    lines.append("")
+    lines.append(f"<!-- generated: scripts/generate_tushare_interface_permissions_md.py md+json ns={gen_time} entries={len(rows)} -->")
+
+    payload = {
+        "_meta": {
+            "schema_id": "zer0share.tushare_interface_permissions/v1",
+            "user_points_reference": USER_POINTS,
+            "leaf_docs_only": True,
+            "availability_code_meaning": {
+                "ok_points_gate_only": "在「仅凭积分、无单独购买 SKU」的默认假设下，解析出的积分门槛达标且未判为单独计费/依赖包",
+                "insufficient_points": "解析出的积分门槛高于 user_points_reference",
+                "needs_separate_addon": "判为需单独购买或未订阅的增值权限",
+                "needs_parent_license_bundle": "依附其他付费条线（如港股日线、股票分钟等）才能使用",
+                "unknown_points_gate": "正文中未解析到明确积分数字，需回看 data.md 或官网",
+            },
+        },
+        "entries": [entry_json(r) for r in rows],
+    }
+    OUT_JSON.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
     OUT_MD.parent.mkdir(parents=True, exist_ok=True)
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")
-    print("wrote", OUT_MD, "rows", len(rows))
+    print("wrote", OUT_MD, "and", OUT_JSON, "rows", len(rows))
 
 
 if __name__ == "__main__":

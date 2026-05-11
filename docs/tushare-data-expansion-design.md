@@ -22,7 +22,7 @@
 - 明确目录、字段、日期、增量、错误处理和测试规范。
 - 让后续新增一个数据接口时，有清晰的开发清单和验收标准。
 - **新增任意指定数据接口前，须先在仓库内的 `tushare_docs_md/` 目录阅读对应该接口的本地 Markdown 说明**（见下文「端到端接入流程 · 第零步」），再动手改代码或定规格。
-- **评估本账号是否具备调用条件时，优先查阅汇总的 [`tushare-interface-permissions.md`](tushare-interface-permissions.md)**（由本地 `tushare_docs_md` 与 `docs/tushare积分权限表.xlsx` 交叉生成，可重跑脚本更新），再结合官网账号实际开通情况做最终判断。
+- **评估本账号是否具备调用条件时，优先检索 [`tushare-interface-permissions.json`](tushare-interface-permissions.json)**（与同目录 Markdown 由脚本从 `tushare_docs_md` 与 `docs/tushare积分权限表.xlsx` 交叉生成，可重跑更新），再结合官网账号实际开通情况做最终判断。
 
 ## 非目标
 
@@ -235,10 +235,11 @@ data/<table_name>/data.parquet
 
 #### 与本仓库对齐的「可调用接口 / 字段 / 积分或单独购买」参考
 
-- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库维护一份自动汇总的 **[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md)**，按 `doc_id` 列出**叶子**接口页（即 `data.md` 所在文件夹下不再含子文件夹的文档；上级目录的总览 md 不包含在内）的接口名、文档解析出的输出字段、积分门槛（脚本从正文提取）以及「单独购买」参考价（与 `docs/tushare积分权限表.xlsx` 对齐的部分产品线）。
-- **重新生成**：在项目根目录执行 `C:/Users/Erich/miniforge3/envs/free/python.exe scripts/generate_tushare_interface_permissions_md.py`（或等价方式调用该脚本）。爬取的 `tushare_docs_md` 或积分权限表更新后应重跑。
+- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库由脚本同时生成：**[`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json)**（**程序化检索的首选**，含 `availability.code`、`apis`、`min_points_inferred` 等）以及 **[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md)**（仅供人读的同内容宽表）。二者均只收录**叶子** `data.md`（所在目录不再有子文件夹的接口页）。
+- **确定「在默认账号假设下可考虑接入的接口」时**：应先检索 **`tushare-interface-permissions.json`**（例如在条目上筛选 `availability.code == "ok_points_gate_only"` 且 `apis` 非空），再结合 `permission_excerpt_zh` / `doc_id` 回到 `tushare_docs_md` 或官网复核；不得仅凭记忆挑选接口。
+- **重新生成**：在项目根目录执行 `C:/Users/Erich/miniforge3/envs/free/python.exe scripts/generate_tushare_interface_permissions_md.py`（或等价方式调用该脚本）。爬取的 `tushare_docs_md` 或积分权限表更新后应重跑，**两处产物需保持同步**。
 - **本项目当前约定（与本机账号一致，实施时以此筛选「值得接的接口」）**：账号积分为 **8000**，在未单独购买任何「单独权限 / 包月 RT」等增值 SKU 的前提下——
-  - **仅依赖积分的接口**：以该汇总表中解析出的**积分门槛 ≤ 8000** 且非「单独计费」的条目作为**优先可调用**范围；仍须以线上账号试调或官网「我的权限」为准。
+  - **仅依赖积分的接口**：以 JSON 汇总中解析出的**积分门槛 ≤ 8000** 且 **`availability.code` 为 `ok_points_gate_only`** 的条目作为**优先可调用**范围的粗筛；再结合 `apis`/`output_fields` 与本地 `data.md` 精读；仍须以线上账号试调或官网「我的权限」为准。
   - **标为单独购买或依赖其他付费 SKU 的接口**：即使积分充足，**在未开通对应付费产品前不得假设可拉通**，默认不纳入全自动 `sync --all` 或核心链路；若在规格中要支持，须在任务中写明需开通的具体产品与预算。
 
 ### 第一步：定义数据规格
@@ -723,7 +724,7 @@ financial_refresh_quarters = 8
 
 接入每个新接口时，按此清单逐项完成：
 
-- **先在 `tushare_docs_md/`（或官网同 doc_id）阅读该接口文档，并对照 [`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md) 摘录字段、限量、分页、积分门槛与是否单独购买**，再编码。
+- **明确项目目标与数据需求后，先检索 [`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json) 粗筛候选接口（按 `availability.code`、`apis`、积分解析字段），再打开 `tushare_docs_md/`（或官网同 doc_id）精读该接口文档**，再编码。
 - 在 `fetcher.py` 增加字段常量和 `fetch_`*，**所有 `self._pro.`* 须经 `_call_pro_api(<方法名>, …)` 出站**（见「端到端接入流程 · 第二步」）。
 - 在 `storage.py` 增加写入、读取和分区判断，或复用通用函数。
 - 在 `pipeline.py` 增加 `sync_`* 方法。
@@ -735,7 +736,7 @@ financial_refresh_quarters = 8
 
 ## 风险与注意事项
 
-- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限（[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md) 为本地交叉参考）；遇限频由 `_call_pro_api` 写入 `tushare_api_rate_caps`，详见「同步规范 · 请求频率」。
+- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限（优先 [`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json) 粗筛，`tushare-interface-permissions.md` 便于人读对照）；遇限频由 `_call_pro_api` 写入 `tushare_api_rate_caps`，详见「同步规范 · 请求频率」。
 - 大体量数据不应盲目放进 `sync --all`，避免每日任务过慢或被限流。
 - 财务数据存在修订，不能只用“分区存在即跳过”的思路。
 - 股票维度接口容易产生大量请求，需要更谨慎地控制频率。
