@@ -46,6 +46,7 @@ def cli():
             "trade_cal",
             "adj_factor",
             "daily_basic",
+            "suspend_d",
             "stk_limit",
             "stock_st",
         ]
@@ -68,12 +69,13 @@ def sync(
         "daily_kline",
         "adj_factor",
         "daily_basic",
+        "suspend_d",
         "stk_limit",
         "stock_st",
     ):
         raise click.UsageError(
             "date range options are only supported for "
-            "daily_kline, adj_factor, daily_basic, stk_limit, and stock_st"
+            "daily_kline, adj_factor, daily_basic, suspend_d, stk_limit, and stock_st"
         )
 
     parsed_start_date = start_date.date() if start_date is not None else None
@@ -105,6 +107,11 @@ def sync(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
+        if sync_all or table == "suspend_d":
+            pipeline.sync_suspend_d(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            )
         if sync_all or table == "stk_limit":
             pipeline.sync_stk_limit(
                 start_date=parsed_start_date,
@@ -127,6 +134,7 @@ def status() -> None:
             "daily_kline",
             "adj_factor",
             "daily_basic",
+            "suspend_d",
             "stk_limit",
             "stock_st",
             "stock_basic",

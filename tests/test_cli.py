@@ -87,6 +87,33 @@ def test_sync_daily_basic_accepts_date_range():
     )
 
 
+def test_sync_suspend_d_accepts_date_range():
+    runner = CliRunner()
+    pipeline = MagicMock()
+    pipeline.__enter__.return_value = pipeline
+    pipeline.__exit__.return_value = False
+
+    with patch("zer0share.cli._make_pipeline", return_value=pipeline):
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--table",
+                "suspend_d",
+                "--start-date",
+                "2016-01-01",
+                "--end-date",
+                "2016-01-31",
+            ],
+        )
+
+    assert result.exit_code == 0
+    pipeline.sync_suspend_d.assert_called_once_with(
+        start_date=date(2016, 1, 1),
+        end_date=date(2016, 1, 31),
+    )
+
+
 def test_sync_daily_kline_accepts_date_range():
     runner = CliRunner()
     pipeline = MagicMock()

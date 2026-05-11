@@ -10,6 +10,7 @@ from zer0share.storage import (
     write_stock_basic,
     write_stock_st,
     write_stk_limit,
+    write_suspend_d,
     write_trade_cal,
 )
 
@@ -601,3 +602,51 @@ def test_sync_daily_basic_skips_existing_partitions(pipeline, cfg):
 
     assert pipeline._fetcher.fetch_daily_basic.call_count == 1
     assert pipeline._fetcher.fetch_daily_basic.call_args[0][0] == date(2024, 1, 2)
+
+
+def _suspend_d_df(trade_dt: date) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [trade_dt],
+            "suspend_timing": ["上午"],
+            "suspend_type": ["S"],
+        }
+    )
+
+
+def test_sync_suspend_d_writes_parquet(pipeline, cfg):
+    _setup_trade_cal_sse(pipeline, cfg)
+    pipeline._fetcher.fetch_suspend_d.return_value = _suspend_d_df(date(2024, 1, 2))
+    pipeline._meta.update_last_date("suspend_d", date(2024, 1, 1))
+
+    with patch("zer0share.pipeline.date") as mock_date:
+        mock_date.today.return_value = date(2024, 1, 2)
+        mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
+        pipeline.sync_suspend_d()
+
+    assert (cfg.data_dir / "suspend_d" / "date=20240102" / "data.parquet").exists()
+
+
+def test_sync_suspend_d_skips_existing_partitions(pipeline, cfg):
+    trade_cal = pd.DataFrame(
+        {
+            "exchange": ["SSE", "SSE"],
+            "cal_date": [date(2024, 1, 2), date(2024, 1, 3)],
+            "is_open": [True, True],
+            "pretrade_date": [date(2023, 12, 29), date(2024, 1, 2)],
+        }
+    )
+    write_trade_cal(cfg.data_dir, "SSE", trade_cal)
+    pipeline._meta.load_trade_cal_from_parquet(cfg.data_dir)
+
+    write_suspend_d(cfg.data_dir, date(2024, 1, 3), _suspend_d_df(date(2024, 1, 3)))
+
+    pipeline._fetcher.fetch_suspend_d.side_effect = [
+        _suspend_d_df(date(2024, 1, 2)),
+    ]
+
+    pipeline.sync_suspend_d(start_date=date(2024, 1, 2), end_date=date(2024, 1, 3))
+
+    assert pipeline._fetcher.fetch_suspend_d.call_count == 1
+    assert pipeline._fetcher.fetch_suspend_d.call_args[0][0] == date(2024, 1, 2)

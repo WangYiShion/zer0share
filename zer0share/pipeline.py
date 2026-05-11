@@ -12,12 +12,14 @@ from zer0share.storage import (
     daily_kline_partition_exists,
     stk_limit_partition_exists,
     stock_st_partition_exists,
+    suspend_d_partition_exists,
     write_adj_factor,
     write_stock_basic,
     write_daily_basic,
     write_daily_kline,
     write_stock_st,
     write_stk_limit,
+    write_suspend_d,
     write_trade_cal,
 )
 
@@ -243,6 +245,67 @@ class Pipeline:
 
         msg = (
             f"daily_basic 同步完成: 成功 {success} 天, "
+            f"跳过已存在 {skipped_existing} 天, 共 {len(trading_days)} 个交易日"
+        )
+        logger.info(msg)
+        self._notifier.send(msg)
+
+    def sync_suspend_d(
+        self,
+        start_date: date | None = None,
+        end_date: date | None = None,
+    ) -> None:
+        today = date.today()
+        last = self._meta.get_last_date("suspend_d")
+
+        if start_date is None:
+            start = (last + timedelta(days=1)) if last else FIRST_DATE
+            end = today
+        else:
+            start = start_date
+            end = end_date or today
+
+        if start_date is None and start > end:
+            logger.info("suspend_d 已是最新，无需同步")
+            return
+
+        if start > end:
+            raise ValueError("start_date must be on or before end_date")
+
+        trading_days = self._meta.get_trading_days("SSE", start, end)
+        if not trading_days and self._meta.get_last_date("trade_cal") is None:
+            raise RuntimeError(
+                "DuckDB 中无 SSE trade_cal 数据，请先运行 "
+                "python main.py sync --table trade_cal"
+            )
+
+        if not trading_days:
+            logger.info("指定范围内无交易日，无需同步")
+            return
+
+        success = 0
+        skipped_existing = 0
+        frontier = last
+
+        for trade_date in trading_days:
+            if suspend_d_partition_exists(self._cfg.data_dir, trade_date):
+                skipped_existing += 1
+                continue
+            try:
+                df = self._fetcher.fetch_suspend_d(trade_date)
+                if not df.empty:
+                    write_suspend_d(self._cfg.data_dir, trade_date, df)
+                    if frontier is None or trade_date > frontier:
+                        self._meta.update_last_date("suspend_d", trade_date)
+                        frontier = trade_date
+                    success += 1
+            except Exception as e:
+                logger.error(f"suspend_d {trade_date} 同步失败: {e}")
+                self._notifier.send(f"suspend_d {trade_date} 同步失败: {e}")
+                raise
+
+        msg = (
+            f"suspend_d 同步完成: 成功 {success} 天, "
             f"跳过已存在 {skipped_existing} 天, 共 {len(trading_days)} 个交易日"
         )
         logger.info(msg)

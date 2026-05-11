@@ -100,6 +100,8 @@ class Config:
     scheduler_stock_st_minute: int
     scheduler_daily_basic_hour: int
     scheduler_daily_basic_minute: int
+    scheduler_suspend_d_hour: int
+    scheduler_suspend_d_minute: int
     wecom_webhook_url: str
     notifier_enabled: bool
 
@@ -130,6 +132,8 @@ def load_config(path: Path = Path("config/settings.toml")) -> Config:
             scheduler_stock_st_minute=scheduler.get("stock_st_minute", 15),
             scheduler_daily_basic_hour=scheduler.get("daily_basic_hour", 18),
             scheduler_daily_basic_minute=scheduler.get("daily_basic_minute", 20),
+            scheduler_suspend_d_hour=scheduler.get("suspend_d_hour", 18),
+            scheduler_suspend_d_minute=scheduler.get("suspend_d_minute", 25),
             wecom_webhook_url=raw["notifier"]["wecom_webhook_url"],
             notifier_enabled=raw["notifier"]["enabled"],
         )

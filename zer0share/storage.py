@@ -210,6 +210,21 @@ def daily_basic_partition_exists(data_dir: Path, trade_date: date) -> bool:
     return path.exists()
 
 
+def write_suspend_d(data_dir: Path, trade_date: date, df: pd.DataFrame) -> None:
+    partition_dir = data_dir / "suspend_d" / f"date={trade_date.strftime('%Y%m%d')}"
+    partition_dir.mkdir(parents=True, exist_ok=True)
+    table = pa.Table.from_pandas(df, preserve_index=False)
+    pq.write_table(table, partition_dir / "data.parquet")
+
+
+def suspend_d_partition_exists(data_dir: Path, trade_date: date) -> bool:
+    path = (
+        data_dir / "suspend_d" / f"date={trade_date.strftime('%Y%m%d')}"
+        / "data.parquet"
+    )
+    return path.exists()
+
+
 def write_stock_basic(data_dir: Path, df: pd.DataFrame) -> None:
     stock_basic_dir = data_dir / "stock_basic"
     stock_basic_dir.mkdir(parents=True, exist_ok=True)

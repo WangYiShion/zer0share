@@ -11,6 +11,7 @@ from zer0share.storage import (
     write_stock_basic,
     write_stock_st,
     write_stk_limit,
+    write_suspend_d,
     write_trade_cal,
 )
 
@@ -282,6 +283,65 @@ def test_stock_st_filters_trade_date_and_formats_dates(tmp_path):
     ]
 
 
+def test_suspend_d_filters_suspend_type_and_orders(tmp_path):
+    write_suspend_d(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            [
+                {
+                    "ts_code": "000001.SZ",
+                    "trade_date": date(2024, 1, 2),
+                    "suspend_timing": "开市",
+                    "suspend_type": "S",
+                },
+                {
+                    "ts_code": "000001.SZ",
+                    "trade_date": date(2024, 1, 2),
+                    "suspend_timing": "收市",
+                    "suspend_type": "R",
+                },
+            ]
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    all_rows = pro.suspend_d(trade_date="20240102")
+    assert len(all_rows) == 2
+
+    resumes = pro.suspend_d(trade_date="20240102", suspend_type="R")
+    assert resumes.to_dict("records") == [
+        {
+            "ts_code": "000001.SZ",
+            "trade_date": "20240102",
+            "suspend_timing": "收市",
+            "suspend_type": "R",
+        }
+    ]
+
+
+def test_suspend_d_invalid_suspend_type_raises(tmp_path):
+    write_suspend_d(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            [
+                {
+                    "ts_code": "000001.SZ",
+                    "trade_date": date(2024, 1, 2),
+                    "suspend_timing": "开市",
+                    "suspend_type": "S",
+                },
+            ]
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+
+    with pytest.raises(ValueError, match="suspend_type"):
+        pro.suspend_d(trade_date="20240102", suspend_type="X")
+
+
 def test_daily_rejects_ambiguous_trade_date_and_range(tmp_path):
     pro = LocalPro(tmp_path)
 
@@ -354,6 +414,32 @@ def test_query_dispatches_daily_basic(tmp_path):
     assert row["ts_code"] == "000001.SZ"
     assert row["trade_date"] == "20240102"
     assert row["circ_mv"] == 840000.0
+
+
+def test_query_dispatches_suspend_d(tmp_path):
+    write_suspend_d(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            [
+                {
+                    "ts_code": "000001.SZ",
+                    "trade_date": date(2024, 1, 2),
+                    "suspend_timing": "上午",
+                    "suspend_type": "S",
+                },
+            ]
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.query("suspend_d", ts_code="000001.SZ")
+
+    assert len(result.to_dict("records")) == 1
+    row = result.to_dict("records")[0]
+    assert row["ts_code"] == "000001.SZ"
+    assert row["trade_date"] == "20240102"
+    assert row["suspend_type"] == "S"
 
 
 def test_query_dispatches_stock_st(tmp_path):

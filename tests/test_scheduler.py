@@ -20,10 +20,22 @@ enabled = false
 """
 
 
-def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
+def _isolated_scheduler_toml(tmp_path) -> str:
+    """Paths relative to cwd would lock the repo DuckDB; keep tests in tmp_path."""
+    data = (tmp_path / "data").resolve()
+    db = (tmp_path / "db" / "meta.duckdb").resolve()
+    log = (tmp_path / "logs" / "pipeline.log").resolve()
+    return (
+        VALID_CONFIG.replace('data_dir = "data"', f'data_dir = "{data.as_posix()}"')
+        .replace('db_path = "db/meta.duckdb"', f'db_path = "{db.as_posix()}"')
+        .replace('log_path = "logs/pipeline.log"', f'log_path = "{log.as_posix()}"')
+    )
+
+
+def test_start_scheduler_registers_all_jobs(tmp_path, monkeypatch):
     monkeypatch.setenv("TUSHARE_TOKEN", "test")
     cfg_file = tmp_path / "settings.toml"
-    cfg_file.write_text(VALID_CONFIG, encoding="utf-8")
+    cfg_file.write_text(_isolated_scheduler_toml(tmp_path), encoding="utf-8")
 
     registered_jobs = []
 
@@ -52,14 +64,15 @@ def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
         "stk_limit",
         "stock_st",
         "daily_basic",
+        "suspend_d",
     }
-    assert len(registered_jobs) == 6
+    assert len(registered_jobs) == 7
 
 
 def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
     monkeypatch.setenv("TUSHARE_TOKEN", "test")
     cfg_file = tmp_path / "settings.toml"
-    cfg_file.write_text(VALID_CONFIG, encoding="utf-8")
+    cfg_file.write_text(_isolated_scheduler_toml(tmp_path), encoding="utf-8")
 
     cron_calls = []
 
@@ -86,3 +99,4 @@ def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
     assert cron_calls[3] == {"hour": 18, "minute": 10}
     assert cron_calls[4] == {"hour": 18, "minute": 15}
     assert cron_calls[5] == {"hour": 18, "minute": 20}
+    assert cron_calls[6] == {"hour": 18, "minute": 25}

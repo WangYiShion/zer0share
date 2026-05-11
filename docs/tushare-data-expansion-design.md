@@ -9,6 +9,7 @@
 - `daily_kline`：A 股日线行情
 - `adj_factor`：复权因子
 - `daily_basic`：每日指标（换手率、市盈率、市净率、市值等）
+- `suspend_d`：每日停复牌信息（停牌/复牌）
 - `stk_limit`：每日涨跌停价格（涨停价、跌停价）
 - `stock_st`：ST 股票列表（按交易日的风险警示证券）
 
@@ -29,7 +30,7 @@
 ## 非目标
 
 - 本文档不实现具体新接口。
-- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`daily_basic`、`stk_limit`、`stock_st` 的行为。
+- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`daily_basic`、`suspend_d`、`stk_limit`、`stock_st` 的行为。
 - 本文档不保存任何 Token、Webhook Key 或本机私密路径。
 - 本文档不要求完整复刻 Tushare 的所有接口参数，只要求优先对齐常用查询方式。
 
@@ -99,6 +100,7 @@ data/<table_name>/data.parquet
 - `daily`
 - `adj_factor`
 - `daily_basic`
+- `suspend_d`
 - `moneyflow`
 - `stk_limit`
 - `stock_st`
@@ -166,7 +168,6 @@ data/<table_name>/ann_date=YYYYMMDD/data.parquet
 
 示例：
 
-- `suspend_d`
 - `bak_daily`（视接口限制而定）
 - 某些公司行动、股东户数、十大股东类接口
 
@@ -268,7 +269,7 @@ data/<table_name>/data.parquet
 
 - 只负责调用 Tushare、指定字段、处理空返回、转换日期类型。
 - 不写文件，不更新同步进度（同步进度除外：限流档位由 `_call_pro_api` 写入元数据库中的 `tushare_api_rate_caps`）。
-- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`daily_basic`、`stk_limit`、`stock_st`），以统一限速、遇超限自动降档与持久化。
+- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`daily_basic`、`suspend_d`、`stk_limit`、`stock_st`），以统一限速、遇超限自动降档与持久化。
 - Tushare 返回 `None` 或空表时，返回带正确列名的空 `DataFrame`。
 - 日期列在内部统一转为 Python `date`，本地 API 输出时再转回 `YYYYMMDD` 字符串。
 - 字段顺序必须和字段常量一致。
@@ -640,7 +641,7 @@ financial_refresh_quarters = 8
 | `dividend`  | `dividend`  | 报告期/公告日型 | `ann_date=YYYYMMDD` | 分红送转  |
 | `forecast`  | `forecast`  | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩预告  |
 | `express`   | `express`   | 报告期/公告日型 | `ann_date=YYYYMMDD` | 业绩快报  |
-| `suspend_d` | `suspend_d` | 股票维度/日期型 | 视接口而定               | 停复牌信息 |
+| `suspend_d` | `suspend_d` | 交易日增量型 | `date=YYYYMMDD` | 每日停复牌（主干已接入） |
 
 
 ### 第四批：指数、行业与专题
@@ -682,7 +683,7 @@ financial_refresh_quarters = 8
 1. `limit_list_d`
 2. `moneyflow`
 
-（`daily_basic`、`stk_limit`、`stock_st` 已在当前仓库主干实现，见上表与本节数据接入示例。）
+（`daily_basic`、`suspend_d`、`stk_limit`、`stock_st` 已在当前仓库主干实现，见上表与本节数据接入示例。）
 
 验收：
 

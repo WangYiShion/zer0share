@@ -78,10 +78,12 @@ DAILY_BASIC_COLS = [
     "total_mv",
     "circ_mv",
 ]
+SUSPEND_D_COLS = ["ts_code", "trade_date", "suspend_timing", "suspend_type"]
 
 _STK_LIMIT_PAGE_SIZE = 5000
 _STOCK_ST_PAGE_SIZE = 1000
 _DAILY_BASIC_PAGE_SIZE = 6000
+_SUSPEND_D_PAGE_SIZE = 5000
 
 T = TypeVar("T")
 
@@ -279,6 +281,40 @@ class TushareFetcher:
             out["trade_date"], format="%Y%m%d", errors="coerce"
         ).dt.date
         return out[DAILY_BASIC_COLS]
+
+    def fetch_suspend_d(self, trade_date: date) -> pd.DataFrame:
+        date_str = trade_date.strftime("%Y%m%d")
+        logger.info(f"拉取每日停复牌信息 suspend_d: {date_str}")
+        field_str = ",".join(SUSPEND_D_COLS)
+        chunks: list[pd.DataFrame] = []
+        offset = 0
+        while True:
+            df = self._call_pro_api(
+                "suspend_d",
+                lambda o=offset: self._pro.suspend_d(
+                    trade_date=date_str,
+                    offset=o,
+                    limit=_SUSPEND_D_PAGE_SIZE,
+                    fields=field_str,
+                ),
+            )
+            if df is None or df.empty:
+                break
+            chunks.append(df)
+            if len(df) < _SUSPEND_D_PAGE_SIZE:
+                break
+            offset += len(df)
+        if not chunks:
+            return pd.DataFrame(columns=SUSPEND_D_COLS)
+        out = pd.concat(chunks, ignore_index=True)
+        out = out.drop_duplicates(
+            subset=["ts_code", "trade_date", "suspend_type"],
+            keep="last",
+        )
+        out["trade_date"] = pd.to_datetime(
+            out["trade_date"], format="%Y%m%d", errors="coerce"
+        ).dt.date
+        return out[SUSPEND_D_COLS]
 
     def fetch_trade_cal(self, exchange: str) -> pd.DataFrame:
         today = date.today().strftime("%Y%m%d")

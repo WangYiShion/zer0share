@@ -360,6 +360,54 @@ def test_fetch_daily_basic_returns_empty_when_none(mock_pro):
     assert df.empty
 
 
+def _suspend_d_row(
+    ts_code: str = "000001.SZ",
+    suspend_type: str = "S",
+) -> dict[str, object]:
+    return {
+        "ts_code": ts_code,
+        "trade_date": "20240102",
+        "suspend_timing": "上午",
+        "suspend_type": suspend_type,
+    }
+
+
+def test_fetch_suspend_d_single_page(mock_pro):
+    mock_pro.suspend_d.return_value = pd.DataFrame([_suspend_d_row()])
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_suspend_d(date(2024, 1, 2))
+
+    mock_pro.suspend_d.assert_called_once()
+    call_kw = mock_pro.suspend_d.call_args.kwargs
+    assert call_kw["trade_date"] == "20240102"
+    assert call_kw["offset"] == 0
+    assert call_kw["limit"] == 5000
+    assert len(df) == 1
+    assert df.iloc[0]["trade_date"] == date(2024, 1, 2)
+
+
+def test_fetch_suspend_d_concat_pages(mock_pro):
+    page_a = pd.DataFrame([_suspend_d_row(f"{i:06d}.SZ") for i in range(5000)])
+    page_b = pd.DataFrame([_suspend_d_row("700000.SH")])
+    mock_pro.suspend_d.side_effect = [page_a, page_b]
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_suspend_d(date(2024, 1, 2))
+
+    assert mock_pro.suspend_d.call_count == 2
+    assert len(df) == 5001
+
+
+def test_fetch_suspend_d_returns_empty_when_none(mock_pro):
+    mock_pro.suspend_d.return_value = None
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_suspend_d(date(2024, 1, 1))
+
+    assert df.empty
+
+
 def test_fetch_trade_cal_returns_correct_columns(mock_pro):
     mock_pro.trade_cal.return_value = pd.DataFrame({
         "exchange": ["SSE", "SSE"],

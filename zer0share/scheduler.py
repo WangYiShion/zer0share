@@ -77,6 +77,14 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             ),
             id="daily_basic",
         )
+        scheduler.add_job(
+            pipeline.sync_suspend_d,
+            CronTrigger(
+                hour=cfg.scheduler_suspend_d_hour,
+                minute=cfg.scheduler_suspend_d_minute,
+            ),
+            id="suspend_d",
+        )
         logger.info(
             f"调度器启动: daily_kline 每天 "
             f"{cfg.scheduler_daily_kline_hour}:{cfg.scheduler_daily_kline_minute:02d}, "
@@ -88,6 +96,8 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             f"{cfg.scheduler_stock_st_hour}:{cfg.scheduler_stock_st_minute:02d}, "
             f"daily_basic 每天 "
             f"{cfg.scheduler_daily_basic_hour}:{cfg.scheduler_daily_basic_minute:02d}, "
+            f"suspend_d 每天 "
+            f"{cfg.scheduler_suspend_d_hour}:{cfg.scheduler_suspend_d_minute:02d}, "
             f"stock_basic 每天 {cfg.scheduler_basic_hour}:00"
         )
         scheduler.start()

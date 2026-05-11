@@ -55,6 +55,8 @@ def test_load_config_returns_all_fields(tmp_path, monkeypatch):
     assert cfg.scheduler_stock_st_minute == 15
     assert cfg.scheduler_daily_basic_hour == 18
     assert cfg.scheduler_daily_basic_minute == 20
+    assert cfg.scheduler_suspend_d_hour == 18
+    assert cfg.scheduler_suspend_d_minute == 25
     assert cfg.wecom_webhook_url == "https://example.com/webhook"
     assert cfg.notifier_enabled is False
 
@@ -121,6 +123,23 @@ def test_load_config_explicit_daily_basic_scheduler(tmp_path, monkeypatch):
 
     assert cfg.scheduler_daily_basic_hour == 10
     assert cfg.scheduler_daily_basic_minute == 30
+
+
+def test_load_config_explicit_suspend_d_scheduler(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "x")
+    cfg_file = tmp_path / "settings.toml"
+    cfg_file.write_text(
+        VALID_TOML.replace(
+            "adj_factor_minute = 5",
+            "adj_factor_minute = 5\nsuspend_d_hour = 10\nsuspend_d_minute = 45",
+        ),
+        encoding="utf-8",
+    )
+
+    cfg = load_config(cfg_file)
+
+    assert cfg.scheduler_suspend_d_hour == 10
+    assert cfg.scheduler_suspend_d_minute == 45
 
 
 def test_load_config_file_not_found():

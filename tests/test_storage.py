@@ -12,11 +12,13 @@ from zer0share.storage import (
     read_trade_cal,
     stock_st_partition_exists,
     stk_limit_partition_exists,
+    suspend_d_partition_exists,
     write_daily_basic,
     write_daily_kline,
     write_stock_basic,
     write_stock_st,
     write_stk_limit,
+    write_suspend_d,
     write_trade_cal,
 )
 
@@ -252,6 +254,22 @@ def test_daily_basic_partition_writes(tmp_path):
     write_daily_basic(tmp_path, date(2024, 1, 2), df)
 
     assert daily_basic_partition_exists(tmp_path, date(2024, 1, 2)) is True
+
+
+def test_suspend_d_partition_writes(tmp_path):
+    assert suspend_d_partition_exists(tmp_path, date(2024, 1, 2)) is False
+
+    df = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [date(2024, 1, 2)],
+            "suspend_timing": ["上午"],
+            "suspend_type": ["S"],
+        }
+    )
+    write_suspend_d(tmp_path, date(2024, 1, 2), df)
+
+    assert suspend_d_partition_exists(tmp_path, date(2024, 1, 2)) is True
 
 
 def test_write_and_read_stock_basic(tmp_path):

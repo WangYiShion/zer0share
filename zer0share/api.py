@@ -12,6 +12,7 @@ from zer0share.fetcher import (
     DAILY_COLS,
     STOCK_ST_COLS,
     STK_LIMIT_COLS,
+    SUSPEND_D_COLS,
     TRADE_CAL_COLS,
 )
 
@@ -162,6 +163,27 @@ class LocalPro:
             fields=fields,
         )
 
+    def suspend_d(
+        self,
+        ts_code: str | None = None,
+        trade_date: str | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        suspend_type: str | None = None,
+        fields: str | list[str] | None = None,
+    ) -> pd.DataFrame:
+        return self._query_daily_partitioned(
+            table_name="suspend_d",
+            sync_table="suspend_d",
+            columns=SUSPEND_D_COLS,
+            ts_code=ts_code,
+            trade_date=trade_date,
+            start_date=start_date,
+            end_date=end_date,
+            fields=fields,
+            suspend_type=suspend_type,
+        )
+
     def stk_limit(
         self,
         ts_code: str | None = None,
@@ -270,6 +292,7 @@ class LocalPro:
             "daily": self.daily,
             "adj_factor": self.adj_factor,
             "daily_basic": self.daily_basic,
+            "suspend_d": self.suspend_d,
             "stk_limit": self.stk_limit,
             "stock_st": self.stock_st,
             "pro_bar": self.pro_bar,
@@ -290,6 +313,7 @@ class LocalPro:
         start_date: str | None,
         end_date: str | None,
         fields: str | list[str] | None,
+        suspend_type: str | None = None,
     ) -> pd.DataFrame:
         if trade_date is not None and (start_date is not None or end_date is not None):
             raise ValueError("trade_date cannot be combined with start_date or end_date")
@@ -321,12 +345,20 @@ class LocalPro:
         if parsed_end is not None:
             where.append("trade_date <= ?")
             params.append(parsed_end)
+        if suspend_type is not None:
+            if suspend_type not in ("S", "R"):
+                raise ValueError("suspend_type must be 'S' (停牌) or 'R' (复牌)")
+            where.append("suspend_type = ?")
+            params.append(suspend_type)
 
         pattern = table_dir / "date=*" / "data.parquet"
         sql = f"SELECT {', '.join(selected)} FROM read_parquet(?, hive_partitioning=true)"
         if where:
             sql += " WHERE " + " AND ".join(where)
-        sql += " ORDER BY ts_code, trade_date"
+        order_by = ["ts_code", "trade_date"]
+        if "suspend_type" in selected:
+            order_by.append("suspend_type")
+        sql += " ORDER BY " + ", ".join(order_by)
 
         df = duckdb.connect().execute(sql, [str(pattern), *params]).fetchdf()
         return _format_date_columns(df, ["trade_date"])

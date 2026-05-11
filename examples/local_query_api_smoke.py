@@ -60,6 +60,12 @@ def run_examples(ts_code: str, start_date: str, end_date: str, trade_date: str) 
     )
     _print_frame("daily_basic", indicators)
 
+    suspend = pro.suspend_d(
+        trade_date=trade_date,
+        fields="ts_code,trade_date,suspend_timing,suspend_type",
+    )
+    _print_frame("suspend_d", suspend)
+
     stk_lim = pro.stk_limit(
         ts_code=ts_code,
         start_date=start_date,
