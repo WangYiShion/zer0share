@@ -235,7 +235,7 @@ data/<table_name>/data.parquet
 
 #### 与本仓库对齐的「可调用接口 / 字段 / 积分或单独购买」参考
 
-- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库维护一份自动汇总的 **[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md)**，按 `doc_id` 列出接口名、文档解析出的输出字段、积分门槛（脚本从正文提取）以及「单独购买」参考价（与 `docs/tushare积分权限表.xlsx` 对齐的部分产品线）。
+- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库维护一份自动汇总的 **[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md)**，按 `doc_id` 列出**叶子**接口页（即 `data.md` 所在文件夹下不再含子文件夹的文档；上级目录的总览 md 不包含在内）的接口名、文档解析出的输出字段、积分门槛（脚本从正文提取）以及「单独购买」参考价（与 `docs/tushare积分权限表.xlsx` 对齐的部分产品线）。
 - **重新生成**：在项目根目录执行 `C:/Users/Erich/miniforge3/envs/free/python.exe scripts/generate_tushare_interface_permissions_md.py`（或等价方式调用该脚本）。爬取的 `tushare_docs_md` 或积分权限表更新后应重跑。
 - **本项目当前约定（与本机账号一致，实施时以此筛选「值得接的接口」）**：账号积分为 **8000**，在未单独购买任何「单独权限 / 包月 RT」等增值 SKU 的前提下——
   - **仅依赖积分的接口**：以该汇总表中解析出的**积分门槛 ≤ 8000** 且非「单独计费」的条目作为**优先可调用**范围；仍须以线上账号试调或官网「我的权限」为准。

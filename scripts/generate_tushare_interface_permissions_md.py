@@ -163,6 +163,8 @@ _RE_POINTS = re.compile(r"(\d+)\s*积分")
 
 def infer_min_points(perm_blob: str, apis: list[str]) -> int | None:
     nums = [int(x) for x in _RE_POINTS.findall(perm_blob)]
+    nums.extend(int(m.group(1)) for m in re.finditer(r"积分达到\s*(\d+)", perm_blob))
+    nums.extend(int(m.group(1)) for m in re.finditer(r"(?:需要|积累|累积|具备|达到)(?:至少)?\s*(\d+)\s*积分", perm_blob))
     if nums:
         # 「120积分可以调取2次」等为试用档位，但真正门槛通常另有说明
         filtered = [n for n in nums if n >= 500]
@@ -209,6 +211,14 @@ def permission_blob_from_text(text: str) -> str:
     return text[:4000]
 
 
+def is_leaf_interface_doc(md_path_posix: str) -> bool:
+    """仅「叶子」`data.md`：所在目录下没有任何子文件夹（上级目录的 md 多为专题索引，非单个接口文档）。"""
+    abs_dir = ROOT / Path(md_path_posix).parent
+    if not abs_dir.is_dir():
+        return False
+    return not any(p.is_dir() for p in abs_dir.iterdir())
+
+
 def cell_escape(s: str) -> str:
     return s.replace("|", "\\|").replace("\n", " ").strip()
 
@@ -234,6 +244,8 @@ def collect_rows() -> list[Row]:
     for ent in entries:
         doc_id = str(ent["doc_id"])
         rel = Path(ent["md_path_posix"])
+        if not is_leaf_interface_doc(ent["md_path_posix"]):
+            continue
         path = ROOT / rel
         crumb = "/".join(ent.get("breadcrumb_zh") or [])
         title_md = ent.get("markdown_first_heading") or ent.get("menu_leaf_zh") or ""
@@ -302,6 +314,7 @@ def main() -> None:
     lines.append("## 维护说明")
     lines.append("")
     lines.append("- **重新生成**：在仓库根目录执行 `scripts/generate_tushare_interface_permissions_md.py`。")
+    lines.append("- **收录范围**：只包含 **叶子** `data.md`——即该文件所在目录下**没有子文件夹**的页面；含子目录的上级 `data.md`（专题总览）不列入本表，避免误当作独立接口。")
     lines.append("- **表格列**：`输出字段（官方文档表格）` 取自各页「输出参数」首张表的第一列字段名（若页面无表格或格式异常则为空）；`权限原文摘要` 为文首说明区截取，便于人工核对。")
     lines.append("- **积分门槛（解析）**：从说明文字中提取到的**最低**「××积分」要求（若同时出现试用档与高档，优先采用 ≥500 的最小档；个别页面如「基础积分」无数字时，`daily` 等按权限表归入 **120** 试用/免费档）。无法解析时为「—」，请回看该接口 `data.md` 或官网。")
     lines.append("- **单独购买参考价**：对官网标为单独计费的产品，按积分权限表中的定价填写；与具体 `pro.xxx` 的对应关系以官网为准。")
