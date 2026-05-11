@@ -57,6 +57,13 @@ def run_examples(ts_code: str, start_date: str, end_date: str, trade_date: str) 
     )
     _print_frame("stk_limit", stk_lim)
 
+    st_board = pro.stock_st(
+        trade_date=trade_date,
+        ts_code=ts_code,
+        fields="ts_code,name,trade_date,type,type_name",
+    )
+    _print_frame("stock_st", st_board)
+
     qfq = pro.pro_bar(
         ts_code=ts_code,
         start_date=start_date,

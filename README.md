@@ -12,7 +12,7 @@ A-股数据本地化管道，基于 [Tushare Pro](https://tushare.pro) 拉取股
 
 ## 特性
 
-- **核心数据同步**：支持交易日历、股票基础信息、日线行情、复权因子、每日涨跌停价（`stk_limit`）
+- **核心数据同步**：支持交易日历、股票基础信息、日线行情、复权因子、每日涨跌停价（`stk_limit`）、ST 股票列表（[`stock_st`](https://tushare.pro/document/2?doc_id=397)）
 - **本地优先存储**：Parquet 分区文件 + DuckDB 元数据，无需数据库服务
 - **Tushare-like 查询**：本地 `pro_api()` 直接返回 DataFrame，不消耗 Tushare 积分
 - **复权行情**：本地 `pro_bar()` 支持不复权、前复权（qfq）和后复权（hfq）
@@ -68,6 +68,7 @@ uv run python main.py sync --table stock_basic   # 股票基础信息
 uv run python main.py sync --table daily_kline # 日线行情（依赖交易日历）
 uv run python main.py sync --table adj_factor  # 复权因子（依赖交易日历）
 uv run python main.py sync --table stk_limit   # 每日涨跌停价（依赖交易日历，Tushare stk_limit）
+uv run python main.py sync --table stock_st   # ST 股票列表（依赖交易日历，Tushare stock_st）
 ```
 
 ### 4. 查看同步状态
@@ -96,6 +97,7 @@ cal = pro.trade_cal(exchange="SSE", start_date="20240101", end_date="20240131")
 daily = pro.daily(ts_code="000001.SZ", start_date="20240101", end_date="20240331")
 adj = pro.adj_factor(ts_code="000001.SZ", start_date="20240101", end_date="20240331")
 limits = pro.stk_limit(ts_code="000001.SZ", start_date="20240101", end_date="20240331")
+st_list = pro.stock_st(trade_date="20240102", fields="ts_code,name,trade_date,type,type_name")
 
 qfq = pro.pro_bar(
     ts_code="000001.SZ",
@@ -115,6 +117,7 @@ qfq = pro.pro_bar(
 | `daily`       | 查询已同步的 A 股日线行情                       |
 | `adj_factor`  | 查询已同步的复权因子                           |
 | `stk_limit`   | 查询已同步的每日涨跌停价（昨收、涨停价、跌停价）            |
+| `stock_st`    | 查询已同步的 ST 股票列表（按交易日，`ts_code`、`name`、`type` 等） |
 | `pro_bar`     | 查询本地 A 股日线行情，支持不复权、前复权（qfq）和后复权（hfq） |
 | `query`       | 按接口名分发，例如 `pro.query("daily", ...)`  |
 
@@ -146,6 +149,9 @@ data/
 └── stk_limit/                    # Tushare stk_limit：每日涨停价、跌停价
     ├── date=20160104/data.parquet
     └── ...
+├── stock_st/                     # Tushare stock_st：每日 ST/*ST 列表
+    ├── date=20160104/data.parquet
+    └── ...
 db/
 └── meta.duckdb                      # 同步记录 + 交易日历索引
 ```
@@ -160,6 +166,7 @@ db/
 | `sync --table daily_kline` | 增量同步日线行情       |
 | `sync --table adj_factor`  | 增量同步复权因子       |
 | `sync --table stk_limit`   | 增量同步每日涨跌停价（Tushare `stk_limit`） |
+| `sync --table stock_st`    | 增量同步 ST 股票列表（Tushare `stock_st`） |
 | `sync --all`               | 按顺序同步全部        |
 | `status`                   | 查看各表最后同步时间     |
 | `scheduler start`          | 启动定时调度         |
@@ -181,6 +188,8 @@ adj_factor_hour = 18       # 复权因子同步触发时间（小时）
 adj_factor_minute = 5
 # stk_limit_hour = 18      # 可选，默认 18；每日涨跌停价
 # stk_limit_minute = 10    # 可选，默认 10
+# stock_st_hour = 18       # 可选，默认 18；ST 列表（官方约交易日 09:20 更新）
+# stock_st_minute = 15    # 可选，默认 15
 
 [notifier]
 wecom_webhook_url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_KEY"

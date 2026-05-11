@@ -248,6 +248,59 @@ def test_fetch_stk_limit_persists_rate_cap_for_next_process(mock_pro, tmp_path):
     meta2.close()
 
 
+def test_fetch_stock_st_single_page(mock_pro):
+    mock_pro.stock_st.return_value = pd.DataFrame(
+        {
+            "ts_code": ["300313.SZ"],
+            "name": ["*ST天山"],
+            "trade_date": ["20240102"],
+            "type": ["ST"],
+            "type_name": ["风险警示板"],
+        }
+    )
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stock_st(date(2024, 1, 2))
+
+    mock_pro.stock_st.assert_called_once()
+    assert list(df.columns) == ["ts_code", "name", "trade_date", "type", "type_name"]
+    assert len(df) == 1
+    assert df.iloc[0]["trade_date"] == date(2024, 1, 2)
+
+
+def test_fetch_stock_st_concat_pages(mock_pro):
+    page_a = pd.DataFrame(
+        {
+            "ts_code": [f"{i:06d}.SZ" for i in range(1000)],
+            "name": ["x"] * 1000,
+            "trade_date": ["20240102"] * 1000,
+            "type": ["ST"] * 1000,
+            "type_name": ["风险警示板"] * 1000,
+        }
+    )
+    page_b = pd.DataFrame(
+        {
+            "ts_code": ["600000.SH"],
+            "name": ["*ST浦发"],
+            "trade_date": ["20240102"],
+            "type": ["ST"],
+            "type_name": ["风险警示板"],
+        }
+    )
+    mock_pro.stock_st.side_effect = [page_a, page_b]
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stock_st(date(2024, 1, 2))
+
+    assert mock_pro.stock_st.call_count == 2
+    assert len(df) == 1001
+
+
+def test_fetch_stock_st_returns_empty_when_none(mock_pro):
+    mock_pro.stock_st.return_value = None
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stock_st(date(2024, 1, 1))
+    assert df.empty
+
+
 def test_fetch_trade_cal_returns_correct_columns(mock_pro):
     mock_pro.trade_cal.return_value = pd.DataFrame({
         "exchange": ["SSE", "SSE"],

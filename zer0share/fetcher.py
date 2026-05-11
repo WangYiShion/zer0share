@@ -57,8 +57,10 @@ STK_LIMIT_COLS = [
     "up_limit",
     "down_limit",
 ]
+STOCK_ST_COLS = ["ts_code", "name", "trade_date", "type", "type_name"]
 
 _STK_LIMIT_PAGE_SIZE = 5000
+_STOCK_ST_PAGE_SIZE = 1000
 
 T = TypeVar("T")
 
@@ -193,6 +195,37 @@ class TushareFetcher:
             out["trade_date"], format="%Y%m%d", errors="coerce"
         ).dt.date
         return out[STK_LIMIT_COLS]
+
+    def fetch_stock_st(self, trade_date: date) -> pd.DataFrame:
+        date_str = trade_date.strftime("%Y%m%d")
+        logger.info(f"拉取 ST 股票列表 stock_st: {date_str}")
+        field_str = ",".join(STOCK_ST_COLS)
+        chunks: list[pd.DataFrame] = []
+        offset = 0
+        while True:
+            df = self._call_pro_api(
+                "stock_st",
+                lambda o=offset: self._pro.stock_st(
+                    trade_date=date_str,
+                    offset=o,
+                    limit=_STOCK_ST_PAGE_SIZE,
+                    fields=field_str,
+                ),
+            )
+            if df is None or df.empty:
+                break
+            chunks.append(df)
+            if len(df) < _STOCK_ST_PAGE_SIZE:
+                break
+            offset += len(df)
+        if not chunks:
+            return pd.DataFrame(columns=STOCK_ST_COLS)
+        out = pd.concat(chunks, ignore_index=True)
+        out = out.drop_duplicates(subset=["ts_code", "trade_date"], keep="last")
+        out["trade_date"] = pd.to_datetime(
+            out["trade_date"], format="%Y%m%d", errors="coerce"
+        ).dt.date
+        return out[STOCK_ST_COLS]
 
     def fetch_trade_cal(self, exchange: str) -> pd.DataFrame:
         today = date.today().strftime("%Y%m%d")

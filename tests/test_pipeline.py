@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from zer0share.pipeline import Pipeline, EXCHANGES
-from zer0share.storage import write_stock_basic, write_stk_limit, write_trade_cal
+from zer0share.storage import write_stock_basic, write_stock_st, write_stk_limit, write_trade_cal
 
 
 def _basic_df() -> pd.DataFrame:
@@ -470,3 +470,66 @@ def test_sync_stk_limit_skips_existing_partitions(pipeline, cfg):
 
     assert pipeline._fetcher.fetch_stk_limit.call_count == 1
     assert pipeline._fetcher.fetch_stk_limit.call_args[0][0] == date(2024, 1, 2)
+
+
+def test_sync_stock_st_writes_parquet(pipeline, cfg):
+    _setup_trade_cal_sse(pipeline, cfg)
+    st_df = pd.DataFrame(
+        {
+            "ts_code": ["300313.SZ"],
+            "name": ["*ST天山"],
+            "trade_date": [date(2024, 1, 2)],
+            "type": ["ST"],
+            "type_name": ["风险警示板"],
+        }
+    )
+    pipeline._fetcher.fetch_stock_st.return_value = st_df
+    pipeline._meta.update_last_date("stock_st", date(2024, 1, 1))
+
+    with patch("zer0share.pipeline.date") as mock_date:
+        mock_date.today.return_value = date(2024, 1, 2)
+        mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
+        pipeline.sync_stock_st()
+
+    assert (cfg.data_dir / "stock_st" / "date=20240102" / "data.parquet").exists()
+
+
+def test_sync_stock_st_skips_existing_partitions(pipeline, cfg):
+    trade_cal = pd.DataFrame(
+        {
+            "exchange": ["SSE", "SSE"],
+            "cal_date": [date(2024, 1, 2), date(2024, 1, 3)],
+            "is_open": [True, True],
+            "pretrade_date": [date(2023, 12, 29), date(2024, 1, 2)],
+        }
+    )
+    write_trade_cal(cfg.data_dir, "SSE", trade_cal)
+    pipeline._meta.load_trade_cal_from_parquet(cfg.data_dir)
+
+    mid = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "name": ["ST万科"],
+            "trade_date": [date(2024, 1, 3)],
+            "type": ["ST"],
+            "type_name": ["风险警示板"],
+        }
+    )
+    write_stock_st(cfg.data_dir, date(2024, 1, 3), mid)
+
+    pipeline._fetcher.fetch_stock_st.side_effect = [
+        pd.DataFrame(
+            {
+                "ts_code": ["300313.SZ"],
+                "name": ["*ST天山"],
+                "trade_date": [date(2024, 1, 2)],
+                "type": ["ST"],
+                "type_name": ["风险警示板"],
+            }
+        ),
+    ]
+
+    pipeline.sync_stock_st(start_date=date(2024, 1, 2), end_date=date(2024, 1, 3))
+
+    assert pipeline._fetcher.fetch_stock_st.call_count == 1
+    assert pipeline._fetcher.fetch_stock_st.call_args[0][0] == date(2024, 1, 2)

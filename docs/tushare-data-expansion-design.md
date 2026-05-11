@@ -9,6 +9,7 @@
 - `daily_kline`：A 股日线行情
 - `adj_factor`：复权因子
 - `stk_limit`：每日涨跌停价格（涨停价、跌停价）
+- `stock_st`：ST 股票列表（按交易日的风险警示证券）
 
 这几类数据可以支撑基础行情查询和本地 `pro_bar`，但如果要做更完整的量化研究、财务分析、资金流分析或日常选股，还需要继续接入更多 Tushare 接口。后续扩展不应为每张表临时拼代码，而应沉淀一套稳定流程：从接口选择、同步策略、Parquet 存储，到本地 Tushare-like API 查询，都按同一规范推进。
 
@@ -22,12 +23,12 @@
 - 明确目录、字段、日期、增量、错误处理和测试规范。
 - 让后续新增一个数据接口时，有清晰的开发清单和验收标准。
 - **新增任意指定数据接口前，须先在仓库内的 `tushare_docs_md/` 目录阅读对应该接口的本地 Markdown 说明**（见下文「端到端接入流程 · 第零步」），再动手改代码或定规格。
-- **评估本账号是否具备调用条件时，优先检索 [`tushare-interface-permissions.json`](tushare-interface-permissions.json)**（与同目录 Markdown 由脚本从 `tushare_docs_md` 与 `docs/tushare积分权限表.xlsx` 交叉生成，可重跑更新），再结合官网账号实际开通情况做最终判断。
+- **评估本账号是否具备数据接口调用条件时，优先检索 `[tushare-interface-permissions.json](tushare-interface-permissions.json)`进行判断**
 
 ## 非目标
 
 - 本文档不实现具体新接口。
-- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`stk_limit` 的行为。
+- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`stk_limit`、`stock_st` 的行为。
 - 本文档不保存任何 Token、Webhook Key 或本机私密路径。
 - 本文档不要求完整复刻 Tushare 的所有接口参数，只要求优先对齐常用查询方式。
 
@@ -99,6 +100,7 @@ data/<table_name>/data.parquet
 - `daily_basic`
 - `moneyflow`
 - `stk_limit`
+- `stock_st`
 - `limit_list_d`
 - `ggt_daily`
 - `ggt_monthly`（如果按交易日或月份处理，需要单独判断）
@@ -227,7 +229,7 @@ data/<table_name>/data.parquet
 
 在定义数据规格、编写 `fetch_*` 或设计分区之前，须完成：
 
-- **定位文档**：按接口中文名、专题分类在 `tushare_docs_md/` 下逐级打开对应路径中的 `**data.md`**；若已知官网文档 `doc_id`，可使用同目录下的 `**INDEX.json**`（字段 `by_doc_id`）反查对应的 `md_path_posix`，再打开该文件。
+- **定位文档**：按接口中文名、专题分类在 `tushare_docs_md/` 下逐级打开对应路径中的 `**data.md`**；若已知官网文档 `doc_id`，可使用同目录下的 `**INDEX.json`**（字段 `by_doc_id`）反查对应的 `md_path_posix`，再打开该文件。
 - **对照阅读**：从本地 `data.md` 中核实 **接口名（Pro 方法名）**、**入参 / 出参字段**、**数据更新说明**、**单次限量与分页方式**、**积分与权限** 等与实现直接相关的内容；示例代码与官方描述以本地文档中的引用为准，若与线上一致性存疑，应回到官网同 `doc_id` 页面复核。
 - **沉淀到规格**：将上述结论写入本流程「第一步：定义数据规格」中的字段列表、分区策略与同步类型，避免实现与官方接口约定偏离。
 
@@ -235,11 +237,11 @@ data/<table_name>/data.parquet
 
 #### 与本仓库对齐的「可调用接口 / 字段 / 积分或单独购买」参考
 
-- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库由脚本同时生成：**[`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json)**（**程序化检索的首选**，含 `availability.code`、`apis`、`min_points_inferred` 等）以及 **[`docs/tushare-interface-permissions.md`](tushare-interface-permissions.md)**（仅供人读的同内容宽表）。二者均只收录**叶子** `data.md`（所在目录不再有子文件夹的接口页）。
-- **确定「在默认账号假设下可考虑接入的接口」时**：应先检索 **`tushare-interface-permissions.json`**（例如在条目上筛选 `availability.code == "ok_points_gate_only"` 且 `apis` 非空），再结合 `permission_excerpt_zh` / `doc_id` 回到 `tushare_docs_md` 或官网复核；不得仅凭记忆挑选接口。
+- **权威来源仍是**各页 `data.md` 与官网；为减少反复翻页，仓库由脚本同时生成：`**[docs/tushare-interface-permissions.json](tushare-interface-permissions.json)`**（**程序化检索的首选**，含 `availability.code`、`apis`、`min_points_inferred` 等）以及 `**[docs/tushare-interface-permissions.md](tushare-interface-permissions.md)`**（仅供人读的同内容宽表）。二者均只收录**叶子** `data.md`（所在目录不再有子文件夹的接口页）。
+- **确定「在默认账号假设下可考虑接入的接口」时**：应先检索 `**tushare-interface-permissions.json`**（例如在条目上筛选 `availability.code == "ok_points_gate_only"` 且 `apis` 非空），再结合 `permission_excerpt_zh` / `doc_id` 回到 `tushare_docs_md` 或官网复核；不得仅凭记忆挑选接口。
 - **重新生成**：在项目根目录执行 `C:/Users/Erich/miniforge3/envs/free/python.exe scripts/generate_tushare_interface_permissions_md.py`（或等价方式调用该脚本）。爬取的 `tushare_docs_md` 或积分权限表更新后应重跑，**两处产物需保持同步**。
 - **本项目当前约定（与本机账号一致，实施时以此筛选「值得接的接口」）**：账号积分为 **8000**，在未单独购买任何「单独权限 / 包月 RT」等增值 SKU 的前提下——
-  - **仅依赖积分的接口**：以 JSON 汇总中解析出的**积分门槛 ≤ 8000** 且 **`availability.code` 为 `ok_points_gate_only`** 的条目作为**优先可调用**范围的粗筛；再结合 `apis`/`output_fields` 与本地 `data.md` 精读；仍须以线上账号试调或官网「我的权限」为准。
+  - **仅依赖积分的接口**：以 JSON 汇总中解析出的**积分门槛 ≤ 8000** 且 `**availability.code` 为 `ok_points_gate_only`** 的条目作为**优先可调用**范围的粗筛；再结合 `apis`/`output_fields` 与本地 `data.md` 精读；仍须以线上账号试调或官网「我的权限」为准。
   - **标为单独购买或依赖其他付费 SKU 的接口**：即使积分充足，**在未开通对应付费产品前不得假设可拉通**，默认不纳入全自动 `sync --all` 或核心链路；若在规格中要支持，须在任务中写明需开通的具体产品与预算。
 
 ### 第一步：定义数据规格
@@ -265,7 +267,7 @@ data/<table_name>/data.parquet
 
 - 只负责调用 Tushare、指定字段、处理空返回、转换日期类型。
 - 不写文件，不更新同步进度（同步进度除外：限流档位由 `_call_pro_api` 写入元数据库中的 `tushare_api_rate_caps`）。
-- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`stk_limit`），以统一限速、遇超限自动降档与持久化。
+- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`stk_limit`、`stock_st`），以统一限速、遇超限自动降档与持久化。
 - Tushare 返回 `None` 或空表时，返回带正确列名的空 `DataFrame`。
 - 日期列在内部统一转为 Python `date`，本地 API 输出时再转回 `YYYYMMDD` 字符串。
 - 字段顺序必须和字段常量一致。
@@ -459,10 +461,10 @@ DATASET_SPECS = {
 ### 请求频率
 
 - **服务端**：Tushare 对账号及不同 Pro 接口有调用频率上限，具体以报错与 [官方说明](https://tushare.pro/document/1?doc_id=108) 为准；错误文案常见「频率超限」，并给出 **每分钟配额**「N次/分钟」（N 依接口与用户等级而异，例如某接口可能对部分用户生效为 **400**/**500** 等）。
-- **默认客户端**：对尚未写入降档配置的每个 `**<pro_api_name>`**（与 `ts.pro_api()` 上调用的方法同名）使用 `**TushareApiRateLimiter**`：**480 次/分钟 + 滑动 1 秒内 8 次**；封装在 `**TushareFetcher._call_pro_api`**，`Pipeline` 侧不再用固定 `sleep` 拼节流。
-- **遇频率超限报错**：若文案同时满足「频率超限」且可被正则解析「N次/分钟」，则令 `max_per_minute = max(1, N − 20)`（下边距常量见 `**zer0share.tushare_rate_limit.RATE_LIMIT_DOWNGRADE_MARGIN`**）、`max_per_second` 由 `**per_second_cap_for_minute**` 按默认 480/8 的比例换算；写入内存限流器 `**set_caps` 并重置计数窗口**，将 `(api_name, max_per_minute, max_per_second)` `**upsert` 至 DuckDB 表 `tushare_api_rate_caps`**，`MetaStore` 负责读写。**随后固定等待 60 秒**，再对该次请求重试。以后凡使用同一 `meta.duckdb` 创建的 `TushareFetcher`，会在 `_limiter_for` 首轮从该表读出配额，直接按保守值出站，无需再次触发服务端拒绝。
+- **默认客户端**：对尚未写入降档配置的每个 `**<pro_api_name>`**（与 `ts.pro_api()` 上调用的方法同名）使用 `**TushareApiRateLimiter`**：480 次/分钟 + 滑动 1 秒内 8 次；封装在 `**TushareFetcher._call_pro_api**`，`Pipeline` 侧不再用固定 `sleep` 拼节流。
+- **遇频率超限报错**：若文案同时满足「频率超限」且可被正则解析「N次/分钟」，则令 `max_per_minute = max(1, N − 20)`（下边距常量见 `**zer0share.tushare_rate_limit.RATE_LIMIT_DOWNGRADE_MARGIN`**）、`max_per_second` 由 `**per_second_cap_for_minute`** 按默认 480/8 的比例换算；写入内存限流器 `**set_caps` 并重置计数窗口**，将 `(api_name, max_per_minute, max_per_second)` `**upsert` 至 DuckDB 表 `tushare_api_rate_caps`**，`MetaStore` 负责读写。**随后固定等待 60 秒**，再对该次请求重试。以后凡使用同一 `meta.duckdb` 创建的 `TushareFetcher`，会在 `_limiter_for` 首轮从该表读出配额，直接按保守值出站，无需再次触发服务端拒绝。
 - **构造约定**：`_make_pipeline` / 调度器等入口应将 **同一 `MetaStore` 实例** 传给 `TushareFetcher` 与 `Pipeline`，避免出现两套元数据库连接语义不一致。
-- **扩展新接口**：凡新增 `fetch_*` 中的 `self._pro.xxx`，一律经 `_call_pro_api("xxx", ...)`。
+- **扩展新接口**：凡新增 `fetch_`* 中的 `self._pro.xxx`，一律经 `_call_pro_api("xxx", ...)`。
 - **并发**：不推荐多进程无协调共用同一 Token 刷屏；单机单同步进程为主。
 
 ### 失败处理
@@ -609,6 +611,7 @@ financial_refresh_quarters = 8
 | `daily_basic`  | `daily_basic`  | 交易日增量型 | `date=YYYYMMDD` | 换手率、市盈率、市净率、总市值、流通市值 |
 | `moneyflow`    | `moneyflow`    | 交易日增量型 | `date=YYYYMMDD` | 个股资金流向               |
 | `stk_limit`    | `stk_limit`    | 交易日增量型 | `date=YYYYMMDD` | 每日涨跌停价               |
+| `stock_st`     | `stock_st`     | 交易日增量型 | `date=YYYYMMDD` | 每日 ST 列表               |
 | `limit_list_d` | `limit_list_d` | 交易日增量型 | `date=YYYYMMDD` | 涨跌停股票明细              |
 
 
@@ -676,9 +679,10 @@ financial_refresh_quarters = 8
 建议顺序：
 
 1. `daily_basic`
-2. `stk_limit`
-3. `limit_list_d`
-4. `moneyflow`
+2. `limit_list_d`
+3. `moneyflow`
+
+（`stk_limit`、`stock_st` 已在当前仓库主干实现，见上表与本节数据接入示例。）
 
 验收：
 
@@ -724,8 +728,8 @@ financial_refresh_quarters = 8
 
 接入每个新接口时，按此清单逐项完成：
 
-- **明确项目目标与数据需求后，先检索 [`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json) 粗筛候选接口（按 `availability.code`、`apis`、积分解析字段），再打开 `tushare_docs_md/`（或官网同 doc_id）精读该接口文档**，再编码。
-- 在 `fetcher.py` 增加字段常量和 `fetch_`*，**所有 `self._pro.`* 须经 `_call_pro_api(<方法名>, …)` 出站**（见「端到端接入流程 · 第二步」）。
+- **明确项目目标与数据需求后，先检索 `[docs/tushare-interface-permissions.json](tushare-interface-permissions.json)` 粗筛候选接口（按 `availability.code`、`apis`、积分解析字段），再打开 `tushare_docs_md/`（或官网同 doc_id）精读该接口文档**，再编码。
+- 在 `fetcher.py` 增加字段常量和 `fetch`_*，所有 `self._pro.` 须经 `_call_pro_api(<方法名>, …)` 出站*（见「端到端接入流程 · 第二步」）。
 - 在 `storage.py` 增加写入、读取和分区判断，或复用通用函数。
 - 在 `pipeline.py` 增加 `sync_`* 方法。
 - 在 `cli.py` 增加 `sync --table`、`sync --all` 顺序和 `status`。
@@ -736,7 +740,7 @@ financial_refresh_quarters = 8
 
 ## 风险与注意事项
 
-- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限（优先 [`docs/tushare-interface-permissions.json`](tushare-interface-permissions.json) 粗筛，`tushare-interface-permissions.md` 便于人读对照）；遇限频由 `_call_pro_api` 写入 `tushare_api_rate_caps`，详见「同步规范 · 请求频率」。
+- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限（优先 `[docs/tushare-interface-permissions.json](tushare-interface-permissions.json)` 粗筛，`tushare-interface-permissions.md` 便于人读对照）；遇限频由 `_call_pro_api` 写入 `tushare_api_rate_caps`，详见「同步规范 · 请求频率」。
 - 大体量数据不应盲目放进 `sync --all`，避免每日任务过慢或被限流。
 - 财务数据存在修订，不能只用“分区存在即跳过”的思路。
 - 股票维度接口容易产生大量请求，需要更谨慎地控制频率。

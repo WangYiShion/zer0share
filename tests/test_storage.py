@@ -9,9 +9,11 @@ from zer0share.storage import (
     read_daily_kline,
     read_stock_basic,
     read_trade_cal,
+    stock_st_partition_exists,
     stk_limit_partition_exists,
     write_daily_kline,
     write_stock_basic,
+    write_stock_st,
     write_stk_limit,
     write_trade_cal,
 )
@@ -201,6 +203,23 @@ def test_stk_limit_partition_writes(tmp_path):
     write_stk_limit(tmp_path, date(2024, 1, 2), df)
 
     assert stk_limit_partition_exists(tmp_path, date(2024, 1, 2)) is True
+
+
+def test_stock_st_partition_writes(tmp_path):
+    assert stock_st_partition_exists(tmp_path, date(2024, 1, 2)) is False
+
+    df = pd.DataFrame(
+        {
+            "ts_code": ["300313.SZ"],
+            "name": ["*ST天山"],
+            "trade_date": [date(2024, 1, 2)],
+            "type": ["ST"],
+            "type_name": ["风险警示板"],
+        }
+    )
+    write_stock_st(tmp_path, date(2024, 1, 2), df)
+
+    assert stock_st_partition_exists(tmp_path, date(2024, 1, 2)) is True
 
 
 def test_write_and_read_stock_basic(tmp_path):

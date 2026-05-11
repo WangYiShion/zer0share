@@ -51,6 +51,8 @@ def test_load_config_returns_all_fields(tmp_path, monkeypatch):
     assert cfg.scheduler_adj_factor_minute == 5
     assert cfg.scheduler_stk_limit_hour == 18
     assert cfg.scheduler_stk_limit_minute == 10
+    assert cfg.scheduler_stock_st_hour == 18
+    assert cfg.scheduler_stock_st_minute == 15
     assert cfg.wecom_webhook_url == "https://example.com/webhook"
     assert cfg.notifier_enabled is False
 
@@ -83,6 +85,23 @@ def test_load_config_explicit_stk_limit_scheduler(tmp_path, monkeypatch):
 
     assert cfg.scheduler_stk_limit_hour == 9
     assert cfg.scheduler_stk_limit_minute == 0
+
+
+def test_load_config_explicit_stock_st_scheduler(tmp_path, monkeypatch):
+    monkeypatch.setenv("TUSHARE_TOKEN", "x")
+    cfg_file = tmp_path / "settings.toml"
+    cfg_file.write_text(
+        VALID_TOML.replace(
+            "adj_factor_minute = 5",
+            "adj_factor_minute = 5\nstock_st_hour = 9\nstock_st_minute = 25",
+        ),
+        encoding="utf-8",
+    )
+
+    cfg = load_config(cfg_file)
+
+    assert cfg.scheduler_stock_st_hour == 9
+    assert cfg.scheduler_stock_st_minute == 25
 
 
 def test_load_config_file_not_found():

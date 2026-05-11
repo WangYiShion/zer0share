@@ -5,7 +5,14 @@ import duckdb
 import pandas as pd
 
 from zer0share.config import resolve_pro_api_data_directory
-from zer0share.fetcher import ADJ_FACTOR_COLS, BASIC_COLS, DAILY_COLS, STK_LIMIT_COLS, TRADE_CAL_COLS
+from zer0share.fetcher import (
+    ADJ_FACTOR_COLS,
+    BASIC_COLS,
+    DAILY_COLS,
+    STOCK_ST_COLS,
+    STK_LIMIT_COLS,
+    TRADE_CAL_COLS,
+)
 
 
 class LocalPro:
@@ -154,6 +161,25 @@ class LocalPro:
             fields=fields,
         )
 
+    def stock_st(
+        self,
+        ts_code: str | None = None,
+        trade_date: str | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        fields: str | list[str] | None = None,
+    ) -> pd.DataFrame:
+        return self._query_daily_partitioned(
+            table_name="stock_st",
+            sync_table="stock_st",
+            columns=STOCK_ST_COLS,
+            ts_code=ts_code,
+            trade_date=trade_date,
+            start_date=start_date,
+            end_date=end_date,
+            fields=fields,
+        )
+
     def pro_bar(
         self,
         ts_code: str,
@@ -224,6 +250,7 @@ class LocalPro:
             "daily": self.daily,
             "adj_factor": self.adj_factor,
             "stk_limit": self.stk_limit,
+            "stock_st": self.stock_st,
             "pro_bar": self.pro_bar,
         }
         try:

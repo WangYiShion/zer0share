@@ -45,8 +45,14 @@ def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
 
         start_scheduler(str(cfg_file))
 
-    assert set(registered_jobs) == {"daily_kline", "stock_basic", "adj_factor", "stk_limit"}
-    assert len(registered_jobs) == 4
+    assert set(registered_jobs) == {
+        "daily_kline",
+        "stock_basic",
+        "adj_factor",
+        "stk_limit",
+        "stock_st",
+    }
+    assert len(registered_jobs) == 5
 
 
 def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
@@ -77,3 +83,4 @@ def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
     assert cron_calls[1] == {"hour": 8}
     assert cron_calls[2] == {"hour": 18, "minute": 5}
     assert cron_calls[3] == {"hour": 18, "minute": 10}
+    assert cron_calls[4] == {"hour": 18, "minute": 15}

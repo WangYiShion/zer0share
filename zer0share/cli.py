@@ -40,7 +40,14 @@ def cli():
 @click.option(
     "--table",
     type=click.Choice(
-        ["daily_kline", "stock_basic", "trade_cal", "adj_factor", "stk_limit"]
+        [
+            "daily_kline",
+            "stock_basic",
+            "trade_cal",
+            "adj_factor",
+            "stk_limit",
+            "stock_st",
+        ]
     ),
     default=None,
 )
@@ -60,9 +67,11 @@ def sync(
         "daily_kline",
         "adj_factor",
         "stk_limit",
+        "stock_st",
     ):
         raise click.UsageError(
-            "date range options are only supported for daily_kline, adj_factor, and stk_limit"
+            "date range options are only supported for "
+            "daily_kline, adj_factor, stk_limit, and stock_st"
         )
 
     parsed_start_date = start_date.date() if start_date is not None else None
@@ -94,6 +103,11 @@ def sync(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
+        if sync_all or table == "stock_st":
+            pipeline.sync_stock_st(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            )
 
 
 @cli.command()
@@ -106,6 +120,7 @@ def status() -> None:
             "daily_kline",
             "adj_factor",
             "stk_limit",
+            "stock_st",
             "stock_basic",
         ]:
             last = store.get_last_date(table)

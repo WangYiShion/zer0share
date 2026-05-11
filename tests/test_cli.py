@@ -33,6 +33,33 @@ def test_sync_stk_limit_accepts_date_range():
     )
 
 
+def test_sync_stock_st_accepts_date_range():
+    runner = CliRunner()
+    pipeline = MagicMock()
+    pipeline.__enter__.return_value = pipeline
+    pipeline.__exit__.return_value = False
+
+    with patch("zer0share.cli._make_pipeline", return_value=pipeline):
+        result = runner.invoke(
+            cli,
+            [
+                "sync",
+                "--table",
+                "stock_st",
+                "--start-date",
+                "2016-01-01",
+                "--end-date",
+                "2016-01-31",
+            ],
+        )
+
+    assert result.exit_code == 0
+    pipeline.sync_stock_st.assert_called_once_with(
+        start_date=date(2016, 1, 1),
+        end_date=date(2016, 1, 31),
+    )
+
+
 def test_sync_daily_kline_accepts_date_range():
     runner = CliRunner()
     pipeline = MagicMock()

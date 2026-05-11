@@ -8,6 +8,7 @@ from zer0share.storage import (
     write_adj_factor,
     write_daily_kline,
     write_stock_basic,
+    write_stock_st,
     write_stk_limit,
     write_trade_cal,
 )
@@ -192,6 +193,33 @@ def test_stk_limit_filters_trade_date_and_formats_dates(tmp_path):
     ]
 
 
+def test_stock_st_filters_trade_date_and_formats_dates(tmp_path):
+    write_stock_st(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            {
+                "ts_code": ["300313.SZ", "600000.SH"],
+                "name": ["*ST天山", "*ST浦发"],
+                "trade_date": [date(2024, 1, 2), date(2024, 1, 2)],
+                "type": ["ST", "ST"],
+                "type_name": ["风险警示板", "风险警示板"],
+            }
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.stock_st(
+        trade_date="20240102",
+        fields="ts_code,name,trade_date,type",
+    )
+
+    assert result.to_dict("records") == [
+        {"ts_code": "300313.SZ", "name": "*ST天山", "trade_date": "20240102", "type": "ST"},
+        {"ts_code": "600000.SH", "name": "*ST浦发", "trade_date": "20240102", "type": "ST"},
+    ]
+
+
 def test_daily_rejects_ambiguous_trade_date_and_range(tmp_path):
     pro = LocalPro(tmp_path)
 
@@ -245,6 +273,35 @@ def test_query_dispatches_stk_limit(tmp_path):
             "pre_close": 10.0,
             "up_limit": 11.0,
             "down_limit": 9.0,
+        }
+    ]
+
+
+def test_query_dispatches_stock_st(tmp_path):
+    write_stock_st(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            {
+                "ts_code": ["300313.SZ"],
+                "name": ["*ST天山"],
+                "trade_date": [date(2024, 1, 2)],
+                "type": ["ST"],
+                "type_name": ["风险警示板"],
+            }
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.query("stock_st", ts_code="300313.SZ")
+
+    assert result.to_dict("records") == [
+        {
+            "ts_code": "300313.SZ",
+            "name": "*ST天山",
+            "trade_date": "20240102",
+            "type": "ST",
+            "type_name": "风险警示板",
         }
     ]
 
