@@ -36,6 +36,9 @@ adj_factor_minute = 5
 # 可选；ST 股票列表同步时间，缺省为 18:15（官方约交易日 09:20 更新）
 # stock_st_hour = 18
 # stock_st_minute = 15
+# 可选；每日指标同步时间，缺省为 18:20（官方约交易日 15:00～17:00 更新）
+# daily_basic_hour = 18
+# daily_basic_minute = 20
 
 [notifier]
 wecom_webhook_url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_KEY"
@@ -99,7 +102,22 @@ uv run python main.py sync --table adj_factor
 
 字段：`ts_code`（股票代码）、`trade_date`（交易日）、`adj_factor`（复权因子值）。
 
-### 步骤五：同步每日涨跌停价格
+### 步骤五：同步每日指标（daily_basic）
+
+```bash
+uv run python main.py sync --table daily_basic
+```
+
+此命令会：
+
+- 调用 Tushare [`daily_basic`](https://tushare.pro/document/2?doc_id=32)，按交易日获取全市场个股的每日基本面指标（换手率、估值、市值等），与官方文档字段一致。
+- 以 SSE 交易日历为基准，仅交易日拉取；从 2016-01-01 起增量同步到今天。
+- `ts_code` 传空字符串表示全市场；单日记录可能超过单次接口上限（约 6000 条），客户端自动分页合并。
+- 写入 `data/daily_basic/date=YYYYMMDD/data.parquet`。
+
+字段：`ts_code`、`trade_date`、`close`、`turnover_rate`、`turnover_rate_f`、`volume_ratio`、`pe`、`pe_ttm`、`pb`、`ps`、`ps_ttm`、`dv_ratio`、`dv_ttm`、`total_share`、`float_share`、`free_share`、`total_mv`、`circ_mv`。
+
+### 步骤六：同步每日涨跌停价格
 
 ```bash
 uv run python main.py sync --table stk_limit
@@ -113,7 +131,7 @@ uv run python main.py sync --table stk_limit
 
 字段：`ts_code`、`trade_date`、`pre_close`、`up_limit`、`down_limit`。
 
-### 步骤六：同步 ST 股票列表
+### 步骤七：同步 ST 股票列表
 
 ```bash
 uv run python main.py sync --table stock_st
@@ -132,7 +150,7 @@ uv run python main.py sync --table stock_st
 
 ## 一键同步全部
 
-以上六步可合并为一条命令，顺序固定为 trade_cal → stock_basic → daily_kline → adj_factor → stk_limit → stock_st：
+以上七步可合并为一条命令，顺序固定为 trade_cal → stock_basic → daily_kline → adj_factor → daily_basic → stk_limit → stock_st：
 
 ```bash
 uv run python main.py sync --all
@@ -152,6 +170,7 @@ uv run python main.py status
 trade_cal     last sync: 2026-04-17
 daily_kline   last sync: 2026-04-17
 adj_factor    last sync: 2026-04-17
+daily_basic   last sync: 2026-04-17
 stk_limit     last sync: 2026-04-17
 stock_st      last sync: 2026-04-17
 stock_basic   last sync: 2026-04-17
@@ -186,6 +205,7 @@ uv run python main.py scheduler start
 | adj_factor | 每天 18:05 | 仅交易日写入数据，非交易日自动跳过 |
 | stk_limit | 每天 18:10（可配置 `stk_limit_hour` / `stk_limit_minute`） | 仅交易日写入；官方约每个交易日 08:40 更新当日涨跌停价 |
 | stock_st | 每天 18:15（可配置 `stock_st_hour` / `stock_st_minute`） | 仅交易日写入；官方约每个交易日 09:20 更新当日 ST 列表 |
+| daily_basic | 每天 18:20（可配置 `daily_basic_hour` / `daily_basic_minute`） | 仅交易日写入；官方约每个交易日 15:00～17:00 更新当日指标 |
 | stock_basic | 每天 08:00 | 每日全量刷新（`basic_hour` 配置项） |
 
 > 调度器需保持进程运行。生产环境建议配合 `systemd` 或 `supervisor` 管理进程。
@@ -215,6 +235,9 @@ data/
 ├── adj_factor/
 │   ├── date=20160104/data.parquet
 │   ├── date=20160105/data.parquet
+│   └── ...
+├── daily_basic/
+│   ├── date=20160104/data.parquet
 │   └── ...
 ├── stk_limit/
 │   ├── date=20160104/data.parquet

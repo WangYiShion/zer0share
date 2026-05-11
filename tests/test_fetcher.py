@@ -301,6 +301,65 @@ def test_fetch_stock_st_returns_empty_when_none(mock_pro):
     assert df.empty
 
 
+def _daily_basic_row(ts_code: str = "000001.SZ") -> dict[str, object]:
+    return {
+        "ts_code": ts_code,
+        "trade_date": "20240102",
+        "close": 10.5,
+        "turnover_rate": 2.4584,
+        "turnover_rate_f": 3.01,
+        "volume_ratio": 0.72,
+        "pe": 8.69,
+        "pe_ttm": 8.1,
+        "pb": 1.03,
+        "ps": 1.5,
+        "ps_ttm": 1.4,
+        "dv_ratio": 1.11,
+        "dv_ttm": 1.0,
+        "total_share": 10000.0,
+        "float_share": 8000.0,
+        "free_share": 7200.0,
+        "total_mv": 1000000.0,
+        "circ_mv": 840000.0,
+    }
+
+
+def test_fetch_daily_basic_single_page(mock_pro):
+    mock_pro.daily_basic.return_value = pd.DataFrame([_daily_basic_row()])
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_daily_basic(date(2024, 1, 2))
+
+    mock_pro.daily_basic.assert_called_once()
+    call_kw = mock_pro.daily_basic.call_args.kwargs
+    assert call_kw["ts_code"] == ""
+    assert call_kw["trade_date"] == "20240102"
+    assert call_kw["offset"] == 0
+    assert len(df) == 1
+    assert df.iloc[0]["trade_date"] == date(2024, 1, 2)
+
+
+def test_fetch_daily_basic_concat_pages(mock_pro):
+    page_a = pd.DataFrame([_daily_basic_row(f"{i:06d}.SZ") for i in range(6000)])
+    page_b = pd.DataFrame([_daily_basic_row("700000.SH")])
+    mock_pro.daily_basic.side_effect = [page_a, page_b]
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_daily_basic(date(2024, 1, 2))
+
+    assert mock_pro.daily_basic.call_count == 2
+    assert len(df) == 6001
+
+
+def test_fetch_daily_basic_returns_empty_when_none(mock_pro):
+    mock_pro.daily_basic.return_value = None
+    fetcher = TushareFetcher("fake_token")
+
+    df = fetcher.fetch_daily_basic(date(2024, 1, 1))
+
+    assert df.empty
+
+
 def test_fetch_trade_cal_returns_correct_columns(mock_pro):
     mock_pro.trade_cal.return_value = pd.DataFrame({
         "exchange": ["SSE", "SSE"],

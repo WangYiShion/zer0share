@@ -49,6 +49,17 @@ def run_examples(ts_code: str, start_date: str, end_date: str, trade_date: str) 
     )
     _print_frame("adj_factor", adj_factor)
 
+    indicators = pro.daily_basic(
+        ts_code=ts_code,
+        start_date=start_date,
+        end_date=end_date,
+        fields=(
+            "ts_code,trade_date,close,turnover_rate,"
+            "turnover_rate_f,volume_ratio,pe,pb,total_mv,circ_mv"
+        ),
+    )
+    _print_frame("daily_basic", indicators)
+
     stk_lim = pro.stk_limit(
         ts_code=ts_code,
         start_date=start_date,

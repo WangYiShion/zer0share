@@ -58,9 +58,30 @@ STK_LIMIT_COLS = [
     "down_limit",
 ]
 STOCK_ST_COLS = ["ts_code", "name", "trade_date", "type", "type_name"]
+DAILY_BASIC_COLS = [
+    "ts_code",
+    "trade_date",
+    "close",
+    "turnover_rate",
+    "turnover_rate_f",
+    "volume_ratio",
+    "pe",
+    "pe_ttm",
+    "pb",
+    "ps",
+    "ps_ttm",
+    "dv_ratio",
+    "dv_ttm",
+    "total_share",
+    "float_share",
+    "free_share",
+    "total_mv",
+    "circ_mv",
+]
 
 _STK_LIMIT_PAGE_SIZE = 5000
 _STOCK_ST_PAGE_SIZE = 1000
+_DAILY_BASIC_PAGE_SIZE = 6000
 
 T = TypeVar("T")
 
@@ -226,6 +247,38 @@ class TushareFetcher:
             out["trade_date"], format="%Y%m%d", errors="coerce"
         ).dt.date
         return out[STOCK_ST_COLS]
+
+    def fetch_daily_basic(self, trade_date: date) -> pd.DataFrame:
+        date_str = trade_date.strftime("%Y%m%d")
+        logger.info(f"拉取每日指标 daily_basic: {date_str}")
+        field_str = ",".join(DAILY_BASIC_COLS)
+        chunks: list[pd.DataFrame] = []
+        offset = 0
+        while True:
+            df = self._call_pro_api(
+                "daily_basic",
+                lambda o=offset: self._pro.daily_basic(
+                    ts_code="",
+                    trade_date=date_str,
+                    offset=o,
+                    limit=_DAILY_BASIC_PAGE_SIZE,
+                    fields=field_str,
+                ),
+            )
+            if df is None or df.empty:
+                break
+            chunks.append(df)
+            if len(df) < _DAILY_BASIC_PAGE_SIZE:
+                break
+            offset += len(df)
+        if not chunks:
+            return pd.DataFrame(columns=DAILY_BASIC_COLS)
+        out = pd.concat(chunks, ignore_index=True)
+        out = out.drop_duplicates(subset=["ts_code", "trade_date"], keep="last")
+        out["trade_date"] = pd.to_datetime(
+            out["trade_date"], format="%Y%m%d", errors="coerce"
+        ).dt.date
+        return out[DAILY_BASIC_COLS]
 
     def fetch_trade_cal(self, exchange: str) -> pd.DataFrame:
         today = date.today().strftime("%Y%m%d")

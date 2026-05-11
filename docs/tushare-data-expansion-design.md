@@ -8,6 +8,7 @@
 - `stock_basic`：股票基础信息
 - `daily_kline`：A 股日线行情
 - `adj_factor`：复权因子
+- `daily_basic`：每日指标（换手率、市盈率、市净率、市值等）
 - `stk_limit`：每日涨跌停价格（涨停价、跌停价）
 - `stock_st`：ST 股票列表（按交易日的风险警示证券）
 
@@ -28,7 +29,7 @@
 ## 非目标
 
 - 本文档不实现具体新接口。
-- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`stk_limit`、`stock_st` 的行为。
+- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`daily_basic`、`stk_limit`、`stock_st` 的行为。
 - 本文档不保存任何 Token、Webhook Key 或本机私密路径。
 - 本文档不要求完整复刻 Tushare 的所有接口参数，只要求优先对齐常用查询方式。
 
@@ -267,7 +268,7 @@ data/<table_name>/data.parquet
 
 - 只负责调用 Tushare、指定字段、处理空返回、转换日期类型。
 - 不写文件，不更新同步进度（同步进度除外：限流档位由 `_call_pro_api` 写入元数据库中的 `tushare_api_rate_caps`）。
-- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`stk_limit`、`stock_st`），以统一限速、遇超限自动降档与持久化。
+- 每条 **HTTP 出站**须通过 `**_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`daily_basic`、`stk_limit`、`stock_st`），以统一限速、遇超限自动降档与持久化。
 - Tushare 返回 `None` 或空表时，返回带正确列名的空 `DataFrame`。
 - 日期列在内部统一转为 Python `date`，本地 API 输出时再转回 `YYYYMMDD` 字符串。
 - 字段顺序必须和字段常量一致。
@@ -678,11 +679,10 @@ financial_refresh_quarters = 8
 
 建议顺序：
 
-1. `daily_basic`
-2. `limit_list_d`
-3. `moneyflow`
+1. `limit_list_d`
+2. `moneyflow`
 
-（`stk_limit`、`stock_st` 已在当前仓库主干实现，见上表与本节数据接入示例。）
+（`daily_basic`、`stk_limit`、`stock_st` 已在当前仓库主干实现，见上表与本节数据接入示例。）
 
 验收：
 

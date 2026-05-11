@@ -6,6 +6,7 @@ import pytest
 from zer0share.api import LocalPro
 from zer0share.storage import (
     write_adj_factor,
+    write_daily_basic,
     write_daily_kline,
     write_stock_basic,
     write_stock_st,
@@ -166,6 +167,67 @@ def test_adj_factor_filters_trade_date_and_formats_dates(tmp_path):
     ]
 
 
+def _daily_basic_write_row(ts_code: str, trade_dt: date) -> dict:
+    return {
+        "ts_code": ts_code,
+        "trade_date": trade_dt,
+        "close": 10.5,
+        "turnover_rate": 2.46,
+        "turnover_rate_f": 3.01,
+        "volume_ratio": 0.72,
+        "pe": 8.69,
+        "pe_ttm": 8.5,
+        "pb": 1.03,
+        "ps": 1.55,
+        "ps_ttm": 1.4,
+        "dv_ratio": 1.01,
+        "dv_ttm": 0.99,
+        "total_share": 10000.0,
+        "float_share": 8000.0,
+        "free_share": 7200.0,
+        "total_mv": 1000000.0,
+        "circ_mv": 840000.0,
+    }
+
+
+def test_daily_basic_filters_trade_date_and_formats_dates(tmp_path):
+    write_daily_basic(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            [
+                _daily_basic_write_row("600000.SH", date(2024, 1, 2)),
+                _daily_basic_write_row("000001.SZ", date(2024, 1, 2)),
+            ]
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.daily_basic(
+        trade_date="20240102",
+        fields="ts_code,trade_date,close,turnover_rate,pe,pb",
+    )
+
+    assert result.to_dict("records") == [
+        {
+            "ts_code": "000001.SZ",
+            "trade_date": "20240102",
+            "close": 10.5,
+            "turnover_rate": 2.46,
+            "pe": 8.69,
+            "pb": 1.03,
+        },
+        {
+            "ts_code": "600000.SH",
+            "trade_date": "20240102",
+            "close": 10.5,
+            "turnover_rate": 2.46,
+            "pe": 8.69,
+            "pb": 1.03,
+        },
+    ]
+
+
 def test_stk_limit_filters_trade_date_and_formats_dates(tmp_path):
     write_stk_limit(
         tmp_path,
@@ -275,6 +337,23 @@ def test_query_dispatches_stk_limit(tmp_path):
             "down_limit": 9.0,
         }
     ]
+
+
+def test_query_dispatches_daily_basic(tmp_path):
+    write_daily_basic(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame([_daily_basic_write_row("000001.SZ", date(2024, 1, 2))]),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.query("daily_basic", ts_code="000001.SZ")
+
+    assert len(result.to_dict("records")) == 1
+    row = result.to_dict("records")[0]
+    assert row["ts_code"] == "000001.SZ"
+    assert row["trade_date"] == "20240102"
+    assert row["circ_mv"] == 840000.0
 
 
 def test_query_dispatches_stock_st(tmp_path):

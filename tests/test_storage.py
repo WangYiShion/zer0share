@@ -5,12 +5,14 @@ import pytest
 
 from zer0share.storage import (
     MetaStore,
+    daily_basic_partition_exists,
     daily_kline_partition_exists,
     read_daily_kline,
     read_stock_basic,
     read_trade_cal,
     stock_st_partition_exists,
     stk_limit_partition_exists,
+    write_daily_basic,
     write_daily_kline,
     write_stock_basic,
     write_stock_st,
@@ -220,6 +222,36 @@ def test_stock_st_partition_writes(tmp_path):
     write_stock_st(tmp_path, date(2024, 1, 2), df)
 
     assert stock_st_partition_exists(tmp_path, date(2024, 1, 2)) is True
+
+
+def test_daily_basic_partition_writes(tmp_path):
+    assert daily_basic_partition_exists(tmp_path, date(2024, 1, 2)) is False
+
+    df = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [date(2024, 1, 2)],
+            "close": [10.5],
+            "turnover_rate": [2.0],
+            "turnover_rate_f": [2.1],
+            "volume_ratio": [0.72],
+            "pe": [8.0],
+            "pe_ttm": [7.5],
+            "pb": [1.0],
+            "ps": [1.5],
+            "ps_ttm": [1.4],
+            "dv_ratio": [1.0],
+            "dv_ttm": [0.95],
+            "total_share": [10000.0],
+            "float_share": [8000.0],
+            "free_share": [7200.0],
+            "total_mv": [1000000.0],
+            "circ_mv": [840000.0],
+        }
+    )
+    write_daily_basic(tmp_path, date(2024, 1, 2), df)
+
+    assert daily_basic_partition_exists(tmp_path, date(2024, 1, 2)) is True
 
 
 def test_write_and_read_stock_basic(tmp_path):

@@ -51,8 +51,9 @@ def test_start_scheduler_registers_two_jobs(tmp_path, monkeypatch):
         "adj_factor",
         "stk_limit",
         "stock_st",
+        "daily_basic",
     }
-    assert len(registered_jobs) == 5
+    assert len(registered_jobs) == 6
 
 
 def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
@@ -84,3 +85,4 @@ def test_start_scheduler_registers_basic_job_as_daily(tmp_path, monkeypatch):
     assert cron_calls[2] == {"hour": 18, "minute": 5}
     assert cron_calls[3] == {"hour": 18, "minute": 10}
     assert cron_calls[4] == {"hour": 18, "minute": 15}
+    assert cron_calls[5] == {"hour": 18, "minute": 20}
