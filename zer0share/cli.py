@@ -25,9 +25,10 @@ def _init_logger(log_path: Path) -> None:
 def _make_pipeline(config_path: str = "config/settings.toml") -> Pipeline:
     cfg = load_config(Path(config_path))
     _init_logger(cfg.log_path)
-    fetcher = TushareFetcher(cfg.tushare_token)
+    meta = MetaStore(cfg.db_path)
+    fetcher = TushareFetcher(cfg.tushare_token, meta)
     notifier = Notifier(cfg.wecom_webhook_url, cfg.notifier_enabled)
-    return Pipeline(cfg, fetcher, notifier)
+    return Pipeline(cfg, fetcher, notifier, meta_store=meta)
 
 
 @click.group()
@@ -38,7 +39,9 @@ def cli():
 @cli.command()
 @click.option(
     "--table",
-    type=click.Choice(["daily_kline", "stock_basic", "trade_cal", "adj_factor"]),
+    type=click.Choice(
+        ["daily_kline", "stock_basic", "trade_cal", "adj_factor", "stk_limit"]
+    ),
     default=None,
 )
 @click.option("--all", "sync_all", is_flag=True, default=False)
@@ -56,9 +59,10 @@ def sync(
     if (start_date is not None or end_date is not None) and table not in (
         "daily_kline",
         "adj_factor",
+        "stk_limit",
     ):
         raise click.UsageError(
-            "date range options are only supported for daily_kline and adj_factor"
+            "date range options are only supported for daily_kline, adj_factor, and stk_limit"
         )
 
     parsed_start_date = start_date.date() if start_date is not None else None
@@ -85,6 +89,11 @@ def sync(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
+        if sync_all or table == "stk_limit":
+            pipeline.sync_stk_limit(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            )
 
 
 @cli.command()
@@ -92,7 +101,13 @@ def status() -> None:
     """显示各表最后更新时间。"""
     cfg = load_config(Path("config/settings.toml"))
     with MetaStore(cfg.db_path) as store:
-        for table in ["trade_cal", "daily_kline", "adj_factor", "stock_basic"]:
+        for table in [
+            "trade_cal",
+            "daily_kline",
+            "adj_factor",
+            "stk_limit",
+            "stock_basic",
+        ]:
             last = store.get_last_date(table)
             click.echo(f"{table}: {last or '从未同步'}")
 

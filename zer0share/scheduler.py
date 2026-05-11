@@ -8,6 +8,7 @@ from zer0share.config import load_config
 from zer0share.fetcher import TushareFetcher
 from zer0share.notifier import Notifier
 from zer0share.pipeline import Pipeline
+from zer0share.storage import MetaStore
 
 
 _logger_initialized = False
@@ -25,10 +26,11 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
     cfg = load_config(Path(config_path))
     _init_logger(cfg.log_path)
 
-    fetcher = TushareFetcher(cfg.tushare_token)
+    meta = MetaStore(cfg.db_path)
+    fetcher = TushareFetcher(cfg.tushare_token, meta)
     notifier = Notifier(cfg.wecom_webhook_url, cfg.notifier_enabled)
 
-    with Pipeline(cfg, fetcher, notifier) as pipeline:
+    with Pipeline(cfg, fetcher, notifier, meta_store=meta) as pipeline:
         scheduler = BlockingScheduler()
         scheduler.add_job(
             pipeline.sync_daily_kline,
@@ -51,11 +53,21 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             ),
             id="adj_factor",
         )
+        scheduler.add_job(
+            pipeline.sync_stk_limit,
+            CronTrigger(
+                hour=cfg.scheduler_stk_limit_hour,
+                minute=cfg.scheduler_stk_limit_minute,
+            ),
+            id="stk_limit",
+        )
         logger.info(
             f"调度器启动: daily_kline 每天 "
             f"{cfg.scheduler_daily_kline_hour}:{cfg.scheduler_daily_kline_minute:02d}, "
             f"adj_factor 每天 "
             f"{cfg.scheduler_adj_factor_hour}:{cfg.scheduler_adj_factor_minute:02d}, "
+            f"stk_limit 每天 "
+            f"{cfg.scheduler_stk_limit_hour}:{cfg.scheduler_stk_limit_minute:02d}, "
             f"stock_basic 每天 {cfg.scheduler_basic_hour}:00"
         )
         scheduler.start()

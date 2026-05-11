@@ -8,6 +8,7 @@
 - `stock_basic`：股票基础信息本地镜像（Tushare `stock_basic`）
 - `daily_kline`：A 股日线行情
 - `adj_factor`：复权因子
+- `stk_limit`：每日涨跌停价格（涨停价、跌停价、昨收）
 
 这几类数据可以支撑基础行情查询和本地 `pro_bar`，但如果要做更完整的量化研究、财务分析、资金流分析或日常选股，还需要继续接入更多 Tushare 接口。后续扩展不应为每张表临时拼代码，而应沉淀一套稳定流程：从接口选择、同步策略、Parquet 存储，到本地 Tushare-like API 查询，都按同一规范推进。
 
@@ -20,11 +21,12 @@
 - 为不同更新频率的数据设计统一的同步策略，减少重复代码。
 - 明确目录、字段、日期、增量、错误处理和测试规范。
 - 让后续新增一个数据接口时，有清晰的开发清单和验收标准。
+- **新增任意指定数据接口前，须先在仓库内的 `tushare_docs_md/` 目录阅读对应该接口的本地 Markdown 说明**（见下文「端到端接入流程 · 第零步」），再动手改代码或定规格。
 
 ## 非目标
 
 - 本文档不实现具体新接口。
-- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor` 的行为。
+- 本文档不改变现有 `trade_cal`、`stock_basic`、`daily_kline`、`adj_factor`、`stk_limit` 的行为。
 - 本文档不保存任何 Token、Webhook Key 或本机私密路径。
 - 本文档不要求完整复刻 Tushare 的所有接口参数，只要求优先对齐常用查询方式。
 
@@ -47,7 +49,7 @@ flowchart LR
 
 核心职责如下：
 
-- `zer0share/fetcher.py`：封装 Tushare SDK 调用，声明字段列表，做基础类型转换。
+- `zer0share/fetcher.py`：封装 Tushare SDK 调用，经 `_call_pro_api` 统一限流与降档持久化，声明字段列表并做类型转换。
 - `zer0share/pipeline.py`：编排同步流程，处理增量、交易日遍历、失败告警和同步进度。
 - `zer0share/storage.py`：负责 Parquet 写入、分区路径、DuckDB 元数据。
 - `zer0share/api.py`：提供本地 `LocalPro` 查询方法，通过 DuckDB 读取 Parquet 并返回 `pandas.DataFrame`。
@@ -56,7 +58,7 @@ flowchart LR
 
 ## 数据接入分层
 
-不同 Tushare 接口的更新规律不同，不能全部套用同一种同步方法。新增接口前，先把数据归入以下类型。
+不同 Tushare 接口的更新规律不同，不能全部套用同一种同步方法。**在为项目新增某一指定接口前，应先在仓库根目录下的 `tushare_docs_md/` 中定位并阅读该接口对应的文档**（由 Tushare 官网抓取并整理的本地 `*.md`，通常位于各层级目录末端的 `data.md`），确认接口语义、字段、限量与积分等；然后再把数据归入以下同步类型。
 
 ### 1. 快照型数据
 
@@ -218,6 +220,18 @@ data/<table_name>/data.parquet
 
 新增一个 Tushare 接口时，建议按以下顺序开发。
 
+### 第零步：阅读 `tushare_docs_md` 本地接口文档（必选）
+
+仓库中的 **`tushare_docs_md/`** 目录保存了从 [Tushare 官网](https://tushare.pro) 爬取并整理后的接口说明 Markdown，用于在本机快速查阅，**避免仅凭记忆或二手资料接错接口**。
+
+在定义数据规格、编写 `fetch_*` 或设计分区之前，须完成：
+
+- **定位文档**：按接口中文名、专题分类在 `tushare_docs_md/` 下逐级打开对应路径中的 **`data.md`**；若已知官网文档 `doc_id`，可使用同目录下的 **`INDEX.json`**（字段 `by_doc_id`）反查对应的 `md_path_posix`，再打开该文件。
+- **对照阅读**：从本地 `data.md` 中核实 **接口名（Pro 方法名）**、**入参 / 出参字段**、**数据更新说明**、**单次限量与分页方式**、**积分与权限** 等与实现直接相关的内容；示例代码与官方描述以本地文档中的引用为准，若与线上一致性存疑，应回到官网同 `doc_id` 页面复核。
+- **沉淀到规格**：将上述结论写入本流程「第一步：定义数据规格」中的字段列表、分区策略与同步类型，避免实现与官方接口约定偏离。
+
+若某接口尚未出现在 `tushare_docs_md/` 中，则应先**从官网阅读该接口页面**并同步更新本地文档索引（或临时在规格中注明官网 `doc_id` 与阅读日期），不得跳过「阅读官方接口说明」这一步。
+
 ### 第一步：定义数据规格
 
 为每张新表建立一份规格，至少包含：
@@ -240,7 +254,8 @@ data/<table_name>/data.parquet
 要求：
 
 - 只负责调用 Tushare、指定字段、处理空返回、转换日期类型。
-- 不写文件，不更新同步进度。
+- 不写文件，不更新同步进度（同步进度除外：限流档位由 `_call_pro_api` 写入元数据库中的 `tushare_api_rate_caps`）。
+- 每条 **HTTP 出站**须通过 **`_call_pro_api("<pro_api_name>", lambda: self._pro...)`**，`<pro_api_name>` 与 Tushare `pro_api` 上的方法名一致（如 `daily`、`stk_limit`），以统一限速、遇超限自动降档与持久化。
 - Tushare 返回 `None` 或空表时，返回带正确列名的空 `DataFrame`。
 - 日期列在内部统一转为 Python `date`，本地 API 输出时再转回 `YYYYMMDD` 字符串。
 - 字段顺序必须和字段常量一致。
@@ -250,7 +265,12 @@ data/<table_name>/data.parquet
 ```python
 def fetch_daily_basic(self, trade_date: date) -> pd.DataFrame:
     date_str = trade_date.strftime("%Y%m%d")
-    df = self._pro.daily_basic(trade_date=date_str, fields=",".join(DAILY_BASIC_COLS))
+    df = self._call_pro_api(
+        "daily_basic",
+        lambda: self._pro.daily_basic(
+            trade_date=date_str, fields=",".join(DAILY_BASIC_COLS)
+        ),
+    )
     if df is None or df.empty:
         return pd.DataFrame(columns=DAILY_BASIC_COLS)
     df["trade_date"] = pd.to_datetime(df["trade_date"], format="%Y%m%d").dt.date
@@ -428,9 +448,12 @@ DATASET_SPECS = {
 
 ### 请求频率
 
-- 当前日频同步每次请求后 `sleep(0.2)`。
-- 新接口应根据 Tushare 权限和接口限频调整等待时间。
-- 不建议一开始引入复杂并发；优先保证稳定和可恢复。
+- **服务端**：Tushare 对账号及不同 Pro 接口有调用频率上限，具体以报错与 [官方说明](https://tushare.pro/document/1?doc_id=108) 为准；错误文案常见「频率超限」，并给出 **每分钟配额**「N次/分钟」（N 依接口与用户等级而异，例如某接口可能对部分用户生效为 **400**/**500** 等）。
+- **默认客户端**：对尚未写入降档配置的每个 **`<pro_api_name>`**（与 `ts.pro_api()` 上调用的方法同名）使用 **`TushareApiRateLimiter`**：**480 次/分钟 + 滑动 1 秒内 8 次**；封装在 **`TushareFetcher._call_pro_api`**，`Pipeline` 侧不再用固定 `sleep` 拼节流。
+- **遇频率超限报错**：若文案同时满足「频率超限」且可被正则解析「N次/分钟」，则令 `max_per_minute = max(1, N − 20)`（下边距常量见 **`zer0share.tushare_rate_limit.RATE_LIMIT_DOWNGRADE_MARGIN`**）、`max_per_second` 由 **`per_second_cap_for_minute`** 按默认 480/8 的比例换算；写入内存限流器 **`set_caps` 并重置计数窗口**，将 `(api_name, max_per_minute, max_per_second)` **`upsert` 至 DuckDB 表 `tushare_api_rate_caps`**，`MetaStore` 负责读写。**随后固定等待 60 秒**，再对该次请求重试。以后凡使用同一 `meta.duckdb` 创建的 `TushareFetcher`，会在 `_limiter_for` 首轮从该表读出配额，直接按保守值出站，无需再次触发服务端拒绝。
+- **构造约定**：`_make_pipeline` / 调度器等入口应将 **同一 `MetaStore` 实例** 传给 `TushareFetcher` 与 `Pipeline`，避免出现两套元数据库连接语义不一致。
+- **扩展新接口**：凡新增 `fetch_*` 中的 `self._pro.xxx`，一律经 `_call_pro_api("xxx", ...)`。
+- **并发**：不推荐多进程无协调共用同一 Token 刷屏；单机单同步进程为主。
 
 ### 失败处理
 
@@ -446,6 +469,8 @@ DATASET_SPECS = {
 - `table_name`
 - `last_date`
 - `updated_at`
+
+另在元数据库中维护 **`tushare_api_rate_caps`**：按 **`api_name`（Tushare `pro` 方法名）** 记录降档后的每分钟/每秒调用上限，供 `TushareFetcher` 重启后恢复限速，无需再次触发服务端拒绝。
 
 它适合日频线性增量，但对财务报告期、股票维度同步不够精细。后续可以增加更通用的分区级元数据表：
 
@@ -535,7 +560,6 @@ pro.query("daily_basic", ts_code="000001.SZ", start_date="20240101", end_date="2
 
 ```toml
 [sync]
-request_sleep_seconds = 0.2
 financial_refresh_quarters = 8
 ```
 
@@ -690,7 +714,8 @@ financial_refresh_quarters = 8
 
 接入每个新接口时，按此清单逐项完成：
 
-- 在 `fetcher.py` 增加字段常量和 `fetch_*` 方法。
+- **先在 `tushare_docs_md/`（或官网同 doc_id）阅读该接口文档，摘录字段、限量、分页与积分要求**，再编码。
+- 在 `fetcher.py` 增加字段常量和 `fetch_*`，**所有 `self._pro.*` 须经 `_call_pro_api(<方法名>, …)` 出站**（见「端到端接入流程 · 第二步」）。
 - 在 `storage.py` 增加写入、读取和分区判断，或复用通用函数。
 - 在 `pipeline.py` 增加 `sync_*` 方法。
 - 在 `cli.py` 增加 `sync --table`、`sync --all` 顺序和 `status`。
@@ -701,7 +726,7 @@ financial_refresh_quarters = 8
 
 ## 风险与注意事项
 
-- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限。
+- Tushare 不同接口权限、积分和限频不同，新增接口前应先确认账号权限；遇限频由 `_call_pro_api` 写入 `tushare_api_rate_caps`，详见「同步规范 · 请求频率」。
 - 大体量数据不应盲目放进 `sync --all`，避免每日任务过慢或被限流。
 - 财务数据存在修订，不能只用“分区存在即跳过”的思路。
 - 股票维度接口容易产生大量请求，需要更谨慎地控制频率。

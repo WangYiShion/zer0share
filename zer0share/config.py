@@ -94,6 +94,8 @@ class Config:
     scheduler_basic_hour: int
     scheduler_adj_factor_hour: int
     scheduler_adj_factor_minute: int
+    scheduler_stk_limit_hour: int
+    scheduler_stk_limit_minute: int
     wecom_webhook_url: str
     notifier_enabled: bool
 
@@ -107,16 +109,19 @@ def load_config(path: Path = Path("config/settings.toml")) -> Config:
     except tomllib.TOMLDecodeError as e:
         raise ValueError(f"配置文件格式错误: {e}") from e
     try:
+        scheduler = raw["scheduler"]
         return Config(
             tushare_token=_load_tushare_token(),
             data_dir=Path(raw["paths"]["data_dir"]),
             db_path=Path(raw["paths"]["db_path"]),
             log_path=Path(raw["paths"]["log_path"]),
-            scheduler_daily_kline_hour=raw["scheduler"]["daily_kline_hour"],
-            scheduler_daily_kline_minute=raw["scheduler"]["daily_kline_minute"],
-            scheduler_basic_hour=raw["scheduler"]["basic_hour"],
-            scheduler_adj_factor_hour=raw["scheduler"]["adj_factor_hour"],
-            scheduler_adj_factor_minute=raw["scheduler"]["adj_factor_minute"],
+            scheduler_daily_kline_hour=scheduler["daily_kline_hour"],
+            scheduler_daily_kline_minute=scheduler["daily_kline_minute"],
+            scheduler_basic_hour=scheduler["basic_hour"],
+            scheduler_adj_factor_hour=scheduler["adj_factor_hour"],
+            scheduler_adj_factor_minute=scheduler["adj_factor_minute"],
+            scheduler_stk_limit_hour=scheduler.get("stk_limit_hour", 18),
+            scheduler_stk_limit_minute=scheduler.get("stk_limit_minute", 10),
             wecom_webhook_url=raw["notifier"]["wecom_webhook_url"],
             notifier_enabled=raw["notifier"]["enabled"],
         )

@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from zer0share.pipeline import Pipeline, EXCHANGES
-from zer0share.storage import write_stock_basic, write_trade_cal
+from zer0share.storage import write_stock_basic, write_stk_limit, write_trade_cal
 
 
 def _basic_df() -> pd.DataFrame:
@@ -376,7 +376,7 @@ def test_sync_daily_kline_range_defaults_end_date_to_today(pipeline, cfg):
     assert called_dates == [date(2024, 1, 2), date(2024, 1, 3)]
 
 
-def test_sync_daily_kline_sleeps_between_requests(pipeline, cfg):
+def test_sync_daily_kline_invokes_fetcher_each_trading_day(pipeline, cfg):
     write_stock_basic(cfg.data_dir, _basic_df())
     trade_cal = pd.DataFrame(
         {
@@ -404,8 +404,69 @@ def test_sync_daily_kline_sleeps_between_requests(pipeline, cfg):
         }
     )
 
-    with patch("zer0share.pipeline.time.sleep") as mock_sleep:
-        pipeline.sync_daily_kline(start_date=date(2024, 1, 2), end_date=date(2024, 1, 3))
+    pipeline.sync_daily_kline(start_date=date(2024, 1, 2), end_date=date(2024, 1, 3))
 
-    assert mock_sleep.call_count == 2
-    mock_sleep.assert_any_call(0.2)
+    assert pipeline._fetcher.fetch_daily_kline.call_count == 2
+
+
+def test_sync_stk_limit_writes_parquet(pipeline, cfg):
+    _setup_trade_cal_sse(pipeline, cfg)
+    limit_df = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [date(2024, 1, 2)],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    pipeline._fetcher.fetch_stk_limit.return_value = limit_df
+    pipeline._meta.update_last_date("stk_limit", date(2024, 1, 1))
+
+    with patch("zer0share.pipeline.date") as mock_date:
+        mock_date.today.return_value = date(2024, 1, 2)
+        mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
+        pipeline.sync_stk_limit()
+
+    assert (cfg.data_dir / "stk_limit" / "date=20240102" / "data.parquet").exists()
+
+
+def test_sync_stk_limit_skips_existing_partitions(pipeline, cfg):
+    trade_cal = pd.DataFrame(
+        {
+            "exchange": ["SSE", "SSE"],
+            "cal_date": [date(2024, 1, 2), date(2024, 1, 3)],
+            "is_open": [True, True],
+            "pretrade_date": [date(2023, 12, 29), date(2024, 1, 2)],
+        }
+    )
+    write_trade_cal(cfg.data_dir, "SSE", trade_cal)
+    pipeline._meta.load_trade_cal_from_parquet(cfg.data_dir)
+
+    mid = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [date(2024, 1, 3)],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    write_stk_limit(cfg.data_dir, date(2024, 1, 3), mid)
+
+    pipeline._fetcher.fetch_stk_limit.side_effect = [
+        pd.DataFrame(
+            {
+                "ts_code": ["000001.SZ"],
+                "trade_date": [date(2024, 1, 2)],
+                "pre_close": [10.0],
+                "up_limit": [11.0],
+                "down_limit": [9.0],
+            }
+        ),
+    ]
+
+    pipeline.sync_stk_limit(start_date=date(2024, 1, 2), end_date=date(2024, 1, 3))
+
+    assert pipeline._fetcher.fetch_stk_limit.call_count == 1
+    assert pipeline._fetcher.fetch_stk_limit.call_args[0][0] == date(2024, 1, 2)

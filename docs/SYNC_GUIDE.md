@@ -30,6 +30,9 @@ daily_kline_minute = 0
 basic_hour = 8
 adj_factor_hour = 18
 adj_factor_minute = 5
+# 可选；每日涨跌停价同步时间，缺省为 18:10
+# stk_limit_hour = 18
+# stk_limit_minute = 10
 
 [notifier]
 wecom_webhook_url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_KEY"
@@ -93,11 +96,25 @@ uv run python main.py sync --table adj_factor
 
 字段：`ts_code`（股票代码）、`trade_date`（交易日）、`adj_factor`（复权因子值）。
 
+### 步骤五：同步每日涨跌停价格
+
+```bash
+uv run python main.py sync --table stk_limit
+```
+
+此命令会：
+- 调用 Tushare [`stk_limit`](https://tushare.pro/document/2?doc_id=183)，拉取全市场（含 A/B 股与基金等）每个交易日的涨停价、跌停价及昨收，与官方文档字段一致。
+- 以 SSE 交易日历为基准，仅交易日拉取；从 2016-01-01 起增量同步到今天。
+- 单日记录可能超过单次接口上限（约 5800 条），客户端会自动分页合并。
+- 写入 `data/stk_limit/date=YYYYMMDD/data.parquet`。
+
+字段：`ts_code`、`trade_date`、`pre_close`、`up_limit`、`down_limit`。
+
 ---
 
 ## 一键同步全部
 
-以上四步可合并为一条命令，顺序固定为 trade_cal → stock_basic → daily_kline → adj_factor：
+以上五步可合并为一条命令，顺序固定为 trade_cal → stock_basic → daily_kline → adj_factor → stk_limit：
 
 ```bash
 uv run python main.py sync --all
@@ -118,6 +135,7 @@ trade_cal     last sync: 2026-04-17
 stock_basic   last sync: 2026-04-17
 daily_kline   last sync: 2026-04-17
 adj_factor    last sync: 2026-04-17
+stk_limit     last sync: 2026-04-17
 ```
 
 ---
@@ -147,6 +165,7 @@ uv run python main.py scheduler start
 |------|----------|------|
 | daily_kline | 每天 18:00 | 仅交易日写入数据，非交易日自动跳过 |
 | adj_factor | 每天 18:05 | 仅交易日写入数据，非交易日自动跳过 |
+| stk_limit | 每天 18:10（可配置 `stk_limit_hour` / `stk_limit_minute`） | 仅交易日写入；官方约每个交易日 08:40 更新当日涨跌停价 |
 | stock_basic | 每天 08:00 | 每日全量刷新（`basic_hour` 配置项） |
 
 > 调度器需保持进程运行。生产环境建议配合 `systemd` 或 `supervisor` 管理进程。
@@ -173,9 +192,12 @@ data/
 │   ├── date=20160104/data.parquet
 │   ├── date=20160105/data.parquet
 │   └── ...
-└── adj_factor/
+├── adj_factor/
+│   ├── date=20160104/data.parquet
+│   ├── date=20160105/data.parquet
+│   └── ...
+└── stk_limit/
     ├── date=20160104/data.parquet
-    ├── date=20160105/data.parquet
     └── ...
 db/
 └── meta.duckdb

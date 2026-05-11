@@ -9,8 +9,10 @@ from zer0share.storage import (
     read_daily_kline,
     read_stock_basic,
     read_trade_cal,
+    stk_limit_partition_exists,
     write_daily_kline,
     write_stock_basic,
+    write_stk_limit,
     write_trade_cal,
 )
 
@@ -184,6 +186,23 @@ def test_daily_kline_partition_exists(tmp_path):
     assert daily_kline_partition_exists(tmp_path, date(2024, 1, 2)) is True
 
 
+def test_stk_limit_partition_writes(tmp_path):
+    assert stk_limit_partition_exists(tmp_path, date(2024, 1, 2)) is False
+
+    df = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": [date(2024, 1, 2)],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    write_stk_limit(tmp_path, date(2024, 1, 2), df)
+
+    assert stk_limit_partition_exists(tmp_path, date(2024, 1, 2)) is True
+
+
 def test_write_and_read_stock_basic(tmp_path):
     df = _basic_df()
     write_stock_basic(tmp_path, df)
@@ -298,3 +317,9 @@ def test_get_trading_days_exchange_isolation(tmp_path):
         szse_days = store.get_trading_days("SZSE", date(2024, 1, 1), date(2024, 1, 6))
     assert sse_days == [date(2024, 1, 2)]
     assert szse_days == [date(2024, 1, 3)]
+
+
+def test_tushare_api_rate_cap_roundtrip(store):
+    assert store.get_tushare_api_rate_cap("daily") is None
+    store.upsert_tushare_api_rate_cap("daily", 380, 6)
+    assert store.get_tushare_api_rate_cap("daily") == (380, 6)

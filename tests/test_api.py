@@ -8,6 +8,7 @@ from zer0share.storage import (
     write_adj_factor,
     write_daily_kline,
     write_stock_basic,
+    write_stk_limit,
     write_trade_cal,
 )
 
@@ -164,6 +165,33 @@ def test_adj_factor_filters_trade_date_and_formats_dates(tmp_path):
     ]
 
 
+def test_stk_limit_filters_trade_date_and_formats_dates(tmp_path):
+    write_stk_limit(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            {
+                "ts_code": ["000001.SZ", "600000.SH"],
+                "trade_date": [date(2024, 1, 2), date(2024, 1, 2)],
+                "pre_close": [10.0, 20.0],
+                "up_limit": [11.0, 22.0],
+                "down_limit": [9.0, 18.0],
+            }
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.stk_limit(
+        trade_date="20240102",
+        fields="ts_code,trade_date,up_limit,down_limit",
+    )
+
+    assert result.to_dict("records") == [
+        {"ts_code": "000001.SZ", "trade_date": "20240102", "up_limit": 11.0, "down_limit": 9.0},
+        {"ts_code": "600000.SH", "trade_date": "20240102", "up_limit": 22.0, "down_limit": 18.0},
+    ]
+
+
 def test_daily_rejects_ambiguous_trade_date_and_range(tmp_path):
     pro = LocalPro(tmp_path)
 
@@ -189,6 +217,35 @@ def test_query_dispatches_to_named_api(tmp_path):
 
     assert result.to_dict("records") == [
         {"ts_code": "000001.SZ", "trade_date": "20240102", "adj_factor": 100.1}
+    ]
+
+
+def test_query_dispatches_stk_limit(tmp_path):
+    write_stk_limit(
+        tmp_path,
+        date(2024, 1, 2),
+        pd.DataFrame(
+            {
+                "ts_code": ["000001.SZ"],
+                "trade_date": [date(2024, 1, 2)],
+                "pre_close": [10.0],
+                "up_limit": [11.0],
+                "down_limit": [9.0],
+            }
+        ),
+    )
+
+    pro = LocalPro(tmp_path)
+    result = pro.query("stk_limit", ts_code="000001.SZ")
+
+    assert result.to_dict("records") == [
+        {
+            "ts_code": "000001.SZ",
+            "trade_date": "20240102",
+            "pre_close": 10.0,
+            "up_limit": 11.0,
+            "down_limit": 9.0,
+        }
     ]
 
 

@@ -29,6 +29,14 @@ class MetaStore:
                 PRIMARY KEY (exchange, cal_date)
             )
         """)
+        self._conn.execute("""
+            CREATE TABLE IF NOT EXISTS tushare_api_rate_caps (
+                api_name         VARCHAR PRIMARY KEY,
+                max_per_minute   INTEGER NOT NULL,
+                max_per_second   INTEGER NOT NULL,
+                updated_at       TIMESTAMP NOT NULL
+            )
+        """)
 
     def get_last_date(self, table_name: str) -> date | None:
         row = self._conn.execute(
@@ -91,6 +99,41 @@ class MetaStore:
         ).fetchall()
         return [row[0] for row in rows]
 
+    def get_tushare_api_rate_cap(self, api_name: str) -> tuple[int, int] | None:
+        row = self._conn.execute(
+            """
+            SELECT max_per_minute, max_per_second
+            FROM tushare_api_rate_caps
+            WHERE api_name = ?
+            """,
+            [api_name],
+        ).fetchone()
+        return (int(row[0]), int(row[1])) if row else None
+
+    def upsert_tushare_api_rate_cap(
+        self,
+        api_name: str,
+        max_per_minute: int,
+        max_per_second: int,
+    ) -> None:
+        self._conn.execute(
+            """
+            INSERT INTO tushare_api_rate_caps
+                (api_name, max_per_minute, max_per_second, updated_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT (api_name) DO UPDATE SET
+                max_per_minute = excluded.max_per_minute,
+                max_per_second = excluded.max_per_second,
+                updated_at = excluded.updated_at
+            """,
+            [
+                api_name,
+                max_per_minute,
+                max_per_second,
+                datetime.now(timezone.utc),
+            ],
+        )
+
     def close(self):
         self._conn.close()
 
@@ -123,6 +166,18 @@ def write_adj_factor(data_dir: Path, trade_date: date, df: pd.DataFrame) -> None
 
 def adj_factor_partition_exists(data_dir: Path, trade_date: date) -> bool:
     path = data_dir / "adj_factor" / f"date={trade_date.strftime('%Y%m%d')}" / "data.parquet"
+    return path.exists()
+
+
+def write_stk_limit(data_dir: Path, trade_date: date, df: pd.DataFrame) -> None:
+    partition_dir = data_dir / "stk_limit" / f"date={trade_date.strftime('%Y%m%d')}"
+    partition_dir.mkdir(parents=True, exist_ok=True)
+    table = pa.Table.from_pandas(df, preserve_index=False)
+    pq.write_table(table, partition_dir / "data.parquet")
+
+
+def stk_limit_partition_exists(data_dir: Path, trade_date: date) -> bool:
+    path = data_dir / "stk_limit" / f"date={trade_date.strftime('%Y%m%d')}" / "data.parquet"
     return path.exists()
 
 

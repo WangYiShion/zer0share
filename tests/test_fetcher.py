@@ -4,6 +4,7 @@ from datetime import date
 from unittest.mock import patch
 
 from zer0share.fetcher import TushareFetcher
+from zer0share.storage import MetaStore
 
 
 BASIC_COLS = [
@@ -132,6 +133,119 @@ def test_fetch_daily_kline_returns_empty_when_none(mock_pro):
     fetcher = TushareFetcher("fake_token")
     df = fetcher.fetch_daily_kline(date(2024, 1, 1))
     assert df.empty
+
+
+def test_fetch_stk_limit_single_page(mock_pro):
+    mock_pro.stk_limit.return_value = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": ["20240102"],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stk_limit(date(2024, 1, 2))
+
+    mock_pro.stk_limit.assert_called_once()
+    assert list(df.columns) == [
+        "ts_code",
+        "trade_date",
+        "pre_close",
+        "up_limit",
+        "down_limit",
+    ]
+    assert len(df) == 1
+    assert df.iloc[0]["up_limit"] == 11.0
+    assert df.iloc[0]["trade_date"] == date(2024, 1, 2)
+
+
+def test_fetch_stk_limit_concat_pages(mock_pro):
+    page_a = pd.DataFrame(
+        {
+            "ts_code": [f"{i:06d}.SZ" for i in range(5000)],
+            "trade_date": ["20240102"] * 5000,
+            "pre_close": [1.0] * 5000,
+            "up_limit": [1.1] * 5000,
+            "down_limit": [0.9] * 5000,
+        }
+    )
+    page_b = pd.DataFrame(
+        {
+            "ts_code": ["600000.SH"],
+            "trade_date": ["20240102"],
+            "pre_close": [8.0],
+            "up_limit": [8.8],
+            "down_limit": [7.2],
+        }
+    )
+    mock_pro.stk_limit.side_effect = [page_a, page_b]
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stk_limit(date(2024, 1, 2))
+
+    assert mock_pro.stk_limit.call_count == 2
+    assert len(df) == 5001
+
+
+def test_fetch_stk_limit_returns_empty_when_none(mock_pro):
+    mock_pro.stk_limit.return_value = None
+    fetcher = TushareFetcher("fake_token")
+    df = fetcher.fetch_stk_limit(date(2024, 1, 1))
+    assert df.empty
+
+
+def test_fetch_stk_limit_retries_after_rate_limit_error(mock_pro):
+    err = Exception("抱歉，您访问接口(stk_limit)频率超限(400次/分钟)，详见文档")
+    ok = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": ["20240102"],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    mock_pro.stk_limit.side_effect = [err, ok]
+    fetcher = TushareFetcher("fake_token")
+    with patch("zer0share.fetcher.sleep") as mock_sleep:
+        df = fetcher.fetch_stk_limit(date(2024, 1, 2))
+    mock_sleep.assert_called_once_with(60)
+    assert mock_pro.stk_limit.call_count == 2
+    assert len(df) == 1
+    lim = fetcher._limiter_for("stk_limit")
+    assert lim._max_per_minute == 380
+    assert lim._max_per_second == 6
+
+
+def test_fetch_stk_limit_persists_rate_cap_for_next_process(mock_pro, tmp_path):
+    err = Exception("抱歉，访问(stk_limit)频率超限(400次/分钟)，详见文档")
+    ok = pd.DataFrame(
+        {
+            "ts_code": ["000001.SZ"],
+            "trade_date": ["20240102"],
+            "pre_close": [10.0],
+            "up_limit": [11.0],
+            "down_limit": [9.0],
+        }
+    )
+    mock_pro.stk_limit.side_effect = [err, ok]
+    db = tmp_path / "meta.duckdb"
+    meta = MetaStore(db)
+    fetcher = TushareFetcher("fake_token", meta)
+    with patch("zer0share.fetcher.sleep"):
+        fetcher.fetch_stk_limit(date(2024, 1, 2))
+    assert meta.get_tushare_api_rate_cap("stk_limit") == (380, 6)
+
+    mock_pro.stk_limit.side_effect = None
+    mock_pro.stk_limit.return_value = ok
+    meta.close()
+
+    meta2 = MetaStore(db)
+    fetcher2 = TushareFetcher("fake_token", meta2)
+    fetcher2.fetch_stk_limit(date(2024, 1, 2))
+    assert fetcher2._limiter_for("stk_limit")._max_per_minute == 380
+    meta2.close()
 
 
 def test_fetch_trade_cal_returns_correct_columns(mock_pro):
