@@ -48,6 +48,10 @@ wecom_webhook_url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_K
 enabled = false
 ```
 
+通知还可通过环境变量 `PUSHPLUS_TOKEN` 启用 [PushPlus](https://www.pushplus.plus/)（与企业微信并列，未设置则仅走 `notifier` 配置）。
+
+`python main.py sync --all` 与定时调度在 **当日全部 Level1 任务结束** 时：**全部成功** 只推送一条「当日全部 Level1 数据同步成功」；若有失败则 **只推送一条**，正文中列出 **所有** 失败接口及原因（与 `pipeline.log` 精简成功行策略一致）。单独执行 `sync --table …` 时仍按表推送成功摘要或失败信息。
+
 > Tushare Token 在 [tushare.pro](https://tushare.pro) 注册后获取，需要积分 >= 2000 才能调用 `daily` 接口。
 
 ---

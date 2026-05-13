@@ -19,6 +19,11 @@ from zer0share.pipeline_log import (
     today_plain_success_exists,
 )
 from zer0share.storage import MetaStore
+from zer0share.sync_notify import (
+    LEVEL1_ALL_SUCCESS_MESSAGE,
+    format_level1_failure_message,
+    sync_notify_suppressed,
+)
 
 SCHEDULED_JOB_IDS = (
     "daily_kline",
@@ -52,48 +57,80 @@ def _ensure_today_state(raw: dict[str, Any], today: str) -> dict[str, Any]:
     if raw.get("date") == today and isinstance(raw.get("jobs"), dict):
         for jid in SCHEDULED_JOB_IDS:
             raw["jobs"].setdefault(jid, "pending")
+        raw.setdefault("errors", {})
+        if not isinstance(raw["errors"], dict):
+            raw["errors"] = {}
         raw.setdefault("finalized", False)
+        raw.setdefault("digest_sent", False)
         return raw
     return {
         "date": today,
         "jobs": {jid: "pending" for jid in SCHEDULED_JOB_IDS},
+        "errors": {},
         "finalized": False,
+        "digest_sent": False,
     }
+
+
+def _try_send_level1_scheduler_digest(
+    notifier: Notifier, log_path: Path, state: dict[str, Any]
+) -> None:
+    """七大定时任务均在当日进入终态后：只推送一条成功或一条汇总失败列表。"""
+    if state.get("digest_sent"):
+        return
+    terminal = all(
+        state["jobs"].get(j) in ("ok", "error") for j in SCHEDULED_JOB_IDS
+    )
+    if not terminal:
+        return
+    failed = [j for j in SCHEDULED_JOB_IDS if state["jobs"].get(j) == "error"]
+    errs: dict[str, str] = state.get("errors") or {}
+    today_d = date.today()
+    if not failed:
+        if not state.get("finalized") and not today_plain_success_exists(
+            log_path, today_d
+        ):
+            trim_success_records_if_needed(log_path)
+            append_plain_success_line(log_path, today_d)
+            state["finalized"] = True
+        notifier.send(LEVEL1_ALL_SUCCESS_MESSAGE)
+    else:
+        pairs = [(j, errs.get(j, "未知错误")) for j in failed]
+        notifier.send(format_level1_failure_message(pairs))
+    state["digest_sent"] = True
+    _save_day_state(log_path, state)
 
 
 def _wrap_scheduled_job(
     log_path: Path,
     job_id: str,
     fn: Callable[[], None],
+    notifier: Notifier,
 ) -> Callable[[], None]:
-    """精简 pipeline.log：单任务仅 ERROR；全部 7 项当日均成功后追加一行「日期 同步成功」。"""
+    """单任务内抑制 Pipeline 逐条推送；全部任务终态后由 _try_send_level1_scheduler_digest 聚合一条。"""
 
     def runner() -> None:
         pipeline_condensed_file_log.set(True)
         trim_success_records_if_needed(log_path)
         today_s = date.today().isoformat()
         state = _ensure_today_state(_load_day_state(log_path), today_s)
+        suppress_tok = sync_notify_suppressed.set(True)
         try:
             fn()
-            state["jobs"][job_id] = "ok"
-        except Exception:
+        except Exception as e:
             state["jobs"][job_id] = "error"
+            state.setdefault("errors", {})[job_id] = str(e)
             state["finalized"] = False
             _save_day_state(log_path, state)
+            sync_notify_suppressed.reset(suppress_tok)
+            _try_send_level1_scheduler_digest(notifier, log_path, state)
             raise
-        _save_day_state(log_path, state)
-
-        all_ok = all(state["jobs"].get(jid) == "ok" for jid in SCHEDULED_JOB_IDS)
-        today_d = date.today()
-        if (
-            all_ok
-            and not state.get("finalized")
-            and not today_plain_success_exists(log_path, today_d)
-        ):
-            trim_success_records_if_needed(log_path)
-            append_plain_success_line(log_path, today_d)
-            state["finalized"] = True
+        else:
+            state["jobs"][job_id] = "ok"
+            state.setdefault("errors", {}).pop(job_id, None)
             _save_day_state(log_path, state)
+            sync_notify_suppressed.reset(suppress_tok)
+            _try_send_level1_scheduler_digest(notifier, log_path, state)
 
     return runner
 
@@ -110,7 +147,9 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
     with Pipeline(cfg, fetcher, notifier, meta_store=meta) as pipeline:
         scheduler = BlockingScheduler()
         scheduler.add_job(
-            _wrap_scheduled_job(cfg.log_path, "daily_kline", pipeline.sync_daily_kline),
+            _wrap_scheduled_job(
+                cfg.log_path, "daily_kline", pipeline.sync_daily_kline, notifier
+            ),
             CronTrigger(
                 hour=cfg.scheduler_daily_kline_hour,
                 minute=cfg.scheduler_daily_kline_minute,
@@ -119,13 +158,15 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
         )
         scheduler.add_job(
             _wrap_scheduled_job(
-                cfg.log_path, "stock_basic", pipeline.sync_stock_basic
+                cfg.log_path, "stock_basic", pipeline.sync_stock_basic, notifier
             ),
             CronTrigger(hour=cfg.scheduler_basic_hour),
             id="stock_basic",
         )
         scheduler.add_job(
-            _wrap_scheduled_job(cfg.log_path, "adj_factor", pipeline.sync_adj_factor),
+            _wrap_scheduled_job(
+                cfg.log_path, "adj_factor", pipeline.sync_adj_factor, notifier
+            ),
             CronTrigger(
                 hour=cfg.scheduler_adj_factor_hour,
                 minute=cfg.scheduler_adj_factor_minute,
@@ -133,7 +174,9 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             id="adj_factor",
         )
         scheduler.add_job(
-            _wrap_scheduled_job(cfg.log_path, "stk_limit", pipeline.sync_stk_limit),
+            _wrap_scheduled_job(
+                cfg.log_path, "stk_limit", pipeline.sync_stk_limit, notifier
+            ),
             CronTrigger(
                 hour=cfg.scheduler_stk_limit_hour,
                 minute=cfg.scheduler_stk_limit_minute,
@@ -141,7 +184,9 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             id="stk_limit",
         )
         scheduler.add_job(
-            _wrap_scheduled_job(cfg.log_path, "stock_st", pipeline.sync_stock_st),
+            _wrap_scheduled_job(
+                cfg.log_path, "stock_st", pipeline.sync_stock_st, notifier
+            ),
             CronTrigger(
                 hour=cfg.scheduler_stock_st_hour,
                 minute=cfg.scheduler_stock_st_minute,
@@ -150,7 +195,7 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
         )
         scheduler.add_job(
             _wrap_scheduled_job(
-                cfg.log_path, "daily_basic", pipeline.sync_daily_basic
+                cfg.log_path, "daily_basic", pipeline.sync_daily_basic, notifier
             ),
             CronTrigger(
                 hour=cfg.scheduler_daily_basic_hour,
@@ -159,7 +204,9 @@ def start_scheduler(config_path: str = "config/settings.toml") -> None:
             id="daily_basic",
         )
         scheduler.add_job(
-            _wrap_scheduled_job(cfg.log_path, "suspend_d", pipeline.sync_suspend_d),
+            _wrap_scheduled_job(
+                cfg.log_path, "suspend_d", pipeline.sync_suspend_d, notifier
+            ),
             CronTrigger(
                 hour=cfg.scheduler_suspend_d_hour,
                 minute=cfg.scheduler_suspend_d_minute,

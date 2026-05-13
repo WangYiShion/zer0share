@@ -56,6 +56,8 @@ set TUSHARE_TOKEN=你的_token
 
 持久化可在「系统环境变量」里添加 `TUSHARE_TOKEN`，或写入你自己的启动脚本 / 任务计划（**不要**把 token 提交到 Git）。
 
+可选：若需 [PushPlus](https://www.pushplus.plus/) 推送同步告警（与企业微信独立），请设置环境变量 `PUSHPLUS_TOKEN`（勿写入 `settings.toml`）。未设置时不会调用 PushPlus。
+
 ### 3. 首次同步
 
 ```bash
@@ -237,7 +239,7 @@ src/
 ├── storage.py    # Parquet 读写 + DuckDB MetaStore
 ├── pipeline.py   # 同步业务逻辑
 ├── scheduler.py  # APScheduler 定时任务
-├── notifier.py   # 企业微信 Webhook 通知
+├── notifier.py   # 企业微信 Webhook + 可选 PushPlus（PUSHPLUS_TOKEN）
 └── cli.py        # Click CLI 入口
 tests/            # pytest 测试套件
 examples/         # 本地查询 API 示例

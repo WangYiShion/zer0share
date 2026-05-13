@@ -16,6 +16,11 @@ from zer0share.pipeline_log import (
     today_plain_success_exists,
 )
 from zer0share.storage import MetaStore
+from zer0share.sync_notify import (
+    LEVEL1_ALL_SUCCESS_MESSAGE,
+    format_level1_failure_message,
+    sync_notify_suppressed,
+)
 
 
 def _init_logger(log_path: Path) -> None:
@@ -49,58 +54,66 @@ def _run_sync_all(
         except Exception as e:
             errors.append((name, e))
 
-    run_step("trade_cal", pipeline.sync_trade_cal)
-    run_step("stock_basic", pipeline.sync_stock_basic)
-    run_step(
-        "daily_kline",
-        lambda: pipeline.sync_daily_kline(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
-    run_step(
-        "adj_factor",
-        lambda: pipeline.sync_adj_factor(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
-    run_step(
-        "daily_basic",
-        lambda: pipeline.sync_daily_basic(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
-    run_step(
-        "suspend_d",
-        lambda: pipeline.sync_suspend_d(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
-    run_step(
-        "stk_limit",
-        lambda: pipeline.sync_stk_limit(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
-    run_step(
-        "stock_st",
-        lambda: pipeline.sync_stock_st(
-            start_date=parsed_start_date,
-            end_date=parsed_end_date,
-        ),
-    )
+    suppress_tok = sync_notify_suppressed.set(True)
+    try:
+        run_step("trade_cal", pipeline.sync_trade_cal)
+        run_step("stock_basic", pipeline.sync_stock_basic)
+        run_step(
+            "daily_kline",
+            lambda: pipeline.sync_daily_kline(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+        run_step(
+            "adj_factor",
+            lambda: pipeline.sync_adj_factor(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+        run_step(
+            "daily_basic",
+            lambda: pipeline.sync_daily_basic(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+        run_step(
+            "suspend_d",
+            lambda: pipeline.sync_suspend_d(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+        run_step(
+            "stk_limit",
+            lambda: pipeline.sync_stk_limit(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+        run_step(
+            "stock_st",
+            lambda: pipeline.sync_stock_st(
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
+            ),
+        )
+    finally:
+        sync_notify_suppressed.reset(suppress_tok)
 
     if errors:
+        pipeline._notifier.send(
+            format_level1_failure_message([(n, str(e)) for n, e in errors])
+        )
         raise click.ClickException(
             f"同步未全部完成，失败 {len(errors)} 项: "
             + ", ".join(name for name, _ in errors)
         )
     if not today_plain_success_exists(log_path, date.today()):
         append_plain_success_line(log_path, date.today())
+    pipeline._notifier.send(LEVEL1_ALL_SUCCESS_MESSAGE)
 
 
 @click.group()
