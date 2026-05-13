@@ -1,4 +1,5 @@
-from datetime import datetime
+from collections.abc import Callable
+from datetime import date, datetime
 from pathlib import Path
 
 import click
@@ -6,20 +7,19 @@ from loguru import logger
 
 from zer0share.config import load_config
 from zer0share.fetcher import TushareFetcher
+from zer0share.logging_setup import init_pipeline_file_logging, pipeline_condensed_file_log
 from zer0share.notifier import Notifier
 from zer0share.pipeline import Pipeline
+from zer0share.pipeline_log import (
+    append_plain_success_line,
+    trim_success_records_if_needed,
+    today_plain_success_exists,
+)
 from zer0share.storage import MetaStore
 
 
-_logger_initialized = False
-
-
 def _init_logger(log_path: Path) -> None:
-    global _logger_initialized
-    if not _logger_initialized:
-        log_path.parent.mkdir(parents=True, exist_ok=True)
-        logger.add(log_path, rotation="10 MB", retention="30 days")
-        _logger_initialized = True
+    init_pipeline_file_logging(log_path)
 
 
 def _make_pipeline(config_path: str = "config/settings.toml") -> Pipeline:
@@ -29,6 +29,78 @@ def _make_pipeline(config_path: str = "config/settings.toml") -> Pipeline:
     fetcher = TushareFetcher(cfg.tushare_token, meta)
     notifier = Notifier(cfg.wecom_webhook_url, cfg.notifier_enabled)
     return Pipeline(cfg, fetcher, notifier, meta_store=meta)
+
+
+def _run_sync_all(
+    pipeline: Pipeline,
+    parsed_start_date: date | None,
+    parsed_end_date: date | None,
+) -> None:
+    """顺序执行全部接口；单步失败时继续其余步骤，最后汇总错误。成功则写入一行纯文本「日期 同步成功」。"""
+    pipeline_condensed_file_log.set(True)
+    log_path = pipeline._cfg.log_path
+    trim_success_records_if_needed(log_path)
+
+    errors: list[tuple[str, Exception]] = []
+
+    def run_step(name: str, fn: Callable[[], None]) -> None:
+        try:
+            fn()
+        except Exception as e:
+            errors.append((name, e))
+
+    run_step("trade_cal", pipeline.sync_trade_cal)
+    run_step("stock_basic", pipeline.sync_stock_basic)
+    run_step(
+        "daily_kline",
+        lambda: pipeline.sync_daily_kline(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+    run_step(
+        "adj_factor",
+        lambda: pipeline.sync_adj_factor(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+    run_step(
+        "daily_basic",
+        lambda: pipeline.sync_daily_basic(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+    run_step(
+        "suspend_d",
+        lambda: pipeline.sync_suspend_d(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+    run_step(
+        "stk_limit",
+        lambda: pipeline.sync_stk_limit(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+    run_step(
+        "stock_st",
+        lambda: pipeline.sync_stock_st(
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+        ),
+    )
+
+    if errors:
+        raise click.ClickException(
+            f"同步未全部完成，失败 {len(errors)} 项: "
+            + ", ".join(name for name, _ in errors)
+        )
+    if not today_plain_success_exists(log_path, date.today()):
+        append_plain_success_line(log_path, date.today())
 
 
 @click.group()
@@ -88,36 +160,42 @@ def sync(
         raise click.UsageError("--end-date must be on or after --start-date")
 
     with _make_pipeline() as pipeline:
-        if sync_all or table == "trade_cal":
+        trim_success_records_if_needed(pipeline._cfg.log_path)
+        if sync_all:
+            _run_sync_all(pipeline, parsed_start_date, parsed_end_date)
+            return
+
+        pipeline_condensed_file_log.set(True)
+        if table == "trade_cal":
             pipeline.sync_trade_cal()
-        if sync_all or table == "stock_basic":
+        if table == "stock_basic":
             pipeline.sync_stock_basic()
-        if sync_all or table == "daily_kline":
+        if table == "daily_kline":
             pipeline.sync_daily_kline(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
-        if sync_all or table == "adj_factor":
+        if table == "adj_factor":
             pipeline.sync_adj_factor(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
-        if sync_all or table == "daily_basic":
+        if table == "daily_basic":
             pipeline.sync_daily_basic(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
-        if sync_all or table == "suspend_d":
+        if table == "suspend_d":
             pipeline.sync_suspend_d(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
-        if sync_all or table == "stk_limit":
+        if table == "stk_limit":
             pipeline.sync_stk_limit(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,
             )
-        if sync_all or table == "stock_st":
+        if table == "stock_st":
             pipeline.sync_stock_st(
                 start_date=parsed_start_date,
                 end_date=parsed_end_date,

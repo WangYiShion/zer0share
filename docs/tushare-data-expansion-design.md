@@ -339,7 +339,8 @@ data/<table_name>/date=YYYYMMDD/data.parquet
 在 `zer0share/cli.py` 中：
 
 - 将新表名加入 `sync --table` 的选择范围。
-- 在 `sync --all` 中安排合理顺序。
+- 若支持日期范围，将表名加入日期范围校验白名单（与现有日频接口一致）。
+- 在 `sync --all` 中安排合理顺序：除 `--table` / `status` 分支外，**必须在 `_run_sync_all()` 中为新表增加 `run_step(...)`**，否则「全日成功」不会包含该接口（见「配置、CLI 与调度 · `pipeline.log` 全日成功与精简日志」）。
 - 在 `status` 中展示新表同步进度。
 
 推荐顺序：
@@ -582,15 +583,16 @@ financial_refresh_quarters = 8
 新增表后，需要更新：
 
 - `sync --table` 可选值。
-- `sync --all` 的执行顺序。
+- **`sync --all`**：除在 `sync` 主流程中增加分支外，**必须在 `_run_sync_all()` 中为新表增加 `run_step(...)`**（见本章下文「`pipeline.log` 全日成功与精简日志」）。
 - `status` 输出。
 
-对高成本接口，建议不默认加入 `sync --all`，而是提供单独命令。
+对高成本接口，建议不默认加入 `sync --all`，而是提供单独命令；若未纳入 `--all`，不得在无 `run_step` 的情况下声称全量管线已覆盖该表。
 
 ### 调度
 
 如果继续使用项目内 APScheduler：
 
+- 每增加一个 **默认Cron任务**，须在 `zer0share/scheduler.py` 中 **把 `id=` 加入 `SCHEDULED_JOB_IDS`**，并用 `_wrap_scheduled_job(cfg.log_path, id, pipeline.sync_*)` 包一层，否则「当日全部定时任务成功」与 `pipeline.log` 单日成功行不会对齐（详见「`pipeline.log` 全日成功与精简日志」）。
 - 日频行情类可安排在收盘后。
 - 财务类可每天低频刷新最近报告期。
 - 快照型基础数据可每日或每周刷新。
@@ -600,6 +602,25 @@ financial_refresh_quarters = 8
 - 保证工作目录是项目根目录。
 - 保证运行账户可以读取 `TUSHARE_TOKEN` 环境变量。
 - 保证运行账户可以访问数据目录。
+
+### `pipeline.log` 全日成功与精简日志（接新接口必选）
+
+全量同步与调度依赖统一的日志约定，避免 `pipeline.log` 被拉数 INFO 刷屏，并保证「某日全部任务成功 → 只记一行日期 + 同步成功」与实际跑过的接口一致。实现分布在：
+
+- `zer0share/logging_setup.py`：`pipeline.log` 的 loguru sink；精简模式下文件侧以 **ERROR** 为主（失败依然落盘）。
+- `zer0share/pipeline_log.py`：纯文本成功行 `YYYY-MM-DD 同步成功`、按 **不同自然日** 的成功条数达到阈值时的修剪（错误与 loguru 行不参与计数、也不被自动清空）。
+- `zer0share/cli.py`：`sync --all` 在 `_run_sync_all()` 中 **逐个** `run_step(...)`；单日全部步骤无异常时才追加一行成功记录。
+- `zer0share/scheduler.py`：**默认定时任务** 列表与 `SCHEDULED_JOB_IDS` 对齐；每件任务经 `_wrap_scheduled_job` 更新 `pipeline_day_state.json`，**同一自然日内** 列表中全部任务均成功后才写当日成功行。
+
+**接新接口时若把该表纳入「全日成功」语义，下列修改为验收必选项（缺一则日志会谎报或漏报）：**
+
+1. **`sync --all`**：在 `zer0share/cli.py` 的 `_run_sync_all()` 中为新表增加对应的 `run_step("<table>", ...)`，顺序与依赖关系（先 `trade_cal`、快照、日频等）保持一致。
+2. **默认定时同步**：若新接口应随 `scheduler` 每日跑，必须在同一文件内：
+   - 将 `job_id` 写入元组 `SCHEDULED_JOB_IDS`（与 `add_job` 的 `id=` **字符串一致**）；
+   - 使用 `scheduler.add_job(_wrap_scheduled_job(cfg.log_path, "<job_id>", pipeline.sync_<table>), ...)` 注册任务（含 `CronTrigger` 与可选 `config` 时刻字段）。
+3. **`Pipeline.sync_*`**：失败路径须 **`logger.error(...)`** 并（若项目约定保留）再 `notifier` + 抛异常，以便精简模式下错误仍写入 `pipeline.log`。
+
+若某接口 **有意** 不加入 `sync --all` 或默认 `scheduler`（高成本、低频、权限特殊），须在规格与 `docs/SYNC_GUIDE.md` 中写明；此时不要求改 `_run_sync_all` / `SCHEDULED_JOB_IDS`，但不得与其它文档矛盾。
 
 ## 首批推荐接入清单
 
@@ -730,12 +751,13 @@ financial_refresh_quarters = 8
 接入每个新接口时，按此清单逐项完成：
 
 - **明确项目目标与数据需求后，先检索 `[docs/tushare-interface-permissions.json](tushare-interface-permissions.json)` 粗筛候选接口（按 `availability.code`、`apis`、积分解析字段），再打开 `tushare_docs_md/`（或官网同 doc_id）精读该接口文档**，再编码。
-- 在 `fetcher.py` 增加字段常量和 `fetch`_*，所有 `self._pro.` 须经 `_call_pro_api(<方法名>, …)` 出站*（见「端到端接入流程 · 第二步」）。
+- 在 `fetcher.py` 增加字段常量和 `fetch_*` 方法，所有 `self._pro.` 须经 `_call_pro_api(<方法名>, …)` 出站（见「端到端接入流程 · 第二步」）。
 - 在 `storage.py` 增加写入、读取和分区判断，或复用通用函数。
-- 在 `pipeline.py` 增加 `sync_`* 方法。
-- 在 `cli.py` 增加 `sync --table`、`sync --all` 顺序和 `status`。
+- 在 `pipeline.py` 增加 `sync_*` 方法；**失败路径 `logger.error`（及通知/抛异常）不可省**，以便 `pipeline.log` 在精简模式下仍能记录报错。
+- 在 `cli.py` 增加 `sync --table`、**`_run_sync_all()` 中的 `run_step`**（凡纳入 `sync --all` 的表必选）、`status`。
+- 若该表纳入 **默认定时调度**：在 `scheduler.py` 中 **同步修改 `SCHEDULED_JOB_IDS`** 并 **`add_job(_wrap_scheduled_job(...), ...)`**（详见「配置、CLI 与调度 · `pipeline.log` 全日成功与精简日志」）；并在 `tests/test_scheduler.py` 断言 job 集合（若项目已有此测试模式）。
 - 在 `api.py` 增加 `LocalPro` 方法和 `query()` 分发。
-- 在 `README.md` 或专门文档中补充用户用法。
+- 在 `README.md` 或专门文档中补充用户用法；`sync --all` 顺序与是否进入调度器须与实现一致。
 - 在 `tests/` 中补齐 fetcher、storage、pipeline、api、cli 测试。
 - 运行 `uv run pytest`。
 
