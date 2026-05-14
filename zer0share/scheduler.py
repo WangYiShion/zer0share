@@ -21,6 +21,8 @@ from zer0share.pipeline_log import (
 from zer0share.storage import MetaStore
 from zer0share.sync_notify import (
     LEVEL1_ALL_SUCCESS_MESSAGE,
+    LEVEL1_PUSHPLUS_TITLE_FAILURE,
+    LEVEL1_PUSHPLUS_TITLE_SUCCESS,
     format_level1_failure_message,
     sync_notify_suppressed,
 )
@@ -93,10 +95,16 @@ def _try_send_level1_scheduler_digest(
             trim_success_records_if_needed(log_path)
             append_plain_success_line(log_path, today_d)
             state["finalized"] = True
-        notifier.send(LEVEL1_ALL_SUCCESS_MESSAGE)
+        notifier.send(
+            LEVEL1_ALL_SUCCESS_MESSAGE,
+            pushplus_title=LEVEL1_PUSHPLUS_TITLE_SUCCESS,
+        )
     else:
         pairs = [(j, errs.get(j, "未知错误")) for j in failed]
-        notifier.send(format_level1_failure_message(pairs))
+        notifier.send(
+            format_level1_failure_message(pairs),
+            pushplus_title=LEVEL1_PUSHPLUS_TITLE_FAILURE,
+        )
     state["digest_sent"] = True
     _save_day_state(log_path, state)
 

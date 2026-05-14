@@ -8,13 +8,16 @@ from zer0share.sync_notify import sync_notify_suppressed
 PUSHPLUS_SEND_URL = "https://www.pushplus.plus/send"
 
 
+PUSHPLUS_DEFAULT_TITLE = "zer0share"
+
+
 class Notifier:
     def __init__(self, webhook_url: str, enabled: bool):
         self._url = webhook_url
         self._enabled = enabled
         self._pushplus_token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
 
-    def send(self, message: str) -> None:
+    def send(self, message: str, *, pushplus_title: str | None = None) -> None:
         if sync_notify_suppressed.get():
             return
         text = f"[zer0share] {message}"
@@ -30,14 +33,14 @@ class Notifier:
                 logger.error(f"企业微信推送失败: {e}")
             except httpx.HTTPStatusError as e:
                 logger.error(f"企业微信返回错误: {e.response.status_code}")
-        self._send_pushplus(text)
+        self._send_pushplus(text, title=pushplus_title or PUSHPLUS_DEFAULT_TITLE)
 
-    def _send_pushplus(self, content: str) -> None:
+    def _send_pushplus(self, content: str, *, title: str) -> None:
         if not self._pushplus_token:
             return
         body = {
             "token": self._pushplus_token,
-            "title": "zer0share",
+            "title": title,
             "content": content,
             "template": "txt",
         }

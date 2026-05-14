@@ -23,6 +23,17 @@ def test_send_suppressed_skips_all_http(monkeypatch):
         sync_notify_suppressed.reset(tok)
 
 
+def test_pushplus_uses_custom_title_when_passed(monkeypatch):
+    monkeypatch.setenv("PUSHPLUS_TOKEN", "pptoken")
+    n = Notifier(webhook_url="https://example.com", enabled=False)
+    mock_response = MagicMock()
+    mock_response.raise_for_status = MagicMock()
+    mock_response.json.return_value = {"code": 200}
+    with patch("httpx.post", return_value=mock_response) as mock_post:
+        n.send("body", pushplus_title="当日全部 Level1 数据同步失败")
+    assert mock_post.call_args[1]["json"]["title"] == "当日全部 Level1 数据同步失败"
+
+
 def test_send_disabled_does_not_call_http():
     n = Notifier(webhook_url="https://example.com", enabled=False)
     with patch("httpx.post") as mock_post:

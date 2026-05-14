@@ -5,6 +5,8 @@ from click.testing import CliRunner
 from zer0share.cli import cli
 from zer0share.sync_notify import (
     LEVEL1_ALL_SUCCESS_MESSAGE,
+    LEVEL1_PUSHPLUS_TITLE_FAILURE,
+    LEVEL1_PUSHPLUS_TITLE_SUCCESS,
     format_level1_failure_message,
 )
 
@@ -35,7 +37,10 @@ def test_sync_all_sends_single_success_notify():
     assert result.exit_code == 0
     pipeline.sync_trade_cal.assert_called_once()
     mock_append.assert_called_once()
-    pipeline._notifier.send.assert_called_once_with(LEVEL1_ALL_SUCCESS_MESSAGE)
+    pipeline._notifier.send.assert_called_once_with(
+        LEVEL1_ALL_SUCCESS_MESSAGE,
+        pushplus_title=LEVEL1_PUSHPLUS_TITLE_SUCCESS,
+    )
 
 
 def test_sync_all_sends_aggregated_failure_notify():
@@ -58,6 +63,10 @@ def test_sync_all_sends_aggregated_failure_notify():
 
     assert result.exit_code != 0
     pipeline._notifier.send.assert_called_once()
+    assert (
+        pipeline._notifier.send.call_args.kwargs.get("pushplus_title")
+        == LEVEL1_PUSHPLUS_TITLE_FAILURE
+    )
     msg = pipeline._notifier.send.call_args[0][0]
     assert "trade_cal" in msg
     assert "nope" in msg

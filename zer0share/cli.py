@@ -18,6 +18,8 @@ from zer0share.pipeline_log import (
 from zer0share.storage import MetaStore
 from zer0share.sync_notify import (
     LEVEL1_ALL_SUCCESS_MESSAGE,
+    LEVEL1_PUSHPLUS_TITLE_FAILURE,
+    LEVEL1_PUSHPLUS_TITLE_SUCCESS,
     format_level1_failure_message,
     sync_notify_suppressed,
 )
@@ -105,7 +107,8 @@ def _run_sync_all(
 
     if errors:
         pipeline._notifier.send(
-            format_level1_failure_message([(n, str(e)) for n, e in errors])
+            format_level1_failure_message([(n, str(e)) for n, e in errors]),
+            pushplus_title=LEVEL1_PUSHPLUS_TITLE_FAILURE,
         )
         raise click.ClickException(
             f"同步未全部完成，失败 {len(errors)} 项: "
@@ -113,7 +116,9 @@ def _run_sync_all(
         )
     if not today_plain_success_exists(log_path, date.today()):
         append_plain_success_line(log_path, date.today())
-    pipeline._notifier.send(LEVEL1_ALL_SUCCESS_MESSAGE)
+    pipeline._notifier.send(
+        LEVEL1_ALL_SUCCESS_MESSAGE, pushplus_title=LEVEL1_PUSHPLUS_TITLE_SUCCESS
+    )
 
 
 @click.group()
