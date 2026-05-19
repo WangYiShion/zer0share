@@ -11,9 +11,9 @@ sync_notify_suppressed: ContextVar[bool] = ContextVar(
 
 LEVEL1_ALL_SUCCESS_MESSAGE = "当日全部 Level1 数据同步成功。"
 
-LEVEL1_PUSHPLUS_TITLE_SUCCESS = "当日全部 Level1 数据同步成功"
+LEVEL1_PUSHPLUS_TITLE_SUCCESS = "L1 数据同步成功"
 
-LEVEL1_PUSHPLUS_TITLE_FAILURE = "当日全部 Level1 数据同步失败"
+LEVEL1_PUSHPLUS_TITLE_FAILURE = "L1 数据同步失败"
 
 LEVEL1_FAILURE_HEADER = "以下 Level1 数据接口同步失败："
 

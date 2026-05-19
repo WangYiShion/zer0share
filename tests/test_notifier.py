@@ -30,8 +30,8 @@ def test_pushplus_uses_custom_title_when_passed(monkeypatch):
     mock_response.raise_for_status = MagicMock()
     mock_response.json.return_value = {"code": 200}
     with patch("httpx.post", return_value=mock_response) as mock_post:
-        n.send("body", pushplus_title="当日全部 Level1 数据同步失败")
-    assert mock_post.call_args[1]["json"]["title"] == "当日全部 Level1 数据同步失败"
+        n.send("body", pushplus_title="L1 数据同步失败")
+    assert mock_post.call_args[1]["json"]["title"] == "L1 数据同步失败"
 
 
 def test_send_disabled_does_not_call_http():
